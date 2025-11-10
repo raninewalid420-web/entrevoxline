@@ -1,8 +1,5 @@
-"use client"
-
 import React from "react"
-import Link from "next/link"
-import { usePathname } from "next/navigation"
+import { NavLink, useNavigate } from "react-router-dom"
 import { LogOut } from "lucide-react"
 
 const menuItems = [
@@ -20,12 +17,12 @@ const menuItems = [
 ]
 
 export default function AgentLayout({ children }) {
-  const pathname = usePathname()
+  const navigate = useNavigate()
 
   const handleLogout = () => {
     localStorage.removeItem("userEmail")
     localStorage.removeItem("userRole")
-    window.location.href = "/" // retour à la page de connexion
+    navigate("/") // Retour à la page de connexion
   }
 
   return (
@@ -39,17 +36,19 @@ export default function AgentLayout({ children }) {
 
           <nav className="mt-4">
             {menuItems.map((item) => (
-              <Link
+              <NavLink
                 key={item.path}
-                href={item.path}
-                className={`block px-6 py-3 text-sm font-medium transition-colors duration-150 ${
-                  pathname === item.path
-                    ? "bg-slate-700 text-white"
-                    : "text-slate-300 hover:bg-slate-700 hover:text-white"
-                }`}
+                to={item.path}
+                className={({ isActive }) =>
+                  `block px-6 py-3 text-sm font-medium transition-colors duration-150 ${
+                    isActive
+                      ? "bg-slate-700 text-white"
+                      : "text-slate-300 hover:bg-slate-700 hover:text-white"
+                  }`
+                }
               >
                 {item.name}
-              </Link>
+              </NavLink>
             ))}
           </nav>
         </div>

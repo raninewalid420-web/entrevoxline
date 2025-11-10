@@ -1,22 +1,25 @@
-import React, { useState } from "react"
-import { Button } from "@/components/ui/button"
+import React, { useState } from "react";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog"
-import centreAppel from "../images/centre appel.avif"
-import { useNavigate } from "react-router-dom"
+} from "@/components/ui/dialog";
+import { Loader2 } from "lucide-react";
+import centreAppel from "../images/centre appel.avif";
+import loginImage from "../images/login-side.jpg"; // 👉 ajoute une belle image de ton choix ici
+import { useNavigate } from "react-router-dom";
+import { Button } from "../components/ui/button";
 
 export default function Accueil() {
-  const [open, setOpen] = useState(false)
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [error, setError] = useState("")
-  const navigate = useNavigate()
+  const [open, setOpen] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
-  //  Comptes de test simulés
+  // Comptes de test simulés
   const users = [
     {
       email: "testadmin@gmail.com",
@@ -42,29 +45,35 @@ export default function Accueil() {
       role: "superviseur",
       redirect: "/superviseur/dashboard",
     },
-  ]
+  ];
 
-  //  Vérifie les identifiants
-  const handleLogin = (e) => {
-    e.preventDefault()
+  // Vérifie les identifiants
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
 
-    const user = users.find(
-      (u) => u.email === email && u.password === password
-    )
+    setTimeout(() => {
+      const user = users.find(
+        (u) => u.email === email && u.password === password
+      );
 
-    if (!user) {
-      setError("Email ou mot de passe incorrect.")
-      return
-    }
+      if (!user) {
+        setError("Email ou mot de passe incorrect.");
+        setLoading(false);
+        return;
+      }
 
-    //  Sauvegarder les infos utilisateur (optionnel)
-    localStorage.setItem("userEmail", user.email)
-    localStorage.setItem("userRole", user.role)
+      // Sauvegarder les infos utilisateur
+      localStorage.setItem("userEmail", user.email);
+      localStorage.setItem("userRole", user.role);
 
-    //  Redirection
-    navigate(user.redirect)
-    setOpen(false)
-  }
+      // Redirection
+      navigate(user.redirect);
+      setOpen(false);
+      setLoading(false);
+    }, 1200); // petit délai simulé pour le "loading"
+  };
 
   return (
     <div
@@ -84,7 +93,7 @@ export default function Accueil() {
           </h1>
 
           <Button
-            className="bg-[#0B1F3A] hover:bg-gray-500 text-white font-semibold px-6 py-2 rounded-full shadow-lg transition-transform transform hover:scale-105"
+            className="bg-[#0B1F3A] hover:bg-[#142f63] text-white font-semibold px-6 py-2 rounded-full shadow-lg transition-transform transform hover:scale-105"
             onClick={() => setOpen(true)}
           >
             Connexion
@@ -99,8 +108,8 @@ export default function Accueil() {
             </h2>
 
             <p className="mt-6 text-lg text-gray-200 max-w-xl leading-relaxed drop-shadow">
-              Optimisez le travail de vos agents et améliorez la satisfaction de vos clients
-              avec notre plateforme intuitive et performante.
+              Optimisez le travail de vos agents et améliorez la satisfaction de
+              vos clients avec notre plateforme intuitive et performante.
             </p>
           </div>
         </main>
@@ -108,58 +117,89 @@ export default function Accueil() {
 
       {/* ---- Dialog ---- */}
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="sm:max-w-md rounded-xl p-6 bg-white shadow-xl">
-          <DialogHeader>
-            <DialogTitle className="text-2xl font-bold text-center text-blue-900">
-              Connexion
-            </DialogTitle>
-          </DialogHeader>
-
-          <form onSubmit={handleLogin} className="space-y-4 mt-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Email
-              </label>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="exemple@domaine.com"
-                required
-                className="w-full border rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Mot de passe
-              </label>
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="••••••••"
-                required
-                className="w-full border rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
-              />
-            </div>
-
-            {error && (
-              <p className="text-red-600 text-sm font-medium text-center">
-                {error}
-              </p>
-            )}
-
-            <Button
-              type="submit"
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded-md shadow-md"
+        <DialogContent className="sm:max-w-4xl p-0 overflow-hidden rounded-2xl shadow-2xl border-0">
+          <div className="grid grid-cols-1 md:grid-cols-2">
+            {/* --- Partie gauche (image) --- */}
+            <div
+              className="hidden md:block bg-cover bg-center"
+              style={{
+                backgroundImage: `url(${loginImage})`,
+              }}
             >
-              Se connecter
-            </Button>
-          </form>
+              <div className="w-full h-full bg-[#0B1F3A]/70 flex items-center justify-center text-white text-3xl font-bold tracking-wide">
+                Bienvenue 👋
+              </div>
+            </div>
 
+            {/* --- Partie droite (formulaire) --- */}
+            <div className="bg-white p-8 md:p-10 flex flex-col justify-center">
+              <DialogHeader className="mb-6">
+                <DialogTitle className="text-3xl font-bold text-[#0B1F3A] text-center">
+                  Connexion
+                </DialogTitle>
+                <p className="text-gray-500 text-center mt-1 text-sm">
+                  Connectez-vous à votre espace de gestion
+                </p>
+              </DialogHeader>
+
+              <form onSubmit={handleLogin} className="space-y-5">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Email
+                  </label>
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="exemple@domaine.com"
+                    required
+                    className="w-full border rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-600 outline-none"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Mot de passe
+                  </label>
+                  <input
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="••••••••"
+                    required
+                    className="w-full border rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-600 outline-none"
+                  />
+                </div>
+
+                {error && (
+                  <p className="text-red-600 text-sm font-medium text-center">
+                    {error}
+                  </p>
+                )}
+
+                <Button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded-md shadow-md flex items-center justify-center gap-2"
+                >
+                  {loading ? (
+                    <>
+                      <Loader2 className="animate-spin h-5 w-5" />
+                      Connexion...
+                    </>
+                  ) : (
+                    "Se connecter"
+                  )}
+                </Button>
+              </form>
+
+              <p className="text-center text-xs text-gray-400 mt-6">
+                © {new Date().getFullYear()} CallManager — Tous droits réservés
+              </p>
+            </div>
+          </div>
         </DialogContent>
       </Dialog>
     </div>
-  )
+  );
 }

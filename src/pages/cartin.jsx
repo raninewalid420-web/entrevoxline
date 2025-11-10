@@ -40,14 +40,11 @@ export const datacartin = [
 
 export default function CartinData() {
   return (
-    <div className="min-h-screen bg-slate-100 p-8">
-      <div className="max-w-7xl mx-auto">
+    <div className="min-h-screen bg-slate-100 py-8 w-full">
+      <div className="w-[90%] mx-25">
         {/* Header avec badge */}
         <div className="mb-8">
           <div className="flex items-center gap-3 mb-3">
-            <div className="px-3 py-1 bg-green-600 text-white text-xs font-semibold rounded uppercase tracking-wide">
-              MASS - CARTIN
-            </div>
           </div>
           <h1 className="text-4xl font-bold text-slate-900 mb-3">
             Gestion Cartin

@@ -46,7 +46,7 @@ export default function SidebarMenu() {
     { path: "/cartin", label: "Cartin" },
     { path: "/recherche", label: "Recherche" },
     { path: "/Arulos", label: "Arulos" },
-    { path: "/saba-bank", label: "Saba Bank" },
+    // { path: "/saba-bank", label: "Saba Bank" },
     { path: "/EAB", label: "EAB Bank" },
     { path: "/DPCR", label: "DPCR" },
     { path: "/commandeannulerData", label: "Annulation commande" },

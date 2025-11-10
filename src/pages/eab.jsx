@@ -64,16 +64,11 @@ const dataEAB = [
 
 export default function EAB() {
   return (
-    <div className="min-h-screen bg-slate-100 p-8">
-      <div className="max-w-7xl mx-auto">
+    <div className="min-h-screen bg-slate-100 py-8 w-full">
+      <div className="w-[90%] mx-25">
 
         {/* Header complet comme CREC / FreshFood */}
         <div className="mb-8">
-          <div className="flex items-center gap-3 mb-3">
-            <div className="px-3 py-1 bg-blue-600 text-white text-xs font-semibold rounded uppercase tracking-wide">
-              MASS - EAB
-            </div>
-          </div>
           <h1 className="text-3xl font-bold text-slate-900 mb-2">
             Tableau EAB
           </h1>
@@ -83,7 +78,7 @@ export default function EAB() {
         </div>
 
         {/* Tableau principal */}
-        <div className="bg-white rounded-lg shadow-sm border border-slate-200 overflow-hidden">
+        <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
           <div className="bg-gradient-to-r from-slate-700 to-slate-800 px-6 py-5">
             <h2 className="text-xl font-semibold text-white">
               Registre des interventions ARULOS

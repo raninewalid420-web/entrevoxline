@@ -40,15 +40,11 @@ const arData = [
 
 export default function Arulos() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-slate-100 to-blue-50 p-8">
-      <div className="max-w-7xl mx-auto">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-slate-100 to-blue-50 py-8 w-full">
+      <div className="w-[90%] mx-25">
         {/* Header avec badge */}
         <div className="mb-8">
-          <div className="flex items-center gap-4 mb-3">
-            <div className="px-4 py-1.5 bg-blue-600 text-white text-sm font-semibold rounded-full">
-              MASS - ARULOS
-            </div>
-          </div>
+         
           <h1 className="text-4xl font-bold text-slate-900 mb-3">
             Gestion des Logements et Interventions ARULOS
           </h1>

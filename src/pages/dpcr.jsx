@@ -50,8 +50,8 @@ const datadpcr = [
 
 export function DPCR() {
   return (
-    <div className="min-h-screen bg-slate-100 p-8">
-      <div className="max-w-7xl mx-auto">
+    <div className="min-h-screen bg-slate-100 py-8 w-full">
+      <div className="w-[90%] mx-25">
         {/* Header */}
         <div className="mb-6">
           <h1 className="text-3xl font-bold text-slate-800 mb-2">
@@ -63,7 +63,7 @@ export function DPCR() {
         </div>
 
         {/* Tableau */}
-        <div className="bg-white rounded-lg shadow-sm border border-slate-200">
+        <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
            <div className="bg-gradient-to-r from-slate-700 to-slate-800 px-6 py-5">
             <h2 className="text-xl font-semibold text-white">
               Registre des interventions ARULOS

@@ -12,7 +12,7 @@ import { Datanormaux } from "../components/dataTables/datanormal";
 
 export default function Adr() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 p-6">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 p-6 w-full">
       <Tabs defaultValue="sensibles" className="w-full max-w-7xl mx-auto">
         {/* Onglets */}
         <TabsList className="flex justify-around bg-white rounded-xl mb-6 p-1.5 shadow-md border border-slate-200">

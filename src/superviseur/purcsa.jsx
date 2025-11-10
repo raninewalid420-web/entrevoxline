@@ -128,8 +128,8 @@ La date de dépôt exacte n'est pas connue, il s'agit d'une estimation.`,
 
 export default function PurcsaData() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-slate-100 to-blue-50 p-8">
-      <div className="max-w-7xl mx-auto">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-slate-100 to-blue-50 py-8 w-full">
+      <div className="w-[90%] mx-25">
         {/* Header avec badge */}
         <div className="mb-8">
           <div className="flex items-center gap-4 mb-3">

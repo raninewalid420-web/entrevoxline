@@ -1,0 +1,103 @@
+"use client"
+
+import { DataTable } from "../components/dataTables/data-table"
+import { columncartin } from "../components/dataTables/columnscartin"
+
+// ✅ Données Cartin
+export const datacartin = [
+  {
+    nom: "Ranoelisoa Justin",
+    telephone: "77050566",
+    commande: "22512",
+    commandeDate: "21/09/2025",
+    inscrivezLe: "2025-10-02 15:42:37",
+    problemes:
+      "Monsieur Ranoelisoa nous appelle concernant son colis carton, il avait effectué 3 commandes avec deux numéros de commande. Il a reçu deux colis, il lui manque 1 colis avec ce numéro de commande 22512.",
+    image: "",
+    couple: "Mariam Youssouf Abdallah",
+  },
+  {
+    nom: "Eleyeh Abdi Omar",
+    telephone: "77702391",
+    commande: "DJ91752 / DJ91753",
+    commandeDate: "19/09/2025",
+    inscrivezLe: "2025-10-02 09:23:59",
+    problemes: "Le client veut savoir si ses colis arrivent à Djibouti.",
+    image: "",
+    couple: "Nadira Houssein",
+  },
+  {
+    nom: "Mahdi Mahamoud Daoud",
+    telephone: "77702391",
+    commande: "DJ89632",
+    commandeDate: "13/09/2025",
+    inscrivezLe: "25/09/2025 11:07:35",
+    problemes: "Le client attend toujours son colis.",
+    image: "",
+    couple: "Fatouma Abdo",
+  },
+]
+
+export default function CartinData() {
+  return (
+    <div className="min-h-screen bg-slate-100 p-8">
+      <div className="max-w-7xl mx-auto">
+        {/* Header avec badge */}
+        <div className="mb-8">
+          <div className="flex items-center gap-3 mb-3">
+            <div className="px-3 py-1 bg-green-600 text-white text-xs font-semibold rounded uppercase tracking-wide">
+              MASS - CARTIN
+            </div>
+          </div>
+          <h1 className="text-4xl font-bold text-slate-900 mb-3">
+            Gestion Cartin
+          </h1>
+          <p className="text-slate-600">
+            Suivi des commandes et gestion des colis
+          </p>
+        </div>
+
+        {/* Tableau principal */}
+        <div className="bg-white rounded-lg shadow-sm border border-slate-200 overflow-hidden">
+           <div className="bg-gradient-to-r from-slate-700 to-slate-800 px-6 py-5">
+            <h2 className="text-xl font-semibold text-white">
+              Registre des interventions ARULOS
+            </h2>
+            <p className="text-slate-300 text-sm mt-1">
+              Liste complète des opérations enregistrées
+            </p>
+          </div>
+          <div className="p-6">
+            {datacartin.length === 0 ? (
+              <div className="text-center py-12">
+                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-slate-100 mb-4">
+                  <svg
+                    className="w-8 h-8 text-slate-400"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M3 7h18M3 12h18M3 17h18"
+                    />
+                  </svg>
+                </div>
+                <p className="text-slate-700 font-medium mb-1">
+                  Aucune commande enregistrée
+                </p>
+                <p className="text-slate-500 text-sm">
+                  Les commandes Cartin apparaîtront ici une fois ajoutées
+                </p>
+              </div>
+            ) : (
+              <DataTable columns={columncartin} data={datacartin} />
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}

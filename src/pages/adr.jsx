@@ -1,0 +1,200 @@
+import React from "react";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { columnsSensibles } from "../components/dataTables/columnsensible";
+import { DataTable } from "../components/dataTables/data-table";
+import { DataSensibles } from "../components/dataTables/datasensible";
+import { columnormaux } from "../components/dataTables/columnsnormal";
+import { Datanormaux } from "../components/dataTables/datanormal";
+
+export default function Adr() {
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 p-6">
+      <Tabs defaultValue="sensibles" className="w-full max-w-7xl mx-auto">
+        {/* Onglets */}
+        <TabsList className="flex justify-around bg-white rounded-xl mb-6 p-1.5 shadow-md border border-slate-200">
+          <TabsTrigger 
+            value="sensibles" 
+            className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-500 data-[state=active]:to-orange-600 data-[state=active]:text-white text-slate-600 hover:text-slate-900 transition-all rounded-lg px-6 py-3 font-semibold"
+          >
+            Enregistrer le cas sensible
+          </TabsTrigger>
+          <TabsTrigger 
+            value="allSensibles"
+            className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-red-500 data-[state=active]:to-red-600 data-[state=active]:text-white text-slate-600 hover:text-slate-900 transition-all rounded-lg px-6 py-3 font-semibold"
+          >
+            Tous les cas sensibles
+          </TabsTrigger>
+          <TabsTrigger 
+            value="normaux"
+            className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-blue-600 data-[state=active]:text-white text-slate-600 hover:text-slate-900 transition-all rounded-lg px-6 py-3 font-semibold"
+          >
+            Tous les cas normaux
+          </TabsTrigger>
+        </TabsList>
+
+        {/* Formulaire Cas Sensible */}
+        <TabsContent value="sensibles">
+          <div className="bg-white rounded-2xl shadow-lg p-8 border border-slate-200">
+            <div className="flex items-center gap-3 mb-6 pb-4 border-b-2 border-orange-100">
+              <div className="w-1 h-8 bg-gradient-to-b from-orange-500 to-orange-600 rounded-full"></div>
+              <h2 className="text-3xl font-bold text-slate-800">
+                Formulaire des plaintes Cas Sensible
+              </h2>
+            </div>
+
+            <form className="space-y-5">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div>
+                  <Label className="text-slate-700 font-semibold mb-2 block">Nom complet</Label>
+                  <Input 
+                    placeholder="Entrez le nom" 
+                    className="border-slate-300 focus:border-orange-500 focus:ring-orange-500 bg-slate-50 focus:bg-white transition-all"
+                  />
+                </div>
+
+                <div>
+                  <Label className="text-slate-700 font-semibold mb-2 block">Numéro de téléphone</Label>
+                  <Input 
+                    placeholder="Entrez le numéro téléphone" 
+                    className="border-slate-300 focus:border-orange-500 focus:ring-orange-500 bg-slate-50 focus:bg-white transition-all"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div>
+                  <Label className="text-slate-700 font-semibold mb-2 block">Adresse email</Label>
+                  <Input 
+                    placeholder="Entrez l'adresse email" 
+                    className="border-slate-300 focus:border-orange-500 focus:ring-orange-500 bg-slate-50 focus:bg-white transition-all"
+                  />
+                </div>
+
+                <div>
+                  <Label className="text-slate-700 font-semibold mb-2 block">Adresse de l'appelant</Label>
+                  <Input 
+                    placeholder="Entrez l'adresse appelant" 
+                    className="border-slate-300 focus:border-orange-500 focus:ring-orange-500 bg-slate-50 focus:bg-white transition-all"
+                  />
+                </div>
+              </div>
+
+              <div className="bg-orange-50 p-5 rounded-xl border border-orange-200">
+                <h3 className="text-lg font-semibold text-slate-800 mb-4">Détails de l'incident</h3>
+                
+                <div className="space-y-4">
+                  <div>
+                    <Label className="text-slate-700 font-semibold mb-2 block">Lieu de l'incident</Label>
+                    <Input 
+                      placeholder="Où a eu lieu (VBG, EAS, et HS) ?" 
+                      className="border-orange-300 focus:border-orange-500 focus:ring-orange-500 bg-white"
+                    />
+                  </div>
+
+                  <div>
+                    <Label className="text-slate-700 font-semibold mb-2 block">Type d'incident</Label>
+                    <Input 
+                      placeholder="Le type (VBG, EAS, et HS) ?" 
+                      className="border-orange-300 focus:border-orange-500 focus:ring-orange-500 bg-white"
+                    />
+                  </div>
+
+                  <div>
+                    <Label className="text-slate-700 font-semibold mb-2 block">Responsable</Label>
+                    <Input 
+                      placeholder="Quel est le nom de la personne/société responsable ?" 
+                      className="border-orange-300 focus:border-orange-500 focus:ring-orange-500 bg-white"
+                    />
+                  </div>
+
+                  <div>
+                    <Label className="text-slate-700 font-semibold mb-2 block">Date et heure de l'incident</Label>
+                    <Input 
+                      type="datetime-local" 
+                      className="border-orange-300 focus:border-orange-500 focus:ring-orange-500 bg-white"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <Label className="text-slate-700 font-semibold mb-2 block">Description détaillée</Label>
+                <Textarea 
+                  placeholder="Description de la (VBG, EAS, et HS)" 
+                  className="border-slate-300 focus:border-orange-500 focus:ring-orange-500 bg-slate-50 focus:bg-white min-h-[140px] transition-all"
+                />
+              </div>
+
+              <div className="bg-blue-50 p-5 rounded-xl border border-blue-200">
+                <Label className="text-slate-800 font-semibold mb-3 block text-base">
+                  Avez-vous déjà signalé cette plainte auparavant ?
+                </Label>
+                <div className="flex items-center gap-6">
+                  <label className="flex items-center gap-2 cursor-pointer group">
+                    <input 
+                      type="radio" 
+                      name="signalement" 
+                      value="oui"
+                      className="w-4 h-4 text-blue-600 focus:ring-blue-500 cursor-pointer"
+                    />
+                    <span className="text-slate-700 font-medium group-hover:text-blue-600 transition-colors">Oui</span>
+                  </label>
+                  <label className="flex items-center gap-2 cursor-pointer group">
+                    <input 
+                      type="radio" 
+                      name="signalement" 
+                      value="non"
+                      className="w-4 h-4 text-blue-600 focus:ring-blue-500 cursor-pointer"
+                    />
+                    <span className="text-slate-700 font-medium group-hover:text-blue-600 transition-colors">Non</span>
+                  </label>
+                </div>
+              </div>
+
+              <Button 
+                type="submit" 
+                className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white w-full py-6 text-lg font-bold shadow-lg hover:shadow-xl transition-all rounded-xl"
+              >
+                Soumettre la plainte
+              </Button>
+            </form>
+          </div>
+        </TabsContent>
+
+        {/* Tous les cas sensibles */}
+        <TabsContent value="allSensibles">
+          <div className="bg-white rounded-2xl shadow-lg p-8 border border-slate-200">
+            <div className="flex items-center gap-3 mb-6 pb-4 border-b-2 border-red-100">
+              <div className="w-1 h-8 bg-gradient-to-b from-red-500 to-red-600 rounded-full"></div>
+              <h2 className="text-3xl font-bold text-slate-800">
+                Tous les cas sensibles
+              </h2>
+            </div>
+            <div className="bg-gradient-to-br from-red-50 to-orange-50 p-6 rounded-xl">
+              <DataTable columns={columnsSensibles} data={DataSensibles} />
+            </div>
+          </div>
+        </TabsContent>
+
+        {/* Tous les cas normaux */}
+        <TabsContent value="normaux">
+          <div className="bg-white rounded-2xl shadow-lg p-8 border border-slate-200">
+            <div className="flex items-center gap-3 mb-6 pb-4 border-b-2 border-blue-100">
+              <div className="w-1 h-8 bg-gradient-to-b from-blue-500 to-blue-600 rounded-full"></div>
+              <h2 className="text-3xl font-bold text-slate-800">
+                Tous les cas normaux
+              </h2>
+            </div>
+            <div className="bg-gradient-to-br from-blue-50 to-slate-50 p-6 rounded-xl">
+              <DataTable columns={columnormaux} data={Datanormaux} />
+            </div>
+          </div>
+        </TabsContent>
+      </Tabs>
+    </div>
+  );
+}

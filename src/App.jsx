@@ -89,20 +89,21 @@ export const menuData = [
     ],
   },
 ];
+
+
 export const menuDataforagents = [
  {
     title: "Navigation",
     items: [
-      { path: "/mass", label: "Mass", icon: <FolderKanban className="w-4 h-4 opacity-70" /> },
-      { path: "/adr", label: "ADR", icon: <FolderKanban className="w-4 h-4 opacity-70" /> },
-      { path: "/cartin", label: "Cartin", icon: <FolderKanban className="w-4 h-4 opacity-70" /> },
-      { path: "/recherche", label: "Recherche", icon: <FolderKanban className="w-4 h-4 opacity-70" /> },
-      { path: "/Arulos", label: "Arulos", icon: <FolderKanban className="w-4 h-4 opacity-70" /> },
-      { path: "/EAB", label: "EAB Bank", icon: <Database className="w-4 h-4 opacity-70" /> },
-      { path: "/DPCR", label: "DPCR", icon: <Database className="w-4 h-4 opacity-70" /> },
-      { path: "/commandeannulerData", label: "Annulation commande", icon: <ClipboardList className="w-4 h-4 opacity-70" /> },
-      { path: "/ColisNontrouverData", label: "Colis non trouvé", icon: <FileText className="w-4 h-4 opacity-70" /> },
-      { path: "/InformationData", label: "Information", icon: <FileText className="w-4 h-4 opacity-70" /> },
+      { path: "/Agents/mass", label: "Mass", icon: <FolderKanban className="w-4 h-4 opacity-70" /> },
+      { path: "/Agents/adr", label: "ADR", icon: <FolderKanban className="w-4 h-4 opacity-70" /> },
+      { path: "/Agents/cartin", label: "Cartin", icon: <FolderKanban className="w-4 h-4 opacity-70" /> },
+      { path: "/Agents/recherche", label: "Recherche", icon: <FolderKanban className="w-4 h-4 opacity-70" /> },
+      { path: "/Agents/Arulos", label: "Arulos", icon: <FolderKanban className="w-4 h-4 opacity-70" /> },
+      { path: "/Agents/EAB", label: "EAB Bank", icon: <Database className="w-4 h-4 opacity-70" /> },
+      { path: "/Agents/DPCR", label: "DPCR", icon: <Database className="w-4 h-4 opacity-70" /> },
+      { path: "/Agents/commandeannulerData", label: "Annulation commande", icon: <ClipboardList className="w-4 h-4 opacity-70" /> },
+      { path: "/Agents/InformationData", label: "Information", icon: <FileText className="w-4 h-4 opacity-70" /> },
     ],
   },
 ];

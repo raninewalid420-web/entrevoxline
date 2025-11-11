@@ -34,6 +34,8 @@ import {
   ClipboardList,
   FileText,
 } from "lucide-react";
+import AdrForm from './Agent/AdrAgent'
+import DPCRForm from './Agent/dpcrAgent'
 
 export const menuData = [
   {
@@ -171,7 +173,8 @@ export default function App() {
           />
 
           {/* ✅ Routes pours les agents */}
-          <Route path="/dashboard/adr" element={<Adr />} />
+          <Route path="Agents/adr" element={<AdrForm />} />
+          <Route path="Agents/dpcr" element={<DPCRForm />} />
         </Route>
       </Routes>
     </Router>

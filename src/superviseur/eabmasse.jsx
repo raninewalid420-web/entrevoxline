@@ -1,10 +1,10 @@
-"use client"
+"use client";
 
-import { columnsEAB } from "../components/dataTables/columneabmass"
-import { DataTable } from "../components/dataTables/data-table"
+import { columnsEAB } from "../components/dataTables/columneabmass";
+import { DataTable } from "../components/dataTables/data-table";
 
 // ✅ Données (vide pour le moment)
-export const dataEAB = []
+export const dataEAB = [];
 
 export default function EABData() {
   return (
@@ -14,14 +14,17 @@ export default function EABData() {
         <div className="mb-8">
           <div className="flex items-center gap-4 mb-3">
             <div className="px-4 py-1.5 bg-blue-600 text-white text-sm font-semibold rounded-full">
-              MASS - EAPS
+              MASS - EABS
             </div>
           </div>
           <h1 className="text-4xl font-bold text-slate-900 mb-3">
-            East Africa Bank (EAPS)
+            Programme (EABS)
           </h1>
           <p className="text-slate-600 text-lg">
-            Gestion des demandes et services bancaires associés
+            un programme national du Ministère des Affaires Sociales et des
+            Solidarités de Djibouti visant à favoriser l’inclusion, la <br />
+            scolarisation et l’accompagnement des enfants en situation de
+            handicap ou ayant des besoins éducatifs particuliers.
           </p>
         </div>
 
@@ -29,7 +32,7 @@ export default function EABData() {
         <div className="bg-white rounded-xl shadow-md border border-slate-200 overflow-hidden">
           <div className="bg-gradient-to-r from-slate-700 to-slate-800 px-6 py-5">
             <h2 className="text-xl font-semibold text-white">
-              Registre des demandes EAPS
+              Registre des demandes EABS
             </h2>
             <p className="text-slate-300 text-sm mt-1">
               Liste complète des opérations bancaires enregistrées
@@ -68,5 +71,5 @@ export default function EABData() {
         </div>
       </div>
     </div>
-  )
+  );
 }

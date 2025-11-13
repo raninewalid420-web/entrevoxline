@@ -17,15 +17,16 @@ import {
   Layers,
   FolderKanban,
 } from "lucide-react";
+import { useAuth } from "../context/AuthContext";
 
 export default function SidebarMenu({ menuItems = [] }) {
   const location = useLocation();
   const navigate = useNavigate();
   const [openGroups, setOpenGroups] = useState({});
+  const { logout } = useAuth();
 
-  const handleLogout = () => {
-    localStorage.removeItem("user");
-    navigate("/");
+  const handleLogout = async () => {
+    const res = await logout();
   };
 
   const toggleGroup = (key) => {
@@ -66,7 +67,9 @@ export default function SidebarMenu({ menuItems = [] }) {
                           className="flex items-center justify-between w-full px-3 py-2 rounded-md text-sm font-medium text-gray-200 hover:bg-white/10 transition-all"
                         >
                           <span className="flex items-center gap-2">
-                            {item.icon || <Layers className="w-4 h-4 text-gray-300" />}{" "}
+                            {item.icon || (
+                              <Layers className="w-4 h-4 text-gray-300" />
+                            )}{" "}
                             {item.label}
                           </span>
                           {isOpen ? (
@@ -108,7 +111,9 @@ export default function SidebarMenu({ menuItems = [] }) {
                           : "text-gray-300 hover:bg-white/10 hover:text-white"
                       }`}
                     >
-                      {item.icon || <FolderKanban className="w-4 h-4 opacity-70" />}
+                      {item.icon || (
+                        <FolderKanban className="w-4 h-4 opacity-70" />
+                      )}
                       {item.label}
                     </Link>
                   );
@@ -127,7 +132,7 @@ export default function SidebarMenu({ menuItems = [] }) {
       <SidebarFooter className="border-t border-white/10 p-4 bg-[#0B1F3A]">
         <button
           onClick={handleLogout}
-          className="flex w-full items-center justify-center gap-2 rounded-md bg-white/10 hover:bg-white/20 py-2 text-gray-100 font-medium transition-all shadow-sm"
+          className="flex w-full items-center justify-center gap-2 cursor-pointer rounded-md bg-white/10 hover:bg-white/20 py-2 text-gray-100 font-medium transition-all shadow-sm"
         >
           <LogOut className="h-4 w-4" />
           Déconnexion

@@ -1,10 +1,11 @@
 import { Navigate, Outlet } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
-export default function ProtectedRoute({ allowedRoles, redirectTo = "/" }) {
+export default function ProtectedRoute({ allowedRoles}) {
   const { user, isAuthenticated } = useAuth();
+  // console.log("ProtectedRoute - user:", user, "isAuthenticated:", isAuthenticated);
 
-  if (!isAuthenticated) {
+  if (!user) {
     return <Navigate to="/" replace />;
   }
 
@@ -13,11 +14,11 @@ export default function ProtectedRoute({ allowedRoles, redirectTo = "/" }) {
     const homeByRole = {
       superAdmin: "/dashboard",
       admin: "/dashboard",
-      superviseur: "/dashboard",
-      agent: "/Agents/dashboard",
-      client: "/Client/Purcsa",
+      chefCentre: "/dashboard",
+      agents: "/Agents/mass",
+      clients: "/Client/Purcsa",
     };
-    return <Navigate to={homeByRole[user?.role] || "/"} replace />;
+    return <Navigate to={homeByRole[user?.role]}  />;
   }
 
   return <Outlet />;

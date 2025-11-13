@@ -7,9 +7,10 @@ import {
 } from "@/components/ui/dialog";
 import { Loader2 } from "lucide-react";
 import centreAppel from "./images/centre appel.avif";
-import loginImage from "./images/login-side.jpg"; // 👉 ajoute une belle image de ton choix ici
+import loginImage from "./images/login-side.jpg";
 import { useNavigate } from "react-router-dom";
 import { Button } from "./components/ui/button";
+import { useAuth } from "./context/AuthContext";
 
 export default function Accueil() {
   const [open, setOpen] = useState(false);
@@ -18,61 +19,31 @@ export default function Accueil() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { login } = useAuth();
 
-  // Comptes de test simulés
-  const users = [
-    {
-      email: "testadmin@gmail.com",
-      password: "123***",
-      role: "admin",
-      redirect: "/dashboard",
-    },
-    {
-      email: "testagent@gmail.com",
-      password: "123***",
-      role: "agent",
-      redirect: "/agent/dashboard",
-    },
-    {
-      email: "testagentmass@gmail.com",
-      password: "123***",
-      role: "agentMass",
-      redirect: "/agentmass/dashboard",
-    },
-    {
-      email: "testsup@gmail.com",
-      password: "123***",
-      role: "superviseur",
-      redirect: "/superviseur/dashboard",
-    },
-  ];
-
-  // Vérifie les identifiants
   const handleLogin = async (e) => {
     e.preventDefault();
     setError("");
     setLoading(true);
 
-    setTimeout(() => {
-      const user = users.find(
-        (u) => u.email === email && u.password === password
-      );
+    try {
+      const user = await login(email, password);
 
-      if (!user) {
-        setError("Email ou mot de passe incorrect.");
-        setLoading(false);
-        return;
-      }
-
-      // Sauvegarder les infos utilisateur
-      localStorage.setItem("userEmail", user.email);
-      localStorage.setItem("userRole", user.role);
-
-      // Redirection
-      navigate(user.redirect);
+      // Redirection selon le rôle
+      const redirectByRole = {
+        superAdmin: "/dashboard",
+        admin: "/dashboard",
+        chefCentre: "/dashboard",
+        agents: "/Agents/dashboard",
+        clients: "/Client/Purcsa",
+      };
+      navigate(redirectByRole[user.role] || "/dashboard");
       setOpen(false);
+    } catch (err) {
+      setError(err.message || "Erreur de connexion");
+    } finally {
       setLoading(false);
-    }, 1200); // petit délai simulé pour le "loading"
+    }
   };
 
   return (
@@ -80,18 +51,15 @@ export default function Accueil() {
       className="min-h-screen bg-cover bg-center flex flex-col"
       style={{ backgroundImage: `url(${centreAppel})` }}
     >
-      {/* Overlay sombre */}
       <div
         className={`min-h-screen flex flex-col transition-all duration-300 ${
           open ? "backdrop-blur-sm" : ""
         } bg-black/50`}
       >
-        {/* Header */}
         <header className="w-full flex justify-between items-center px-10 py-6">
           <h1 className="text-3xl font-extrabold text-white tracking-tight drop-shadow-lg">
             📞 CallManager
           </h1>
-
           <Button
             className="bg-[#0B1F3A] hover:bg-[#142f63] text-white font-semibold px-6 py-2 rounded-full shadow-lg transition-transform transform hover:scale-105"
             onClick={() => setOpen(true)}
@@ -100,13 +68,11 @@ export default function Accueil() {
           </Button>
         </header>
 
-        {/* Section Hero */}
         <main className="flex-1 flex items-center">
           <div className="max-w-3xl px-10 text-left">
             <h2 className="text-5xl md:text-6xl font-extrabold text-white leading-tight drop-shadow-lg">
               Gérez vos appels <br /> de manière plus simple et rapide
             </h2>
-
             <p className="mt-6 text-lg text-gray-200 max-w-xl leading-relaxed drop-shadow">
               Optimisez le travail de vos agents et améliorez la satisfaction de
               vos clients avec notre plateforme intuitive et performante.
@@ -117,21 +83,15 @@ export default function Accueil() {
 
       {/* ---- Dialog ---- */}
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="sm:max-w-4xl p-0 overflow-hidden rounded-2xl shadow-2xl border-0">
-          <div className="grid grid-cols-1 md:grid-cols-2">
-            {/* --- Partie gauche (image) --- */}
-            <div
+        <DialogContent className="sm:max-w-lg p-0 overflow-hidden rounded-2xl shadow-2xl border-0">
+          <div className="w-full">
+            {/* <div
               className="hidden md:block bg-cover bg-center"
               style={{
                 backgroundImage: `url(${loginImage})`,
               }}
-            >
-              <div className="w-full h-full bg-[#0B1F3A]/70 flex items-center justify-center text-white text-3xl font-bold tracking-wide">
-                {/* Bienvenue 👋 */}
-              </div>
-            </div>
+            ></div> */}
 
-            {/* --- Partie droite (formulaire) --- */}
             <div className="bg-white p-8 md:p-10 flex flex-col justify-center">
               <DialogHeader className="mb-6">
                 <DialogTitle className="text-3xl font-bold text-[#0B1F3A] text-center">
@@ -180,7 +140,7 @@ export default function Accueil() {
                 <Button
                   type="submit"
                   disabled={loading}
-                  className="w-full bg-[#0B1F3A] hover:bg-[#142f63] text-white font-medium px-4 py-2 rounded-md shadow-md flex items-center justify-center gap-2"
+                  className="w-full bg-[#0B1F3A] hover:bg-[#142f63] cursor-pointer text-white font-medium px-4 py-2 rounded-md shadow-md flex items-center justify-center gap-2"
                 >
                   {loading ? (
                     <>
@@ -192,10 +152,6 @@ export default function Accueil() {
                   )}
                 </Button>
               </form>
-
-              <p className="text-center text-xs text-gray-400 mt-6">
-                © {new Date().getFullYear()} CallManager — Tous droits réservés
-              </p>
             </div>
           </div>
         </DialogContent>

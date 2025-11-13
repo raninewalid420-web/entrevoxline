@@ -1,10 +1,16 @@
 import "./App.css";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import Layout from "./layouts/DashboardLayout";
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { Suspense, lazy } from "react";
 import { menuData, menuDataforagents, menuDataforClientMass } from "./menuData";
+import CatchAllRedirect from "./components/CatchAllRedirect";
 
 // 🌐 Page publique
 const Accueil = lazy(() => import("./Accueil"));
@@ -17,8 +23,12 @@ const Recherche = lazy(() => import("./superviseur/recherche"));
 const Arulos = lazy(() => import("./superviseur/arulos"));
 const EAB = lazy(() => import("./superviseur/EAB"));
 const InformationData = lazy(() => import("./superviseur/information"));
-const CommandeannulerData = lazy(() => import("./superviseur/annulationcommande"));
-const ColisNontrouverData = lazy(() => import("./superviseur/colis-nontrouver"));
+const CommandeannulerData = lazy(() =>
+  import("./superviseur/annulationcommande")
+);
+const ColisNontrouverData = lazy(() =>
+  import("./superviseur/colis-nontrouver")
+);
 const PurcsaData = lazy(() => import("./superviseur/purcsa"));
 const AGR = lazy(() => import("./superviseur/agr"));
 const { DPCR } = lazy(() => import("./superviseur/dpcr"));
@@ -45,20 +55,38 @@ const Rapport = lazy(() => import("./ClientMass/Rapport"));
 
 // Menu data
 
-
 export default function App() {
   return (
     <Router>
       <AuthProvider>
-        <Suspense fallback={<div className="text-center mt-20 text-blue-600 font-bold">Chargement...</div>}>
+        <Suspense
+          fallback={
+            <div className="text-center mt-20 text-blue-600 font-bold">
+              Chargement...
+            </div>
+          }
+        >
           <Routes>
             {/* 🌐 Page publique */}
             <Route path="/" element={<Accueil />} />
 
             {/* 🔒 Routes Superviseur / Admin / SuperAdmin */}
-            <Route element={<ProtectedRoute allowedRoles={["superAdmin", "admin", "superviseur"]} />}>
-              <Route element={<Layout role="superviseur" menuItems={menuData} />}>
-                <Route path="/dashboard" element={<h1 className="text-2xl font-bold text-blue-900">Bienvenue sur le Dashboard 🎉</h1>} />
+            <Route
+              element={
+                <ProtectedRoute
+                  allowedRoles={["superAdmin", "admin", "chefCentre"]}
+                />
+              }
+            >
+              <Route element={<Layout menuItems={menuData} />}>
+                <Route
+                  path="/dashboard"
+                  element={
+                    <h1 className="text-2xl font-bold text-blue-900">
+                      Bienvenue sur le Dashboard 🎉
+                    </h1>
+                  }
+                />
                 <Route path="/adr" element={<Adr />} />
                 <Route path="/agents" element={<Agents />} />
                 <Route path="/cartin" element={<CartinData />} />
@@ -67,8 +95,14 @@ export default function App() {
                 <Route path="/EAB" element={<EAB />} />
                 <Route path="/DPCR" element={<DPCR />} />
                 <Route path="/InformationData" element={<InformationData />} />
-                <Route path="/CommandeannulerData" element={<CommandeannulerData />} />
-                <Route path="/ColisNontrouverData" element={<ColisNontrouverData />} />
+                <Route
+                  path="/CommandeannulerData"
+                  element={<CommandeannulerData />}
+                />
+                <Route
+                  path="/ColisNontrouverData"
+                  element={<ColisNontrouverData />}
+                />
 
                 {/* Section Masse */}
                 <Route path="/masse/PurcsaData" element={<PurcsaData />} />
@@ -85,23 +119,36 @@ export default function App() {
             </Route>
 
             {/* 🔒 Routes Agents */}
-            <Route element={<ProtectedRoute allowedRoles={["agent"]} />}>
-              <Route element={<Layout role="agent" menuItems={menuDataforagents} />}>
-                <Route path="/Agents/dashboard" element={<h1 className="text-2xl font-bold text-blue-900">Dashboard Agent</h1>} />
+            <Route element={<ProtectedRoute allowedRoles={["agents"]} />}>
+              <Route element={<Layout menuItems={menuDataforagents} />}>
+                <Route
+                  path="/Agents/dashboard"
+                  element={
+                    <h1 className="text-2xl font-bold text-blue-900">
+                      Dashboard Agent
+                    </h1>
+                  }
+                />
                 <Route path="/Agents/adr" element={<Adr />} />
                 <Route path="/Agents/cartin" element={<CartinData />} />
                 <Route path="/Agents/recherche" element={<Recherche />} />
                 <Route path="/Agents/Arulos" element={<Arulos />} />
                 <Route path="/Agents/EAB" element={<EAB />} />
                 <Route path="/Agents/DPCR" element={<DPCR />} />
-                <Route path="/Agents/InformationData" element={<InformationData />} />
-                <Route path="/Agents/commandeannulerData" element={<CommandeannulerData />} />
+                <Route
+                  path="/Agents/InformationData"
+                  element={<InformationData />}
+                />
+                <Route
+                  path="/Agents/commandeannulerData"
+                  element={<CommandeannulerData />}
+                />
               </Route>
             </Route>
 
             {/* 🔒 Routes Client Mass */}
-            <Route element={<ProtectedRoute allowedRoles={["client"]} />}>
-              <Route element={<Layout role="client" menuItems={menuDataforClientMass} />}>
+            <Route element={<ProtectedRoute allowedRoles={["clients"]} />}>
+              <Route element={<Layout menuItems={menuDataforClientMass} />}>
                 <Route path="/Client/Purcsa" element={<PurcsaClient />} />
                 <Route path="/Client/Agr" element={<AgrClient />} />
                 <Route path="/Client/Aseri" element={<Aseris />} />
@@ -116,11 +163,10 @@ export default function App() {
             </Route>
 
             {/* ❌ Route non trouvée */}
-            <Route path="*" element={<Navigate to="/" replace />} />
+            <Route path="*" element={<CatchAllRedirect />} />
           </Routes>
         </Suspense>
       </AuthProvider>
     </Router>
   );
 }
-

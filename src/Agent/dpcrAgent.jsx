@@ -1,56 +1,80 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { useState } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+
 import {
   Form,
-  FormControl,
   FormField,
   FormItem,
   FormLabel,
+  FormControl,
   FormMessage,
 } from "@/components/ui/form";
+
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
 import {
   Select,
+  SelectTrigger,
   SelectContent,
   SelectItem,
-  SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import {
+  RadioGroup,
+  RadioGroupItem,
+} from "@/components/ui/radio-group";
 
-// ✅ Mapping des villes par région
+// ✅ Données dynamiques
 const villesParRegion = {
   "Djibouti-ville": ["Balbala", "Boulaos", "Ambouli"],
-  "Ali Sabieh": ["Ali Sabieh", "Holholl"],
+  "Ali Sabieh": ["Ali Sabieh", "Holhol"],
   "Dikhil": ["Dikhil", "As Eyla"],
   "Arta": ["Arta", "Loyada"],
-  "Obock": ["Obock", "Moulhol"],
-  "Tadjourah": ["Randa", "Tadjourah"]
+  "Obock": ["Obock", "Moulhoule"],
+  "Tadjourah": ["Randa", "Tadjourah"],
 };
 
-// ✅ Validation Schema
+const routesParVille = {
+  Balbala: ["RN1", "RN2"],
+  Boulaos: ["RN3"],
+  Ambouli: ["RN4"],
+  "Ali Sabieh": ["RN5"],
+  Holhol: ["RN6"],
+  Dikhil: ["RN7"],
+  "As Eyla": ["RN8"],
+  Arta: ["RN9"],
+  Loyada: ["RN10"],
+  Obock: ["RN11"],
+  Moulhoule: ["RN12"],
+  Randa: ["RN13"],
+  Tadjourah: ["RN14"],
+};
+
+// ✅ Validation du formulaire
 const formSchema = z.object({
   idAppel: z.string().min(1, "Identifiant requis."),
-  nomAppelant: z.string().min(2, "Le nom doit contenir au moins 2 caractères."),
+  nomAppelant: z.string().min(2, "Le nom est requis."),
   contact: z.string().min(8, "Le contact est requis."),
   typeUsager: z.enum(["Voyageur", "Transporteur", "Conducteur", "Communauté riveraine"]),
   typeDemande: z.enum(["Information générale", "Incident / Urgence", "Plainte / Doléance", "Autre"]),
-  description: z.string().min(5, "Veuillez entrer une description détaillée."),
-  region: z.string().min(1, "Veuillez sélectionner une région."),
-  ville: z.string().min(1, "Veuillez sélectionner une ville."),
-  route: z.string().min(1, "Veuillez sélectionner une route."),
-  dateHeure: z.string().min(1, "Date et heure obligatoires."),
+  description: z.string().min(5, "Description obligatoire."),
+  region: z.string().min(1, "Région requise."),
+  ville: z.string().min(1, "Ville requise."),
+  route: z.string().min(1, "Route requise."),
+  dateHeure: z.string().min(1, "Date et heure requises."),
   gravite: z.enum(["Très urgent", "Urgent", "Moyen", "Faible"]),
   documents: z.any().optional(),
 });
 
-export default function DPCRForm() {
+export default function FormDPCR() {
+  const [villes, setVilles] = useState([]);
+  const [routes, setRoutes] = useState([]);
+
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -68,34 +92,52 @@ export default function DPCRForm() {
     },
   });
 
-  const onSubmit = (values) => {
-    console.log("✅ Données soumises :", values);
-    alert("Merci ! Votre plainte/incident a été enregistré avec succès.");
+  // 🔁 Dynamique Région → Ville
+  const handleRegionChange = (region) => {
+    form.setValue("region", region);
+    form.setValue("ville", "");
+    form.setValue("route", "");
+    setVilles(villesParRegion[region] || []);
+    setRoutes([]);
+  };
+
+  // 🔁 Dynamique Ville → Route
+  const handleVilleChange = (ville) => {
+    form.setValue("ville", ville);
+    form.setValue("route", "");
+    setRoutes(routesParVille[ville] || []);
+  };
+
+  const onSubmit = (data) => {
+    console.log("✅ Données envoyées :", data);
+    alert("✅ Formulaire soumis avec succès !");
   };
 
   const onReset = () => {
     form.reset();
+    setVilles([]);
+    setRoutes([]);
   };
 
   return (
     <div className="min-h-screen bg-slate-100 p-8">
       <div className="max-w-4xl mx-auto">
-        {/* Header */}
-        <div className="mb-8">
+        {/* Header avec badge bleu */}
+        <div className="bg-gradient-to-r from-slate-700 to-slate-800 px-6 py-5 rounded-t-xl">
           <div className="flex items-center gap-3 mb-3">
-            <div className="px-3 py-1 bg-slate-700 text-white text-xs font-semibold rounded uppercase tracking-wide">
+            <div className="px-3 py-1 bg-yellow-700 text-white text-xs font-semibold rounded uppercase tracking-wide">
               DPCR - INCIDENTS ROUTIERS
             </div>
           </div>
-          <h1 className="text-3xl font-bold text-slate-900 mb-2">
+          <h1 className="text-3xl font-bold text-white mb-2">
             Formulaire de Collecte des Plaintes et Incidents
           </h1>
-          <p className="text-slate-600">
+          <p className="text-white">
             Enregistrement des incidents et urgences routières
           </p>
         </div>
 
-        {/* Formulaire */}
+        {/* FORM */}
         <div className="bg-white rounded-lg shadow-sm border border-slate-200">
           <div className="px-6 py-4 border-b border-slate-200 bg-slate-50">
             <h2 className="text-lg font-semibold text-slate-800">
@@ -105,22 +147,24 @@ export default function DPCRForm() {
 
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="p-6 space-y-5">
-              {/* Identifiant et Nom */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                <FormField
-                  control={form.control}
-                  name="idAppel"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-slate-700 font-medium">Identifiant unique de l'appel</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Ex: AP-001" {...field} className="border-slate-300" />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+              
+              {/* Identifiant */}
+              <FormField
+                control={form.control}
+                name="idAppel"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-slate-700 font-medium">Identifiant unique de l'appel</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Ex: AP-044" {...field} className="border-slate-300" />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
+              {/* Nom & Contact */}
+              <div className="grid md:grid-cols-2 gap-5">
                 <FormField
                   control={form.control}
                   name="nomAppelant"
@@ -134,22 +178,21 @@ export default function DPCRForm() {
                     </FormItem>
                   )}
                 />
-              </div>
 
-              {/* Contact */}
-              <FormField
-                control={form.control}
-                name="contact"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-slate-700 font-medium">Contact</FormLabel>
-                    <FormControl>
-                      <Input placeholder="77 00 00 00" {...field} className="border-slate-300" />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+                <FormField
+                  control={form.control}
+                  name="contact"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-slate-700 font-medium">Contact</FormLabel>
+                      <FormControl>
+                        <Input placeholder="+253 77 000 000 / email" {...field} className="border-slate-300" />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
 
               {/* Type d'usager */}
               <FormField
@@ -159,27 +202,13 @@ export default function DPCRForm() {
                   <FormItem className="bg-slate-50 p-4 rounded-lg">
                     <FormLabel className="text-slate-800 font-medium">Type d'usager</FormLabel>
                     <FormControl>
-                      <RadioGroup
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                        className="grid grid-cols-2 gap-3 mt-2"
-                      >
-                        <div className="flex items-center space-x-2">
-                          <RadioGroupItem value="Voyageur" id="voyageur" />
-                          <FormLabel htmlFor="voyageur" className="font-normal cursor-pointer">Voyageur</FormLabel>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <RadioGroupItem value="Transporteur" id="transporteur" />
-                          <FormLabel htmlFor="transporteur" className="font-normal cursor-pointer">Transporteur</FormLabel>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <RadioGroupItem value="Conducteur" id="conducteur" />
-                          <FormLabel htmlFor="conducteur" className="font-normal cursor-pointer">Conducteur</FormLabel>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <RadioGroupItem value="Communauté riveraine" id="communaute" />
-                          <FormLabel htmlFor="communaute" className="font-normal cursor-pointer">Communauté riveraine</FormLabel>
-                        </div>
+                      <RadioGroup onValueChange={field.onChange} value={field.value} className="grid grid-cols-2 gap-3 mt-2">
+                        {["Voyageur", "Transporteur", "Conducteur", "Communauté riveraine"].map((t) => (
+                          <div key={t} className="flex items-center space-x-2">
+                            <RadioGroupItem value={t} id={t} />
+                            <FormLabel htmlFor={t} className="font-normal cursor-pointer">{t}</FormLabel>
+                          </div>
+                        ))}
                       </RadioGroup>
                     </FormControl>
                     <FormMessage />
@@ -194,17 +223,17 @@ export default function DPCRForm() {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className="text-slate-700 font-medium">Type de demande</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <Select onValueChange={field.onChange} value={field.value}>
                       <FormControl>
-                        <SelectTrigger className="border-slate-300">
+                        <SelectTrigger className="border-slate-300 bg-white hover:bg-slate-50">
                           <SelectValue placeholder="Sélectionner un type" />
                         </SelectTrigger>
                       </FormControl>
-                      <SelectContent>
-                        <SelectItem value="Information générale">Information générale</SelectItem>
-                        <SelectItem value="Incident / Urgence">Incident / Urgence</SelectItem>
-                        <SelectItem value="Plainte / Doléance">Plainte / Doléance</SelectItem>
-                        <SelectItem value="Autre">Autre</SelectItem>
+                      <SelectContent className="bg-white border border-slate-200 shadow-lg">
+                        <SelectItem value="Information générale" className="hover:bg-slate-100 cursor-pointer">Information générale</SelectItem>
+                        <SelectItem value="Incident / Urgence" className="hover:bg-slate-100 cursor-pointer">Incident / Urgence</SelectItem>
+                        <SelectItem value="Plainte / Doléance" className="hover:bg-slate-100 cursor-pointer">Plainte / Doléance</SelectItem>
+                        <SelectItem value="Autre" className="hover:bg-slate-100 cursor-pointer">Autre</SelectItem>
                       </SelectContent>
                     </Select>
                     <FormMessage />
@@ -220,38 +249,31 @@ export default function DPCRForm() {
                   <FormItem>
                     <FormLabel className="text-slate-700 font-medium">Description détaillée</FormLabel>
                     <FormControl>
-                      <Textarea 
-                        placeholder="Décrivez l'incident ou la situation en détail..." 
-                        {...field} 
-                        className="border-slate-300 min-h-[120px]" 
-                      />
+                      <Textarea placeholder="Décrivez l'incident en détail..." {...field} className="border-slate-300 min-h-[120px]" />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
 
-              {/* Région, Ville, Route */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+              {/* Région - Ville - Route */}
+              <div className="grid md:grid-cols-3 gap-5">
                 <FormField
                   control={form.control}
                   name="region"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel className="text-slate-700 font-medium">Région</FormLabel>
-                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <Select onValueChange={handleRegionChange} value={field.value}>
                         <FormControl>
-                          <SelectTrigger className="border-slate-300">
+                          <SelectTrigger className="border-slate-300 bg-white hover:bg-slate-50">
                             <SelectValue placeholder="Sélectionner une région" />
                           </SelectTrigger>
                         </FormControl>
-                        <SelectContent>
-                          <SelectItem value="Djibouti-ville">Djibouti-ville</SelectItem>
-                          <SelectItem value="Ali Sabieh">Ali Sabieh</SelectItem>
-                          <SelectItem value="Dikhil">Dikhil</SelectItem>
-                          <SelectItem value="Obock">Obock</SelectItem>
-                          <SelectItem value="Tadjourah">Tadjourah</SelectItem>
-                          <SelectItem value="Arta">Arta</SelectItem>
+                        <SelectContent className="bg-white border border-slate-200 shadow-lg">
+                          {Object.keys(villesParRegion).map((r) => (
+                            <SelectItem key={r} value={r} className="hover:bg-slate-100 cursor-pointer">{r}</SelectItem>
+                          ))}
                         </SelectContent>
                       </Select>
                       <FormMessage />
@@ -265,9 +287,18 @@ export default function DPCRForm() {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel className="text-slate-700 font-medium">Ville</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Sélectionner une ville" {...field} className="border-slate-300" />
-                      </FormControl>
+                      <Select onValueChange={handleVilleChange} value={field.value} disabled={!villes.length}>
+                        <FormControl>
+                          <SelectTrigger className="border-slate-300 bg-white hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed">
+                            <SelectValue placeholder={villes.length ? "Sélectionner une ville" : "Choisir une région"} />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent className="bg-white border border-slate-200 shadow-lg">
+                          {villes.map((v) => (
+                            <SelectItem key={v} value={v} className="hover:bg-slate-100 cursor-pointer">{v}</SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -279,9 +310,18 @@ export default function DPCRForm() {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel className="text-slate-700 font-medium">Route</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Sélectionner une route" {...field} className="border-slate-300" />
-                      </FormControl>
+                      <Select onValueChange={field.onChange} value={field.value} disabled={!routes.length}>
+                        <FormControl>
+                          <SelectTrigger className="border-slate-300 bg-white hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed">
+                            <SelectValue placeholder={routes.length ? "Sélectionner une route" : "Choisir une ville"} />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent className="bg-white border border-slate-200 shadow-lg">
+                          {routes.map((r) => (
+                            <SelectItem key={r} value={r} className="hover:bg-slate-100 cursor-pointer">{r}</SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -311,27 +351,13 @@ export default function DPCRForm() {
                   <FormItem className="bg-slate-50 p-4 rounded-lg">
                     <FormLabel className="text-slate-800 font-medium">Gravité</FormLabel>
                     <FormControl>
-                      <RadioGroup
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                        className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-2"
-                      >
-                        <div className="flex items-center space-x-2">
-                          <RadioGroupItem value="Très urgent" id="tres-urgent" />
-                          <FormLabel htmlFor="tres-urgent" className="font-normal cursor-pointer">Très urgent</FormLabel>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <RadioGroupItem value="Urgent" id="urgent" />
-                          <FormLabel htmlFor="urgent" className="font-normal cursor-pointer">Urgent</FormLabel>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <RadioGroupItem value="Moyen" id="moyen" />
-                          <FormLabel htmlFor="moyen" className="font-normal cursor-pointer">Moyen</FormLabel>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <RadioGroupItem value="Faible" id="faible" />
-                          <FormLabel htmlFor="faible" className="font-normal cursor-pointer">Faible</FormLabel>
-                        </div>
+                      <RadioGroup onValueChange={field.onChange} value={field.value} className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-2">
+                        {["Très urgent", "Urgent", "Moyen", "Faible"].map((g) => (
+                          <div key={g} className="flex items-center space-x-2">
+                            <RadioGroupItem value={g} id={g} />
+                            <FormLabel htmlFor={g} className="font-normal cursor-pointer">{g}</FormLabel>
+                          </div>
+                        ))}
                       </RadioGroup>
                     </FormControl>
                     <FormMessage />
@@ -349,9 +375,9 @@ export default function DPCRForm() {
                     <FormControl>
                       <Input 
                         type="file" 
-                        multiple 
-                        className="border-slate-300 cursor-pointer" 
-                        onChange={(e) => field.onChange(e.target.files)}
+                        multiple
+                        className="border-slate-300 cursor-pointer"
+                        onChange={(e) => field.onChange(e.target.files)} 
                       />
                     </FormControl>
                     <FormMessage />
@@ -361,19 +387,8 @@ export default function DPCRForm() {
 
               {/* Boutons */}
               <div className="flex gap-4 pt-4">
-                <Button 
-                  type="submit" 
-                  className="flex-1 bg-slate-700 hover:bg-slate-800 py-6 text-lg font-semibold"
-                >
+                <Button type="submit" className=" text-white w-full py-6 text-lg font-semibold bg-slate-700 hover:bg-slate-800">
                   Soumettre
-                </Button>
-                <Button 
-                  type="button"
-                  onClick={onReset}
-                  variant="outline"
-                  className="flex-1 border-slate-300 hover:bg-slate-50 py-6 text-lg font-semibold"
-                >
-                  Réinitialiser
                 </Button>
               </div>
             </form>

@@ -10,6 +10,7 @@ import centreAppel from "./images/centre appel.avif";
 import loginImage from "./images/login-side.jpg"; // 👉 ajoute une belle image de ton choix ici
 import { useNavigate } from "react-router-dom";
 import { Button } from "./components/ui/button";
+import { useAuth } from "./context/AuthContext";
 
 export default function Accueil() {
   const [open, setOpen] = useState(false);
@@ -18,6 +19,7 @@ export default function Accueil() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   // Comptes de test simulés
   const users = [
@@ -31,13 +33,13 @@ export default function Accueil() {
       email: "testagent@gmail.com",
       password: "123***",
       role: "agent",
-      redirect: "/agent/dashboard",
+      redirect: "/Agents/adr",
     },
     {
       email: "testagentmass@gmail.com",
       password: "123***",
-      role: "agentMass",
-      redirect: "/agentmass/dashboard",
+      role: "client",
+      redirect: "/Client/Purcsa",
     },
     {
       email: "testsup@gmail.com",
@@ -64,9 +66,7 @@ export default function Accueil() {
         return;
       }
 
-      // Sauvegarder les infos utilisateur
-      localStorage.setItem("userEmail", user.email);
-      localStorage.setItem("userRole", user.role);
+      login(user);
 
       // Redirection
       navigate(user.redirect);
@@ -82,9 +82,8 @@ export default function Accueil() {
     >
       {/* Overlay sombre */}
       <div
-        className={`min-h-screen flex flex-col transition-all duration-300 ${
-          open ? "backdrop-blur-sm" : ""
-        } bg-black/50`}
+        className={`min-h-screen flex flex-col transition-all duration-300 ${open ? "backdrop-blur-sm" : ""
+          } bg-black/50`}
       >
         {/* Header */}
         <header className="w-full flex justify-between items-center px-10 py-6">

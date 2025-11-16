@@ -1,29 +1,17 @@
-import { DataTable } from "../components/dataTables/data-table"
+import { DataTable } from "../components/dataTables/data-table";
 import { columnsCommandAnnuler } from "../components/dataTables/columncommandannuler";
-
-// Données
-export const dataCommandAnnuler = [
-  {
-    nom: "abdinasser",
-    telephone: "77412536",
-    Commande: "Dj105",
-    dateCommande: "2025-08-03",
-    raison: "je sais pas . comme ca bass",
-    dateEnregistrement: "2025-08-03 09:22:51",
-    creePar: "neima ibrahim abdi",
-  },
-  {
-    nom: "layla abdi farah",
-    telephone: "77101232",
-    Commande: "Dj1055",
-    dateCommande: "2025-10-12",
-    raison: "gdfkghdfhghghhg vv",
-    dateEnregistrement: "2025-08-03 09:07:32",
-    creePar: "neima ibrahim abdi",
-  },
-];
+import { Cancel_order_Show } from "../api/coli_non_found";
+import useAsync from "../hooks/useAsync";
+import { useEffect } from "react";
 
 export default function CommandeannulerData() {
+  const { data, error, loading, execute } = useAsync(Cancel_order_Show, []);
+
+  useEffect(() => {
+    execute();
+  }, [execute]);
+  // Sécurise les données (évite les erreurs TanStack)
+  const safeData = Array.isArray(data) ? data : [];
   return (
     <div className="min-h-screen bg-slate-100 py-8">
       <div className="w-[90%] mx-25">
@@ -45,10 +33,10 @@ export default function CommandeannulerData() {
             </h2>
           </div>
           <div className="p-6">
-            <DataTable columns={columnsCommandAnnuler} data={dataCommandAnnuler} />
+            <DataTable columns={columnsCommandAnnuler} data={safeData} />
           </div>
         </div>
       </div>
     </div>
-  )
+  );
 }

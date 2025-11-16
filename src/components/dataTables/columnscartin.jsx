@@ -1,65 +1,78 @@
-import { ImageIcon, X } from 'lucide-react'
+import { ImageIcon, X } from "lucide-react";
 import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
-} from "../ui/dialog"
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "../ui/dialog";
 
 import { Button } from "../ui/button";
 
 // ✅ Composant d’action (boîte de confirmation)
 const CellAction = ({ nom }) => {
-    return (
-        <Dialog>
-            <DialogTrigger>
-                <X className="w-4 h-4 text-red-500 hover:text-red-700 cursor-pointer" />
-            </DialogTrigger>
-            <DialogContent className="bg-white">
-                <DialogHeader>
-                    <DialogTitle>Supprimer {nom} ?</DialogTitle>
-                    <DialogDescription>
-                        Cette action est irréversible. Êtes-vous sûr de vouloir supprimer ce colis ?
-                    </DialogDescription>
-                </DialogHeader>
-            </DialogContent>
-        </Dialog>
-    )
-}
+  return (
+    <Dialog>
+      <DialogTrigger>
+        <X className="w-4 h-4 text-red-500 hover:text-red-700 cursor-pointer" />
+      </DialogTrigger>
+      <DialogContent className="bg-white">
+        <DialogHeader>
+          <DialogTitle>Supprimer {nom} ?</DialogTitle>
+          <DialogDescription>
+            Cette action est irréversible. Êtes-vous sûr de vouloir supprimer ce
+            colis ?
+          </DialogDescription>
+        </DialogHeader>
+      </DialogContent>
+    </Dialog>
+  );
+};
 
 // ✅ Colonnes du tableau
 export const columncartin = [
-    { accessorKey: "nom", header: "Nom" },
-    { accessorKey: "telephone", header: "Téléphone" },
-    { accessorKey: "commande", header: "Numéro de commande" },
-    { accessorKey: "commandeDate", header: "Commande de date" },
-    { accessorKey: "inscrivezLe", header: "Inscrivez-le" },
-    { accessorKey: "problemes", header: "Problèmes" },
-    {
-        accessorKey: "image",
-        header: "Image",
-        cell: ({ row }) =>
-            row.original.image ? (
-                <img
-                    src={row.original.image}
-                    alt="Image"
-                    className="w-10 h-10 rounded-full object-cover"
-                />
-            ) : (
-                <div className="text-sm text-gray-400 flex items-center gap-1">
-                    <ImageIcon size={16} /> Aucune image
-                </div>
-            ),
+  { accessorKey: "nom", header: "Nom" },
+  { accessorKey: "numero_telephone", header: "Téléphone" },
+  { accessorKey: "numero_commande", header: "Numéro de commande" },
+  { accessorKey: "date_commande", header: "Commande de date" },
+  { accessorKey: "date_enregistrement", header: "Enregistre le" },
+  {
+    accessorKey: "probleme",
+    header: "Problèmes",
+    cell: ({ row }) => (
+      <div className="min-w-[500px] max-w-[700px] whitespace-pre-wrap">
+        {row.original.probleme}
+      </div>
+    ),
+  },
+  {
+    accessorKey: "photo",
+    header: "Image",
+    cell: ({ row }) => {
+      const photoPath = row.original.photo;
+      return (
+        <div className="flex justify-center">
+          {photoPath ? (
+            <img
+              src={`http://192.168.100.4:8080/CallCentre/callmanager/${photoPath}`}
+              alt="Image utilisateur"
+              className="object-cover rounded w-[64px] h-[64px]"
+            />
+          ) : (
+            <span className="text-gray-500 italic">Aucune image</span>
+          )}
+        </div>
+      );
     },
-    { accessorKey: "couple", header: "Créer un couple" },
-    {
-        id: "actions",
-        header: "Actions",
-        cell: ({ row }) => {
-            const nom = row?.original.nom
-            return <CellAction nom={nom} />
-        },
-    },
-]
+  },
+  { accessorKey: "Agent", header: "Créer par" },
+//   {
+//     id: "actions",
+//     header: "Actions",
+//     cell: ({ row }) => {
+//       const nom = row?.original.nom;
+//       return <CellAction nom={nom} />;
+//     },
+//   },
+];

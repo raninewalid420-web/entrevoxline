@@ -1,4 +1,4 @@
-import { X } from 'lucide-react'
+import { X } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -6,7 +6,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "../ui/dialog"
+} from "../ui/dialog";
 
 // ✅ Composant d’action (boîte de confirmation)
 const CellAction = ({ nom }) => {
@@ -19,30 +19,37 @@ const CellAction = ({ nom }) => {
         <DialogHeader>
           <DialogTitle>Supprimer {nom} ?</DialogTitle>
           <DialogDescription>
-            Cette action est irréversible. Êtes-vous sûr de vouloir supprimer ce colis ?
+            Cette action est irréversible. Êtes-vous sûr de vouloir supprimer ce
+            colis ?
           </DialogDescription>
         </DialogHeader>
       </DialogContent>
     </Dialog>
-  )
-}
+  );
+};
 
 export const columnsColisNonTrouver = [
   { accessorKey: "nom", header: "Nom" },
   { accessorKey: "telephone", header: "Téléphone" },
-  { accessorKey: "reference", header: "Référence" },
+  {
+    accessorKey: "reference",
+    header: "Référence",
+    cell: ({ row }) => (
+      <div className="min-w-[500px] max-w-[700px] whitespace-pre-wrap">
+        {row.original.reference}
+      </div>
+    ),
+  },
   { accessorKey: "type", header: "Type" },
   { accessorKey: "provenance", header: "Provenance" },
   { accessorKey: "date", header: "Date" },
-  { accessorKey: "creePar", header: "Créé par" },
+  { accessorKey: "Agent", header: "Créé par" },
 
-
-
-   {
+  {
     header: "Actions",
     cell: ({ row }) => {
-      const nom = row?.original.nom
-      return <CellAction nom={nom} />
+      const nom = row?.original.nom;
+      return <CellAction nom={nom} />;
     },
   },
- ]
+];

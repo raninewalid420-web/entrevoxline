@@ -1,12 +1,19 @@
-"use client"
+"use client";
 
-import { columnsPirb } from "../components/dataTables/columnpirb"
-import { DataTable } from "../components/dataTables/data-table"
-
-// ✅ Données PIRB (vide pour le moment)
-export const dataPirb = []
+import { useEffect } from "react";
+import { columnsPirb } from "../components/dataTables/columnpirb";
+import { DataTable } from "../components/dataTables/data-table";
+import useAsync from "../hooks/useAsync";
+import { Mass_Pirb } from "../api/mass";
 
 export default function PirbData() {
+  const { data, error, loading, execute } = useAsync(Mass_Pirb, []);
+
+  useEffect(() => {
+    execute();
+  }, [execute]);
+  // Sécurise les données (évite les erreurs TanStack)
+  const safeData = Array.isArray(data) ? data : [];
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-slate-100 to-blue-50 py-8 w-full">
       <div className="w-[90%] mx-25">
@@ -37,7 +44,7 @@ export default function PirbData() {
           </div>
 
           <div className="p-6">
-            {dataPirb.length === 0 ? (
+            {loading || safeData.length === 0 ? (
               <div className="text-center py-14">
                 <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-slate-100 mb-5">
                   <svg
@@ -58,15 +65,16 @@ export default function PirbData() {
                   Aucune donnée enregistrée
                 </p>
                 <p className="text-slate-500 text-sm">
-                  Les interventions PIRB apparaîtront ici dès leur enregistrement.
+                  Les interventions PIRB apparaîtront ici dès leur
+                  enregistrement.
                 </p>
               </div>
             ) : (
-              <DataTable columns={columnsPirb} data={dataPirb} />
+              <DataTable columns={columnsPirb} data={safeData} />
             )}
           </div>
         </div>
       </div>
     </div>
-  )
+  );
 }

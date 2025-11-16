@@ -1,62 +1,19 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { DataTable } from "../components/dataTables/data-table"
-import { columns } from "../components/dataTables/columns"
-
-// 📦 Données mock
-const data = [
-  {
-    nom: "Abdoul-Aziz Aden Elmi",
-    telephone: "+25377343557",
-    commande: "DJ86593",
-    reference: "LZ303470770CN",
-    dateExpedition: "Null",
-    dateReceptionPoste: "2025-10-09",
-    dateReceptionClient: "",
-    status: "",
-    dateEnregistrement: "2025-10-09",
-    enregistrePar: "Roumane abdo ali",
-  },
-  {
-    nom: "Abdourahman Ali Omar",
-    telephone: "+25377446818",
-    commande: "DJ88474",
-    reference: "LY848563957DE",
-    dateExpedition: "Null",
-    dateReceptionPoste: "2025-10-09",
-    dateReceptionClient: "",
-    status: "",
-    dateEnregistrement: "2025-10-09",
-    enregistrePar: "Roumane abdo ali",
-  },
-  {
-    nom: "Abokor Djama",
-    telephone: "+25377746161",
-    commande: "DJ89367",
-    reference: "LF872310304DE",
-    dateExpedition: "Null",
-    dateReceptionPoste: "2025-10-09",
-    dateReceptionClient: "",
-    status: "",
-    dateEnregistrement: "2025-10-09",
-    enregistrePar: "Roumane abdo ali",
-  },
-  {
-    nom: "Adnan Moumine",
-    telephone: "+25377429900",
-    commande: "DJ88186",
-    reference: "LY850316367DE",
-    dateExpedition: "Null",
-    dateReceptionPoste: "2025-10-09",
-    dateReceptionClient: "",
-    status: "",
-    dateEnregistrement: "2025-10-09",
-    enregistrePar: "Roumane abdo ali",
-  },
-]
+import * as React from "react";
+import { DataTable } from "../components/dataTables/data-table";
+import { columns } from "../components/dataTables/columns";
+import useAsync from "../hooks/useAsync";
+import { AfficherCartin } from "../api/recherche";
 
 export default function Recherche() {
+  const { data, error, loading, execute } = useAsync(AfficherCartin, []);
+
+  React.useEffect(() => {
+    execute();
+  }, [execute]);
+  // Sécurise les données (évite les erreurs TanStack)
+  const safeData = Array.isArray(data) ? data : [];
   return (
     <div className="min-h-screen bg-slate-100 py-8 w-full">
       <div className="w-[90%] mx-25">
@@ -74,14 +31,14 @@ export default function Recherche() {
         <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
           <div className="bg-gradient-to-r from-slate-700 to-slate-800 px-6 py-5">
             <h2 className="text-xl font-semibold text-white">
-              Registre des interventions ARULOS
+              Registre des interventions Cartin (recherche colis)
             </h2>
             <p className="text-slate-300 text-sm mt-1">
               Liste complète des opérations enregistrées
             </p>
           </div>
           <div className="p-6">
-            {data.length === 0 ? (
+            {loading || safeData.length === 0 ? (
               <div className="text-center py-12">
                 <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-slate-100 mb-4">
                   <svg
@@ -106,11 +63,11 @@ export default function Recherche() {
                 </p>
               </div>
             ) : (
-              <DataTable columns={columns} data={data} />
+              <DataTable columns={columns} data={safeData} />
             )}
           </div>
         </div>
       </div>
     </div>
-  )
+  );
 }

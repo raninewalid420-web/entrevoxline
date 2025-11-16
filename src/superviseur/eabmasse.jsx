@@ -1,12 +1,19 @@
 "use client";
 
+import { useEffect } from "react";
 import { columnsEAB } from "../components/dataTables/columneabmass";
 import { DataTable } from "../components/dataTables/data-table";
-
-// ✅ Données (vide pour le moment)
-export const dataEAB = [];
+import useAsync from "../hooks/useAsync";
+import { Mass_Eabs } from "../api/mass";
 
 export default function EABData() {
+  const { data, error, loading, execute } = useAsync(Mass_Eabs, []);
+
+  useEffect(() => {
+    execute();
+  }, [execute]);
+  // Sécurise les données (évite les erreurs TanStack)
+  const safeData = Array.isArray(data) ? data : [];
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-slate-100 to-blue-50 py-8 w-full">
       <div className="w-[90%] mx-25">
@@ -40,7 +47,7 @@ export default function EABData() {
           </div>
 
           <div className="p-6">
-            {dataEAB.length === 0 ? (
+            {loading || safeData.length === 0 ? (
               <div className="text-center py-14">
                 <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-slate-100 mb-5">
                   <svg
@@ -65,7 +72,7 @@ export default function EABData() {
                 </p>
               </div>
             ) : (
-              <DataTable columns={columnsEAB} data={dataEAB} />
+              <DataTable columns={columnsEAB} data={safeData} />
             )}
           </div>
         </div>

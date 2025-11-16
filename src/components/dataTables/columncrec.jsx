@@ -1,4 +1,4 @@
-import { X } from 'lucide-react'
+import { X } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -6,7 +6,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "../ui/dialog"
+} from "../ui/dialog";
 
 // ✅ Composant d’action (boîte de confirmation)
 const CellAction = ({ nom }) => {
@@ -19,36 +19,79 @@ const CellAction = ({ nom }) => {
         <DialogHeader>
           <DialogTitle>Supprimer {nom} ?</DialogTitle>
           <DialogDescription>
-            Cette action est irréversible. Êtes-vous sûr de vouloir supprimer ce colis ?
+            Cette action est irréversible. Êtes-vous sûr de vouloir supprimer ce
+            colis ?
           </DialogDescription>
         </DialogHeader>
       </DialogContent>
     </Dialog>
-  )
-}
+  );
+};
 export const columnscrec = [
-{ header: "Numéro plainte", accessorKey: "numeroPlainte" },
-{ header: "Date saisi", accessorKey: "dateSaisi" },
-{ header: "Nom", accessorKey: "nom" },
-{ header: "Nom conjointe (e)", accessorKey: "nomConjoint" },
-{ header: "Téléphone", accessorKey: "telephone" },
-{ header: "Date Naissance", accessorKey: "dateNaissance" },
-{ header: "CIN", accessorKey: "cin" },
-{ header: "Genre", accessorKey: "genre" },
-{ header: "Région", accessorKey: "region" },
-{ header: "localité", accessorKey: "localite" },
-{ header: "Description plainte", accessorKey: "descriptionPlainte" },
-{ header: "Information", accessorKey: "information" },
-{ header: "Nom deleguer", accessorKey: "nomDeleguer" },
-{ header: "Type de plainte", accessorKey: "typePlainte" },
-{ header: "Type de Probleme", accessorKey: "typeProbleme" },
-{ header: "Créé par", accessorKey: "creePar" },
-
-   {
-    header: "Actions",
-    cell: ({ row }) => {
-      const nom = row?.original.nom
-      return <CellAction nom={nom} />
-    },
+  { header: "Numéro plainte", accessorKey: "numero" },
+  { header: "Date saisi", accessorKey: "date" },
+  { header: "Nom", accessorKey: "nom" },
+  { header: "Nom conjointe (e)", accessorKey: "Nomconjoint" },
+  { header: "Téléphone", accessorKey: "telephone" },
+  { header: "Date Naissance", accessorKey: "dateNaissance" },
+  { header: "CIN", accessorKey: "cin" },
+  {
+    header: "Genre",
+    accessorKey: "genre",
+    cell: ({ row }) => (
+      <span
+        className={`px-2 py-1 rounded-full text-xs font-semibold ${
+          row.original.genre === "Femme"
+            ? "bg-blue-100 text-blue-700"
+            : "bg-red-100 text-red-700"
+        }`}
+      >
+        {row.original.genre}
+      </span>
+    ),
   },
- ]
+  { header: "Région", accessorKey: "region" },
+  { header: "localité", accessorKey: "localite" },
+  {
+    header: "Description plainte",
+    accessorKey: "description",
+    cell: ({ row }) => (
+      <div className="min-w-[500px] max-w-[700px] whitespace-pre-wrap">
+        {row.original.description}
+      </div>
+    ),
+  },
+  {
+    header: "Information",
+    accessorKey: "information",
+    cell: ({ row }) => (
+      <div className="min-w-[500px] max-w-[700px] whitespace-pre-wrap">
+        {row.original.information}
+      </div>
+    ),
+  },
+  {
+    header: "Type de plainte",
+    accessorKey: "category_plainte",
+    cell: ({ row }) => (
+      <span
+        className={`px-2 py-1 rounded-full text-xs font-semibold ${
+          row.original.category_plainte === "doleance"
+            ? "bg-purple-100 text-purple-700"
+            : "bg-orange-100 text-orange-700"
+        }`}
+      >
+        {row.original.category_plainte}
+      </span>
+    ),
+  },
+  { header: "Type de Probleme", accessorKey: "TypeProbleme" },
+
+  // {
+  //   header: "Actions",
+  //   cell: ({ row }) => {
+  //     const nom = row?.original.nom;
+  //     return <CellAction nom={nom} />;
+  //   },
+  // },
+];

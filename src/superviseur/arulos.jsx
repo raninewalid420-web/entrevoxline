@@ -1,50 +1,24 @@
-"use client"
+"use client";
 
-import { DataTable } from "../components/dataTables/data-table"
-import { Aruloscolumns } from "../components/dataTables/columnarulos"
-
-const arData = [
-  {
-    id: 1,
-    nom: "Dupont Jean",
-    telephone: "0612345678",
-    logement: "A101",
-    type: "Résidentiel",
-    projet: "Projet Alpha",
-    quartier: "Nord",
-    equipement: "Climatisation",
-    affectation: "Maintenance",
-    commentaire: "Vérifier chauffage",
-    facture: "F12345",
-    enregistrePar: "Admin",
-    dateCreation: "2025-10-19",
-    chefDeChantier: "Pierre Martin",
-  },
-  {
-    id: 2,
-    nom: "Martin Claire",
-    telephone: "0698765432",
-    logement: "B202",
-    type: "Commercial",
-    projet: "Projet Beta",
-    quartier: "Sud",
-    equipement: "Ascenseur",
-    affectation: "Installation",
-    commentaire: "Besoin manuel",
-    facture: "F12346",
-    enregistrePar: "Admin",
-    dateCreation: "2025-10-18",
-    chefDeChantier: "Luc Durand",
-  },
-]
+import { DataTable } from "../components/dataTables/data-table";
+import { Aruloscolumns } from "../components/dataTables/columnarulos";
+import { GetAllArulos } from "../api/arulos";
+import useAsync from "../hooks/useAsync";
+import { useEffect } from "react";
 
 export default function Arulos() {
+  const { data, error, loading, execute } = useAsync(GetAllArulos, []);
+
+  useEffect(() => {
+    execute();
+  }, [execute]);
+  // Sécurise les données (évite les erreurs TanStack)
+  const safeData = Array.isArray(data) ? data : [];
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-slate-100 to-blue-50 py-8 w-full">
       <div className="w-[90%] mx-25">
         {/* Header avec badge */}
         <div className="mb-8">
-         
           <h1 className="text-4xl font-bold text-slate-900 mb-3">
             Gestion des Logements et Interventions ARULOS
           </h1>
@@ -64,10 +38,10 @@ export default function Arulos() {
             </p>
           </div>
           <div className="p-6">
-            <DataTable columns={Aruloscolumns} data={arData} />
+            <DataTable columns={Aruloscolumns} data={safeData} />
           </div>
         </div>
       </div>
     </div>
-  )
+  );
 }

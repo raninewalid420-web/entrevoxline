@@ -1,48 +1,21 @@
-"use client"
+"use client";
 
-import { columnsHorsProjet } from "../components/dataTables/columnhs"
-import { DataTable } from "../components/dataTables/data-table"
+import { useEffect } from "react";
+import { Hors_projets } from "../api/mass";
+import { columnsHorsProjet } from "../components/dataTables/columnhs";
+import { DataTable } from "../components/dataTables/data-table";
+import useAsync from "../hooks/useAsync";
 
 // ✅ Données Hors Projet
-export const dataHorsProjet = [
-  {
-    numeroPlainte: 107,
-    dateSaisi: "2025-10-23",
-    nom: "Neima Moussa Nour",
-    nomConjoint: "Omar Houmed",
-    telephone: "77033480",
-    dateNaissance: "1987-01-01",
-    cin: "093211",
-    genre: "Femme",
-    region: "Djibouti-ville",
-    commune: "Balbala",
-    quartier: "Cité Nassib",
-    descriptionPlainte:
-      "L'appelant souhaite un appui financier pour agrandir son atelier de couture et développer ses activités. C’est la deuxième fois qu’elle nous contacte.",
-    categoriePlainte: "doleance",
-    creePar: "ASMA SAID",
-  },
-  {
-    numeroPlainte: 101,
-    dateSaisi: "2025-10-22",
-    nom: "Abdi Omar Hoch",
-    nomConjoint: "",
-    telephone: "77641629",
-    dateNaissance: "2001-01-01",
-    cin: "291349",
-    genre: "Homme",
-    region: "Djibouti-ville",
-    commune: "Balbala",
-    quartier: "PK12",
-    descriptionPlainte:
-      "L’appelant dispose déjà d’un petit commerce et souhaite bénéficier d’un soutien pour le développer.",
-    categoriePlainte: "doleance",
-    creePar: "Zakaria Omar Kalid",
-  },
-  // … autres données inchangées …
-]
 
 export default function HsData() {
+  const { data, error, loading, execute } = useAsync(Hors_projets, []);
+
+  useEffect(() => {
+    execute();
+  }, [execute]);
+  // Sécurise les données (évite les erreurs TanStack)
+  const safeData = Array.isArray(data) ? data : [];
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-slate-100 to-blue-50 py-8 w-full">
       <div className="w-[90%] mx-25">
@@ -73,7 +46,7 @@ export default function HsData() {
           </div>
 
           <div className="p-6">
-            {dataHorsProjet.length === 0 ? (
+            {loading || safeData.length === 0 ? (
               <div className="text-center py-14">
                 <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-slate-100 mb-5">
                   <svg
@@ -94,15 +67,16 @@ export default function HsData() {
                   Aucune donnée enregistrée
                 </p>
                 <p className="text-slate-500 text-sm">
-                  Les plaintes Hors Projet apparaîtront ici une fois enregistrées
+                  Les plaintes Hors Projet apparaîtront ici une fois
+                  enregistrées
                 </p>
               </div>
             ) : (
-              <DataTable columns={columnsHorsProjet} data={dataHorsProjet} />
+              <DataTable columns={columnsHorsProjet} data={safeData} />
             )}
           </div>
         </div>
       </div>
     </div>
-  )
+  );
 }

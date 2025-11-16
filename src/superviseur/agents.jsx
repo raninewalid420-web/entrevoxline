@@ -1,130 +1,81 @@
-import React, { useState } from "react"
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog"
-import { Label } from "@/components/ui/label"
+import React, { useEffect, useState } from "react";
+import useAsync from "../hooks/useAsync";
+import { AllUser } from "../api/users";
+import { DataTable } from "../components/dataTables/data-table";
+import { columnUser } from "../components/dataTables/columnUser";
 
 export default function Agents() {
-  const [search, setSearch] = useState("")
-  const [agents, setAgents] = useState([
-    { id: 1, name: "Nadira Houssein", email: "nadirahoussein098@gmail.com" },
-    { id: 2, name: "Loula Yasser", email: "loulayasser97@gmail.com" },
-    { id: 3, name: "Ayan Said", email: "ayanesaid95@gmail.com" },
-  ])
+  const { data, error, loading, execute } = useAsync(AllUser, []);
 
-  const [newAgent, setNewAgent] = useState({ name: "", email: "" })
+  useEffect(() => {
+    execute();
+  }, [execute]);
+  // Sécurise les données (évite les erreurs TanStack)
+  const safeData = Array.isArray(data) ? data : [];
+
+  const [newAgent, setNewAgent] = useState({ name: "", email: "" });
 
   const handleAddAgent = () => {
-    if (!newAgent.name || !newAgent.email) return
-    setAgents([...agents, { id: Date.now(), ...newAgent }])
-    setNewAgent({ name: "", email: "" })
-  }
-
-  const filteredAgents = agents.filter(
-    (a) =>
-      a.name.toLowerCase().includes(search.toLowerCase()) ||
-      a.email.toLowerCase().includes(search.toLowerCase())
-  )
+    if (!newAgent.name || !newAgent.email) return;
+    setAgents([...agents, { id: Date.now(), ...newAgent }]);
+    setNewAgent({ name: "", email: "" });
+  };
 
   return (
-    <div className="p-6  min-h-screen rounded-lg">
-      <div className="flex justify-between items-center mb-4">
-        <div className="flex gap-2 items-center">
-          <Input
-            placeholder="Filter..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="w-64"
-          />
-          <Button
-            variant="secondary"
-            onClick={() => setSearch("")}
-            className="bg-gray-700 text-white hover:bg-gray-600"
-          >
-            Effacer
-          </Button>
+    <div className="min-h-screen bg-slate-100 py-8 w-full">
+      <div className="w-[90%] mx-25">
+        {/* Header avec badge */}
+        <div className="mb-8">
+          <div className="flex items-center gap-3 mb-3"></div>
+          <h1 className="text-4xl font-bold text-slate-900 mb-3">
+            Gestion des Agents
+          </h1>
+          <p className="text-slate-600">
+            Suivi des agents et gestion des utilisateurs
+          </p>
         </div>
 
-        <Dialog>
-          <DialogTrigger asChild>
-            <Button className="bg-black text-white hover:bg-gray-800">
-              Ajouter
-            </Button>
-          </DialogTrigger>
-          <DialogContent className="sm:max-w-md">
-            <DialogHeader>
-              <DialogTitle>Ajouter un agent</DialogTitle>
-            </DialogHeader>
-            <div className="space-y-3">
-              <div>
-                <Label>Nom</Label>
-                <Input
-                  placeholder="Entrez le nom"
-                  value={newAgent.name}
-                  onChange={(e) =>
-                    setNewAgent({ ...newAgent, name: e.target.value })
-                  }
-                />
+        {/* Tableau principal */}
+        <div className="bg-white rounded-lg shadow-sm border border-slate-200 overflow-hidden">
+          <div className="bg-gradient-to-r from-slate-700 to-slate-800 px-6 py-5">
+            <h2 className="text-xl font-semibold text-white">
+              Registre des utilisateurs
+            </h2>
+            <p className="text-slate-300 text-sm mt-1">
+              Liste complète des utilisateurs enregistrés
+            </p>
+          </div>
+          <div className="p-6">
+            {loading || safeData.length === 0 ? (
+              <div className="text-center py-12">
+                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-slate-100 mb-4">
+                  <svg
+                    className="w-8 h-8 text-slate-400"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M3 7h18M3 12h18M3 17h18"
+                    />
+                  </svg>
+                </div>
+                <p className="text-slate-700 font-medium mb-1">
+                  Aucune Utilisateur  enregistrée
+                </p>
+                <p className="text-slate-500 text-sm">
+                  Les Utilisateurs apparaîtront ici une fois ajoutées
+                </p>
               </div>
-              <div>
-                <Label>Email</Label>
-                <Input
-                  placeholder="Entrez l'email"
-                  value={newAgent.email}
-                  onChange={(e) =>
-                    setNewAgent({ ...newAgent, email: e.target.value })
-                  }
-                />
-              </div>
-              <Button onClick={handleAddAgent} className="w-full">
-                Enregistrer
-              </Button>
-            </div>
-          </DialogContent>
-        </Dialog>
-      </div>
-
-      {/* Table des agents */}
-      <div className="bg-white rounded-md shadow-md border">
-        <Table>
-          <TableHeader>
-            <TableRow className="bg-gray-100">
-              <TableHead className="w-12">
-                <input type="checkbox" />
-              </TableHead>
-              <TableHead>Nom</TableHead>
-              <TableHead>Email</TableHead>
-              <TableHead className="text-right">Actions</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {filteredAgents.map((agent) => (
-              <TableRow key={agent.id}>
-                <TableCell>
-                  <input type="checkbox" />
-                </TableCell>
-                <TableCell>{agent.name}</TableCell>
-                <TableCell>{agent.email}</TableCell>
-                <TableCell className="text-right">…</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            ) : (
+              <DataTable columns={columnUser} data={safeData} />
+            )}
+          </div>
+        </div>
       </div>
     </div>
-  )
+  );
 }

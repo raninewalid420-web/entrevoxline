@@ -1,27 +1,27 @@
 // columns.js
 export const columnormaux = [
   {
-    accessorKey: "nom",
+    accessorKey: "Nom",
     header: "Nom",
   },
   {
-    accessorKey: "telephone",
+    accessorKey: "Telephone",
     header: "Téléphone",
   },
   {
-    accessorKey: "email",
+    accessorKey: "Email",
     header: "Email",
   },
   {
-    accessorKey: "adresse",
+    accessorKey: "Adresse",
     header: "Adresse",
   },
   {
-    accessorKey: "lieu",
+    accessorKey: "Lieu",
     header: "Lieu",
   },
   {
-    accessorKey: "responsable",
+    accessorKey: "Responsable",
     header: "Responsable",
   },
   {
@@ -33,14 +33,13 @@ export const columnormaux = [
     accessorKey: "commentaire",
     header: "Commentaire",
     cell: ({ row }) => (
-      <p
-        className="max-w-[700px] w-[450px] h-max resize-none border rounded-md p-2 text-sm bg-white text-wrap"
-      >{row.original.commentaire} </p>
+      <div className="min-w-[500px] max-w-[700px] whitespace-pre-wrap">
+        {row.original.commentaire}
+      </div>
     ),
   },
   {
-    accessorKey: "creePar",
+    accessorKey: "Agent",
     header: "Créé par",
   },
-]
-
+];

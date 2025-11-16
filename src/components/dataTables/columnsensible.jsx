@@ -26,19 +26,19 @@ const CellAction = ({ nom }) => (
 )
 
 export const columnsSensibles = [
-  { header: "Nom", accessorKey: "nom" },
-  { header: "Téléphone", accessorKey: "telephone" },
-  { header: "Lieu", accessorKey: "lieu" },
-  { header: "Type", accessorKey: "typeCas" },
-  { header: "Responsable", accessorKey: "responsable" },
-  { header: "Date", accessorKey: "date" },
+  { header: "Nom", accessorKey: "Nom" },
+  { header: "Téléphone", accessorKey: "Telephone" },
+  { header: "Lieu", accessorKey: "Lieu" },
+  { header: "Type", accessorKey: "Type" },
+  { header: "Responsable", accessorKey: "Responsable" },
+  { header: "Date", accessorKey: "Date" },
   {
     header: "Description",
-    accessorKey: "description",
+    accessorKey: "Description",
     cell: ({ row }) => (
       <p
         className="max-w-[250px] h-20 resize-none border rounded-md p-2 text-sm bg-white text-wrap"
-      >{row.original.description} </p>
+      >{row.original.Description} </p>
     ),
   },
   {

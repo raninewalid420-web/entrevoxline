@@ -1,51 +1,25 @@
-"use client"
+"use client";
 
-import { DataTable } from "../components/dataTables/data-table"
-import { columncartin } from "../components/dataTables/columnscartin"
-
-// ✅ Données Cartin
-export const datacartin = [
-  {
-    nom: "Ranoelisoa Justin",
-    telephone: "77050566",
-    commande: "22512",
-    commandeDate: "21/09/2025",
-    inscrivezLe: "2025-10-02 15:42:37",
-    problemes:
-      "Monsieur Ranoelisoa nous appelle concernant son colis carton, il avait effectué 3 commandes avec deux numéros de commande. Il a reçu deux colis, il lui manque 1 colis avec ce numéro de commande 22512.",
-    image: "",
-    couple: "Mariam Youssouf Abdallah",
-  },
-  {
-    nom: "Eleyeh Abdi Omar",
-    telephone: "77702391",
-    commande: "DJ91752 / DJ91753",
-    commandeDate: "19/09/2025",
-    inscrivezLe: "2025-10-02 09:23:59",
-    problemes: "Le client veut savoir si ses colis arrivent à Djibouti.",
-    image: "",
-    couple: "Nadira Houssein",
-  },
-  {
-    nom: "Mahdi Mahamoud Daoud",
-    telephone: "77702391",
-    commande: "DJ89632",
-    commandeDate: "13/09/2025",
-    inscrivezLe: "25/09/2025 11:07:35",
-    problemes: "Le client attend toujours son colis.",
-    image: "",
-    couple: "Fatouma Abdo",
-  },
-]
+import { DataTable } from "../components/dataTables/data-table";
+import { columncartin } from "../components/dataTables/columnscartin";
+import useAsync from "../hooks/useAsync";
+import { GetAllCartin } from "../api/cartun";
+import { useEffect } from "react";
 
 export default function CartinData() {
+  const { data, error, loading, execute } = useAsync(GetAllCartin, []);
+
+  useEffect(() => {
+    execute();
+  }, [execute]);
+  // Sécurise les données (évite les erreurs TanStack)
+  const safeData = Array.isArray(data) ? data : [];
   return (
     <div className="min-h-screen bg-slate-100 py-8 w-full">
       <div className="w-[90%] mx-25">
         {/* Header avec badge */}
         <div className="mb-8">
-          <div className="flex items-center gap-3 mb-3">
-          </div>
+          <div className="flex items-center gap-3 mb-3"></div>
           <h1 className="text-4xl font-bold text-slate-900 mb-3">
             Gestion Cartin
           </h1>
@@ -56,16 +30,16 @@ export default function CartinData() {
 
         {/* Tableau principal */}
         <div className="bg-white rounded-lg shadow-sm border border-slate-200 overflow-hidden">
-           <div className="bg-gradient-to-r from-slate-700 to-slate-800 px-6 py-5">
+          <div className="bg-gradient-to-r from-slate-700 to-slate-800 px-6 py-5">
             <h2 className="text-xl font-semibold text-white">
-              Registre des interventions ARULOS
+              Registre des interventions Cartin
             </h2>
             <p className="text-slate-300 text-sm mt-1">
               Liste complète des opérations enregistrées
             </p>
           </div>
           <div className="p-6">
-            {datacartin.length === 0 ? (
+            {loading || safeData.length === 0 ? (
               <div className="text-center py-12">
                 <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-slate-100 mb-4">
                   <svg
@@ -90,11 +64,11 @@ export default function CartinData() {
                 </p>
               </div>
             ) : (
-              <DataTable columns={columncartin} data={datacartin} />
+              <DataTable columns={columncartin} data={safeData} />
             )}
           </div>
         </div>
       </div>
     </div>
-  )
+  );
 }

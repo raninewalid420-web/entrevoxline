@@ -28,10 +28,23 @@ export const checkAuth = async () => {
 
 export const LogoutUser = async () => {
   const response = await fetch(`${API_BASE_URL}?method=Logout`, {
-     method: "POST",
-     credentials: "include",
+    method: "POST",
+    credentials: "include",
   });
   const data = await response.json();
   console.log("Logout response:", data);
   return data;
 };
+
+export async function AllUser() {
+  const apiUrl = `${API_BASE_URL}?method=AllUser`;
+  try {
+    const res = await fetch(apiUrl, {
+      method: "GET",
+    });
+    const data = await res.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching cartin:", error);
+  }
+}

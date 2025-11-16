@@ -1,4 +1,4 @@
-import { X } from 'lucide-react'
+import { X } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -6,7 +6,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "../ui/dialog"
+} from "../ui/dialog";
 
 // ✅ Composant d’action (boîte de confirmation)
 const CellAction = ({ nom }) => {
@@ -19,53 +19,123 @@ const CellAction = ({ nom }) => {
         <DialogHeader>
           <DialogTitle>Supprimer {nom} ?</DialogTitle>
           <DialogDescription>
-            Cette action est irréversible. Êtes-vous sûr de vouloir supprimer ce colis ?
+            Cette action est irréversible. Êtes-vous sûr de vouloir supprimer ce
+            colis ?
           </DialogDescription>
         </DialogHeader>
       </DialogContent>
     </Dialog>
-  )
-}
+  );
+};
 
 // ✅ Colonnes du tableau PS
 export const columnsPs = [
-  { header: "Numéro plainte", accessorKey: "numeroPlainte" },
-  { header: "Date saisi", accessorKey: "dateSaisi" },
+  { header: "Numéro plainte", accessorKey: "numero" },
+  { header: "Date saisi", accessorKey: "date" },
   { header: "Nom", accessorKey: "nom" },
-  { header: "Nom conjointe (e)", accessorKey: "nomConjoint" },
+  { header: "Nom conjointe (e)", accessorKey: "Nomconjointe" },
   { header: "Téléphone", accessorKey: "telephone" },
-  { header: "Date Naissance", accessorKey: "dateNaissance" },
+  { header: "Date Naissance", accessorKey: "Date_naissance" },
   { header: "CIN", accessorKey: "cin" },
-  { header: "Genre", accessorKey: "genre" },
+  {
+    header: "Genre",
+    accessorKey: "genre",
+    cell: ({ row }) => (
+      <span
+        className={`px-2 py-1 rounded-full text-xs font-semibold ${
+          row.original.genre === "Femme"
+            ? "bg-blue-100 text-blue-700"
+            : "bg-red-100 text-red-700"
+        }`}
+      >
+        {row.original.genre}
+      </span>
+    ),
+  },
   { header: "Région", accessorKey: "region" },
   { header: "Localité", accessorKey: "localite" },
   {
     header: "Description plainte",
-    accessorKey: "descriptionPlainte",
+    accessorKey: "description",
     cell: ({ row }) => (
-      <textarea
-        defaultValue={row.original.descriptionPlainte}
-        className="w-[300px] h-16 resize-none border rounded-md p-2 text-sm bg-white"
-        placeholder="Écrire un commentaire..."
-      />
+      <div className="min-w-[500px] max-w-[700px] whitespace-pre-wrap">
+        {row.original.description}
+      </div>
     ),
   },
-  { header: "Information", accessorKey: "information" },
-  { header: "Nom délégué", accessorKey: "nomDelegue" },
-  { header: "Date de dépôt", accessorKey: "dateDepot" },
-  { header: "Date résolution CL", accessorKey: "dateResolutionCL" },
-  { header: "Résolution comité local", accessorKey: "resolutionComiteLocal" },
-  { header: "Catégorie", accessorKey: "categorie" },
-  { header: "Satisfaction", accessorKey: "satisfaction" },
-  { header: "Status de plainte", accessorKey: "statusPlainte" },
-  { header: "Type de plainte", accessorKey: "typePlainte" },
-  { header: "Type de problème", accessorKey: "typeProbleme" },
-  { header: "Créé par", accessorKey: "creePar" },
   {
-    header: "Actions",
-    cell: ({ row }) => {
-      const nom = row?.original.nom
-      return <CellAction nom={nom} />
-    },
+    header: "Information",
+    accessorKey: "information",
+    cell: ({ row }) => (
+      <div className="min-w-[500px] max-w-[700px] whitespace-pre-wrap">
+        {row.original.information}
+      </div>
+    ),
   },
-]
+  { header: "Nom délégué", accessorKey: "nomdeleguer" },
+  { header: "Date de dépôt", accessorKey: "date_depot" },
+  { header: "Date résolution CL", accessorKey: "date_resolution" },
+  {
+    header: "Résolution comité local",
+    accessorKey: "Resolution_comite_local",
+    cell: ({ row }) => (
+      <div className="min-w-[250px] max-w-[350px] truncate">
+        {row.original.Resolution_comite_local}
+      </div>
+    ),
+  },
+  {
+    header: "Catégorie",
+    accessorKey: "categorie",
+    cell: ({ row }) => (
+      <span
+        className={`px-2 py-1 rounded-full text-xs font-semibold ${
+          row.original.categorie === "solvable"
+            ? "bg-green-100 text-green-700"
+            : "bg-red-100 text-red-700"
+        }`}
+      >
+        {row.original.categorie}
+      </span>
+    ),
+  },
+  {
+    header: "Satisfaction",
+    accessorKey: "Satisfaction",
+    cell: ({ row }) => (
+      <span
+        className={`px-2 py-1 rounded-full text-xs font-semibold ${
+          row.original.Satisfaction === "Oui"
+            ? "bg-green-100 text-green-700"
+            : "bg-red-100 text-red-700"
+        }`}
+      >
+        {row.original.Satisfaction}
+      </span>
+    ),
+  },
+  {
+    header: "Status de plainte",
+    accessorKey: "Status_de_plainte",
+    cell: ({ row }) => (
+      <span
+        className={`px-2 py-1 rounded-full text-xs font-semibold ${
+          row.original.Status_de_plainte === "Fermé"
+            ? "bg-green-100 text-green-700"
+            : "bg-yellow-100 text-yellow-700"
+        }`}
+      >
+        {row.original.Status_de_plainte}
+      </span>
+    ),
+  },
+  { header: "Type de plainte", accessorKey: "category_plainte" },
+  { header: "Type de problème", accessorKey: "TypeProbleme" },
+  // {
+  //   header: "Actions",
+  //   cell: ({ row }) => {
+  //     const nom = row?.original.nom;
+  //     return <CellAction nom={nom} />;
+  //   },
+  // },
+];

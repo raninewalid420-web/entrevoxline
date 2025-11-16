@@ -1,4 +1,4 @@
-import { X } from 'lucide-react'
+import { X } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -6,7 +6,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "../ui/dialog"
+} from "../ui/dialog";
 
 // ✅ Composant d’action (boîte de confirmation)
 const CellAction = ({ nom }) => {
@@ -19,45 +19,70 @@ const CellAction = ({ nom }) => {
         <DialogHeader>
           <DialogTitle>Supprimer {nom} ?</DialogTitle>
           <DialogDescription>
-            Cette action est irréversible. Êtes-vous sûr de vouloir supprimer ce colis ?
+            Cette action est irréversible. Êtes-vous sûr de vouloir supprimer ce
+            colis ?
           </DialogDescription>
         </DialogHeader>
       </DialogContent>
     </Dialog>
-  )
-}
+  );
+};
 // ✅ Colonnes du tableau Hors Projet
 export const columnsHorsProjet = [
-  { header: "Numéro plainte", accessorKey: "numeroPlainte" },
-  { header: "Date saisi", accessorKey: "dateSaisi" },
+  { header: "Numéro plainte", accessorKey: "numero" },
+  { header: "Date saisi", accessorKey: "date" },
   { header: "Nom", accessorKey: "nom" },
-  { header: "Nom conjointe (e)", accessorKey: "nomConjoint" },
+  { header: "Nom conjointe (e)", accessorKey: "Nomconjoint" },
   { header: "Téléphone", accessorKey: "telephone" },
-  { header: "Date Naissance", accessorKey: "dateNaissance" },
+  { header: "Date Naissance", accessorKey: "Date_naissance" },
   { header: "CIN", accessorKey: "cin" },
-  { header: "Genre", accessorKey: "genre" },
+  {
+    header: "Genre",
+    accessorKey: "genre",
+    cell: ({ row }) => (
+      <span
+        className={`px-2 py-1 rounded-full text-xs font-semibold ${
+          row.original.genre === "Femme"
+            ? "bg-blue-100 text-blue-700"
+            : "bg-red-100 text-red-700"
+        }`}
+      >
+        {row.original.genre}
+      </span>
+    ),
+  },
   { header: "Région", accessorKey: "region" },
   { header: "Commune", accessorKey: "commune" },
   { header: "Quartier", accessorKey: "quartier" },
   {
     header: "Description plainte",
-    accessorKey: "descriptionPlainte",
+    accessorKey: "description",
     cell: ({ row }) => (
-      <textarea
-        defaultValue={row.original.descriptionPlainte}
-        className="w-[300px] h-20 resize-none border rounded-md p-2 text-sm bg-white"
-        placeholder="Description..."
-      />
+      <div className="min-w-[500px] max-w-[700px] whitespace-pre-wrap">
+        {row.original.description}
+      </div>
     ),
   },
-  { header: "Category plainte", accessorKey: "categoriePlainte" },
-  { header: "Créé par", accessorKey: "creePar" },
   {
-    header: "Actions",
-    cell: ({ row }) => {
-      const nom = row?.original.nom
-      return <CellAction nom={nom} />
-    },
+    header: "Category plainte",
+    accessorKey: "category_plainte",
+    cell: ({ row }) => (
+      <span
+        className={`px-2 py-1 rounded-full text-xs font-semibold ${
+          row.original.category_plainte === "doleance"
+            ? "bg-purple-100 text-purple-700"
+            : "bg-orange-100 text-orange-700"
+        }`}
+      >
+        {row.original.category_plainte}
+      </span>
+    ),
   },
-]
-
+  // {
+  //   header: "Actions",
+  //   cell: ({ row }) => {
+  //     const nom = row?.original.nom;
+  //     return <CellAction nom={nom} />;
+  //   },
+  // },
+];

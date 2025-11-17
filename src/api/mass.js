@@ -2,6 +2,8 @@ const API_BASE_URL =
   import.meta.env.VITE_API_BASE_URL ||
   "http://192.168.100.4:8080/CallCentre/callmanager/api.php";
 
+// API to fetch mass data for different projects
+
 export async function Hors_projets() {
   const api = `${API_BASE_URL}?method=Mass_Show&projets=hors_projets`;
 
@@ -332,4 +334,40 @@ export async function Mass_Agr() {
   }
 }
 
+// la fonction d'ajouter un projet mass
+export async function Add_Mass_Project(Donnes, idUser) {
+  const api = `${API_BASE_URL}?method=Mass_Insert&iduser=${idUser}`;
 
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(Donnes),
+    });
+
+    if (!response.ok) throw new globalThis.Error("Erreur réseau détectée");
+
+    const result = await response.json();
+    if (result.success) {
+      return result.success;
+    } else if (result.error) {
+      return result.error;
+    }
+  } catch (error) {
+    console.error("Error adding mass project:", error);
+  }
+}
+// fonction qui permet de recupere la dernier numero inserer dans la table mass
+export async function Mass_LastNumero() {
+  const api = `${API_BASE_URL}?method=Mass_LastNumero`;
+  try {
+    const response = await fetch(api, {
+      method: "GET",
+    });
+    const data = await response.json();
+    const dernierNumero = (data.dernierNumero += 1);
+    return dernierNumero;
+  } catch (error) {
+    console.error("Error fetching last mass numero:", error);
+  }
+}

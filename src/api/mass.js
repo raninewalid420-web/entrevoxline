@@ -337,9 +337,8 @@ export async function Mass_Agr() {
 // la fonction d'ajouter un projet mass
 export async function Add_Mass_Project(Donnes, idUser) {
   const api = `${API_BASE_URL}?method=Mass_Insert&iduser=${idUser}`;
-
   try {
-    const response = await fetch(url, {
+    const response = await fetch(api, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(Donnes),
@@ -348,11 +347,7 @@ export async function Add_Mass_Project(Donnes, idUser) {
     if (!response.ok) throw new globalThis.Error("Erreur réseau détectée");
 
     const result = await response.json();
-    if (result.success) {
-      return result.success;
-    } else if (result.error) {
-      return result.error;
-    }
+   return result;
   } catch (error) {
     console.error("Error adding mass project:", error);
   }

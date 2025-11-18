@@ -61,7 +61,7 @@ export default function Accueil() {
             📞 CallManager
           </h1>
           <Button
-            className="bg-[#0B1F3A] hover:bg-[#142f63] text-white font-semibold px-6 py-2 rounded-full shadow-lg transition-transform transform hover:scale-105"
+            className="bg-[#0B1F3A] hover:bg-[#142f63] cursor-pointer text-white font-semibold px-6 py-2 rounded-full shadow-lg transition-transform transform hover:scale-105"
             onClick={() => setOpen(true)}
           >
             Connexion

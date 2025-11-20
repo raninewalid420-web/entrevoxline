@@ -35,7 +35,7 @@ export default function Accueil() {
         admin: "/dashboard",
         chefCentre: "/dashboard",
         agents: "/Agents/mass",
-        clients: "/Client/Purcsa",
+        clients: "/Client/Dashboard",
       };
       navigate(redirectByRole[user.role] || "/dashboard");
       setOpen(false);

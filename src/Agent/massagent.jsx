@@ -17,6 +17,9 @@ import { Add_Mass_Project, Mass_LastNumero } from "../api/mass";
 import useAsync from "../hooks/useAsync";
 import { Loader2 } from "lucide-react";
 
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 // -------------------- Données régions et localités --------------------
 const regions = {
   "Ali-Sabieh": [],
@@ -631,22 +634,28 @@ export default function MassAgent() {
     useForm({
       resolver: zodResolver(FormSchema),
       defaultValues: {
-        numero_plainte: "",
-        date_enregistrement: "",
-        nom_plaignant: "",
-        nom_conjoint: "",
+        numero: "",
+        date: "",
+        nom: "",
+        conjointe: "",
         telephone: "",
+        quartiers_impact: "",
         date_naissance: "",
         genre: "",
         cin: "",
-        categorie_plainte: "",
+        type_plainte: "",
+        projet: "",
+        information: "",
         region: "",
-        localite: "",
         region_aseri: "",
+        localite: "",
         commune: "",
         quartier: "",
         description: "",
+        num_etudiant: "",
+        hr: "",
         nomdeleguer: "",
+        categorie: "",
         type_activite: "",
         sous_type_ouvrage: "",
         date_depot: "",
@@ -654,7 +663,7 @@ export default function MassAgent() {
         resolution_comite: "",
         satisfaction: "",
         status_plainte: "",
-        type_probleme_ps: "",
+        type: "",
         type_probleme_aseri: "",
         type_probleme_fresh_food: "",
         type_probleme_agr: "",
@@ -679,12 +688,10 @@ export default function MassAgent() {
     execute: NumExecute,
   } = useAsync(Mass_LastNumero, []);
 
-  const {
-    data: addMass,
-    error: MassError,
-    loading: MassLoading,
-    execute: MassExecute,
-  } = useAsync(Add_Mass_Project, []);
+  const { loading: MassLoading, execute: MassExecute } = useAsync(
+    Add_Mass_Project,
+    []
+  );
 
   useEffect(() => {
     NumExecute();
@@ -693,12 +700,27 @@ export default function MassAgent() {
   }, [NumExecute]);
 
   const onSubmit = async (data) => {
-    MassExecute(data, user?.id);
-    console.log(addMass);
+    console.log("Données du formulaire soumis :", data);
+    try {
+      const result = await MassExecute(data, user?.id);
+
+      if (result?.success) {
+        toast.success("Enregistrée avec succès !");
+      } else {
+        toast.error("Erreur lors de l'enregistrement.");
+      }
+
+      // 🔥 Reset correct
+      reset();
+    } catch (err) {
+      toast.error("Erreur lors de l'enregistrement de la Mass.");
+      console.error(err);
+    }
   };
 
   return (
     <div className="min-h-screen bg-slate-100 p-8">
+      <ToastContainer position="top-center" />
       <div className="max-w-5xl mx-auto">
         {/* Header */}
         <div className="bg-gradient-to-r from-slate-700 to-slate-800 px-6 py-5 rounded-t-xl">
@@ -719,13 +741,6 @@ export default function MassAgent() {
             <h2 className="text-lg font-semibold text-slate-800">
               Informations générales
             </h2>
-            {addMass && addMass.success && (
-              <p className=" bg-green-100  rounded-lg text-green-600 mt-2">✔️ {addMass.success} !</p>
-            )}
-            {addMass && addMass.error && (
-              <p className="bg-red-100 rounded-lg text-red-600 mt-2"> {addMass.error} !</p>
-            )}
-            {MassError && <p className="bg-red-100 rounded-lg text-red-600 mt-2">{MassError}</p>}
           </div>
           {/* Formulaire */}
           <form onSubmit={handleSubmit(onSubmit)} className="p-6 space-y-5">

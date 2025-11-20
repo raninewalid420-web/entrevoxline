@@ -9,7 +9,7 @@ export default function CatchAllRedirect() {
     admin: "/dashboard",
     chefCentre: "/dashboard",
     agents: "/Agents/mass",
-    clients: "/Client/Purcsa",
+    clients: "/Client/Dashboard",
   };
 
   // 🔒 Si connecté → le renvoyer vers sa page d’accueil

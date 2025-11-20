@@ -335,19 +335,57 @@ export async function Mass_Agr() {
 }
 
 // la fonction d'ajouter un projet mass
-export async function Add_Mass_Project(Donnes, idUser) {
+export async function Add_Mass_Project(Donnee, idUser) {
   const api = `${API_BASE_URL}?method=Mass_Insert&iduser=${idUser}`;
+  const payload = {
+    numero: Donnee.numero,
+    date: Donnee.date,
+    nom: Donnee.nom,
+    conjointe: Donnee.conjointe,
+    telephone: Donnee.telephone,
+    date_naissance: Donnee.date_naissance,
+    genre: Donnee.genre,
+    cin: Donnee.cin,
+    type_plainte: Donnee.type_plainte,
+    projet: Donnee.projet,
+    information: Donnee.information,
+    region: Donnee.region,
+    region_aseri: Donnee.region_aseri,
+    localite: Donnee.localite,
+    commune: Donnee.commune,
+    information: Donnee.information,
+    quartier: Donnee.quartier,
+    description: Donnee.description,
+    num_etudiant: Donnee.num_etudiant,
+    nomdeleguer: Donnee.nomdeleguer,
+    categorie: Donnee.categorie,
+    type_activite: Donnee.type_activite,
+    sous_type_ouvrage: Donnee.sous_type_ouvrage,
+    date_depot: Donnee.date_depot,
+    date_resolution: Donnee.date_resolution,
+    resolution_comite: Donnee.resolution_comite,
+    satisfaction: Donnee.satisfaction,
+    status_plainte: Donnee.status_plainte,
+    type: Donnee.type,
+    type_probleme_aseri: Donnee.type_probleme_aseri,
+    type_probleme_fresh_food: Donnee.type_probleme_fresh_food,
+    type_probleme_agr: Donnee.type_probleme_agr,
+    type_probleme_eaps: Donnee.type_probleme_eaps,
+    type_probleme_crec: Donnee.type_probleme_crec,
+    type_probleme_pass: Donnee.type_probleme_pass,
+    type_probleme_pirb: Donnee.type_probleme_pirb,
+  };
   try {
     const response = await fetch(api, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(Donnes),
+      body: JSON.stringify(payload),
     });
 
     if (!response.ok) throw new globalThis.Error("Erreur réseau détectée");
 
     const result = await response.json();
-   return result;
+    return result;
   } catch (error) {
     console.error("Error adding mass project:", error);
   }

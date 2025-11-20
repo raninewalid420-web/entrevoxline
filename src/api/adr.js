@@ -30,6 +30,7 @@ export async function getSensibleCases() {
     const res = await fetch(apiUrl, {
       method: "GET",
     });
+    if (!res.ok) throw new Error("Erreur réseau détectée");
     const data = await res.json();
     return data;
   } catch (error) {
@@ -43,6 +44,7 @@ export async function getNormaleCases() {
     const res = await fetch(apiUrl, {
       method: "GET",
     });
+    if (!res.ok) throw new Error("Erreur réseau détectée");
     const data = await res.json();
     return data;
   } catch (error) {
@@ -50,5 +52,49 @@ export async function getNormaleCases() {
   }
 }
 
+export async function Transfert(id) {
+  const apiUrl = `${API_BASE_URL}?method=Transfert`;
+  try {
+    const res = await fetch(apiUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ userid: id, transfere: 1 }),
+    });
+    if (!res.ok) throw new Error("Erreur réseau détectée");
+    const data = await res.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching users:", error);
+  }
+}
 
-
+export async function EnregistreAdr(Donnee, id) {
+  const apiUrl = `${API_BASE_URL}?method=EnregistreAdr&id=${id}`;
+  const payload = {
+    Nom: Donnee.nom,
+    Telephone: Donnee.telephone,
+    Email: Donnee.email,
+    Adresse: Donnee.adresse,
+    Lieu: Donnee.lieuIncident,
+    Responsable: Donnee.responsable,
+    Genre: Donnee.typeIncident,
+    Commentaire: Donnee.description,
+    qualification: "cas normal",
+    Date: Donnee.date,
+    Qui: Donnee.qui || " ",
+    Quand: Donnee.quand || " ",
+  };
+  console.log("Payload to be sent:", payload);
+  try {
+    const res = await fetch(apiUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+    if (!res.ok) throw new Error("Erreur réseau détectée");
+    const data = await res.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching users:", error);
+  }
+}

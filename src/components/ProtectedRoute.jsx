@@ -16,7 +16,7 @@ export default function ProtectedRoute({ allowedRoles}) {
       admin: "/dashboard",
       chefCentre: "/dashboard",
       agents: "/Agents/mass",
-      clients: "/Client/Purcsa",
+      clients: "/Client/Dashboard",
     };
     return <Navigate to={homeByRole[user?.role]}  />;
   }

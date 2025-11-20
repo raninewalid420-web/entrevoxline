@@ -16,6 +16,11 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
+import useAsync from "../hooks/useAsync";
+import { CreateCartin } from "../api/cartun";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useAuth } from "../context/AuthContext";
 
 // ✅ Validation du formulaire
 const formSchema = z.object({
@@ -40,19 +45,29 @@ export default function Cartinagent() {
       probleme: "",
     },
   });
+  const { user } = useAuth();
+  const { data, error, loading, execute } = useAsync(CreateCartin, []);
 
-  const onSubmit = (data) => {
-    console.log("✅ Données envoyées :", data);
-    alert("✅ Signalement envoyé avec succès !");
-    form.reset();
-  };
+  const onSubmit = async (data) => {
+    try {
+      const result = await execute(data, user.id);
 
-  const onReset = () => {
-    form.reset();
+      if (result?.success) {
+        toast.success("Cart'in enregistrée avec succès !");
+      } else {
+        toast.error("Erreur lors de l'enregistrement.");
+      }
+
+      form.reset();
+    } catch (err) {
+      toast.error("Erreur lors de l'enregistrement Cart'in.");
+      console.error(err);
+    }
   };
 
   return (
     <div className="min-h-screen bg-slate-100 p-8">
+      <ToastContainer position="top-center" />
       <div className="max-w-3xl mx-auto">
         {/* Header */}
         <div className="bg-gradient-to-r from-slate-700 to-slate-800 px-6 py-5 rounded-t-xl">
@@ -78,17 +93,25 @@ export default function Cartinagent() {
           </div>
 
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="p-6 space-y-5">
-
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="p-6 space-y-5"
+            >
               {/* Nom */}
               <FormField
                 control={form.control}
                 name="nom"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-slate-700 font-medium">Nom complet</FormLabel>
+                    <FormLabel className="text-slate-700 font-medium">
+                      Nom complet
+                    </FormLabel>
                     <FormControl>
-                      <Input placeholder="Votre nom complet" {...field} className="border-slate-300" />
+                      <Input
+                        placeholder="Votre nom complet"
+                        {...field}
+                        className="border-slate-300"
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -102,9 +125,15 @@ export default function Cartinagent() {
                   name="telephone"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-slate-700 font-medium">Numéro de téléphone</FormLabel>
+                      <FormLabel className="text-slate-700 font-medium">
+                        Numéro de téléphone
+                      </FormLabel>
                       <FormControl>
-                        <Input placeholder="+253 77 000 000" {...field} className="border-slate-300" />
+                        <Input
+                          placeholder="+253 77 000 000"
+                          {...field}
+                          className="border-slate-300"
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -116,9 +145,15 @@ export default function Cartinagent() {
                   name="commande"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-slate-700 font-medium">Numéro de commande</FormLabel>
+                      <FormLabel className="text-slate-700 font-medium">
+                        Numéro de commande
+                      </FormLabel>
                       <FormControl>
-                        <Input placeholder="Ex: CMD-12345" {...field} className="border-slate-300" />
+                        <Input
+                          placeholder="Ex: DJ1032"
+                          {...field}
+                          className="border-slate-300"
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -132,9 +167,15 @@ export default function Cartinagent() {
                 name="dateCommande"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-slate-700 font-medium">Date de commande</FormLabel>
+                    <FormLabel className="text-slate-700 font-medium">
+                      Date de commande
+                    </FormLabel>
                     <FormControl>
-                      <Input type="date" {...field} className="border-slate-300" />
+                      <Input
+                        type="date"
+                        {...field}
+                        className="border-slate-300"
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -147,7 +188,9 @@ export default function Cartinagent() {
                 name="probleme"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-slate-700 font-medium">Description du problème</FormLabel>
+                    <FormLabel className="text-slate-700 font-medium">
+                      Description du problème
+                    </FormLabel>
                     <FormControl>
                       <Textarea
                         placeholder="Décrivez votre problème en détail..."
@@ -164,11 +207,10 @@ export default function Cartinagent() {
               <div className="flex gap-4 pt-4">
                 <Button
                   type="submit"
-                  className=" text-white flex-1 bg-slate-700 hover:bg-slate-800 text-lg py-6 font-semibold"
+                  className=" text-white flex-1 bg-slate-700 hover:bg-slate-800 text-lg py-6 font-semibold cursor-pointer"
                 >
                   Soumettre
                 </Button>
-               
               </div>
             </form>
           </Form>
@@ -177,7 +219,8 @@ export default function Cartinagent() {
         {/* Message d'info */}
         <div className="mt-6 bg-blue-50 border-l-4 border-blue-500 rounded-r-lg p-5">
           <p className="text-blue-900 text-sm leading-relaxed">
-            Votre signalement sera traité dans les plus brefs délais par notre service client Cart'in.
+            Votre signalement sera traité dans les plus brefs délais par notre
+            service client Cart'in.
           </p>
         </div>
       </div>

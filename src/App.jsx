@@ -67,6 +67,8 @@ const MassAgent = lazy(() => import("./Agent/massagent"));
 
 // Menu data
 import { menuData, menuDataforagents, menuDataforClientMass } from "./menuData";
+import { Dashboard } from "./components/Dashboard/Dashboard";
+import { DashboardClient } from "./components/Dashboard/DashboardClient";
 
 
 export default function App() {
@@ -96,9 +98,7 @@ export default function App() {
                 <Route
                   path="/dashboard"
                   element={
-                    <h1 className="text-2xl font-bold text-blue-900">
-                      Bienvenue sur le Dashboard 🎉
-                    </h1>
+                    <Dashboard />
                   }
                 />
                 <Route path="/adr" element={<Adr />} />
@@ -152,6 +152,7 @@ export default function App() {
             {/* 🔒 Routes Client Mass */}
             <Route element={<ProtectedRoute allowedRoles={["clients"]} />}>
               <Route element={<Layout menuItems={menuDataforClientMass} />}>
+                <Route path="/Client/Dashboard" element={<DashboardClient />} />
                 <Route path="/Client/Purcsa" element={<PurcsaClient />} />
                 <Route path="/Client/Agr" element={<AgrClient />} />
                 <Route path="/Client/Aseri" element={<Aseris />} />

@@ -16,6 +16,12 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
+import { AnnulationCmd } from "../api/annulation_cmd";
+import useAsync from "../hooks/useAsync";
+import { useAuth } from "../context/AuthContext";
+
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 // ✅ Schéma de validation
 const formSchema = z.object({
@@ -27,6 +33,9 @@ const formSchema = z.object({
 });
 
 export default function AnnulationCommande() {
+  const { user } = useAuth();
+  const { execute } = useAsync(AnnulationCmd, []);
+
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -38,14 +47,29 @@ export default function AnnulationCommande() {
     },
   });
 
-  const onSubmit = (data) => {
-    console.log("✅ Données envoyées :", data);
-    alert("Annulation enregistrée avec succès !");
-    form.reset();
+  const onSubmit = async (values) => {
+    try {
+      const result = await execute(values, user.id);
+
+      if (result?.success) {
+        toast.success("Enregistrée avec succès !");
+      } else {
+        toast.error("Erreur lors de l'enregistrement.");
+        console.error("Erreur API:", result.error);
+      }
+
+      form.reset();
+    } catch (err) {
+      toast.error(
+        "Erreur lors de l'enregistrement de l'annulation de commande."
+      );
+      console.error(err);
+    }
   };
 
   return (
     <div className="min-h-screen bg-slate-100 p-8">
+      <ToastContainer position="top-center" />
       <div className="max-w-2xl mx-auto">
         {/* 🟦 En-tête */}
         <div className="bg-gradient-to-r from-slate-700 to-slate-800 px-6 py-5 rounded-t-xl">
@@ -56,7 +80,8 @@ export default function AnnulationCommande() {
             Annulation de commande
           </h1>
           <p className="text-slate-100 mt-2 text-sm">
-            Merci d’indiquer les détails relatifs à votre commande afin de procéder à l’annulation.
+            Merci d’indiquer les détails relatifs à votre commande afin de
+            procéder à l’annulation.
           </p>
         </div>
 
@@ -64,7 +89,6 @@ export default function AnnulationCommande() {
         <div className="bg-white border border-slate-200 rounded-b-xl shadow-sm p-6">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
-              
               {/* Nom du client */}
               <FormField
                 control={form.control}
@@ -147,7 +171,7 @@ export default function AnnulationCommande() {
               {/* Bouton d’envoi */}
               <Button
                 type="submit"
-                className=" text-white w-full py-6 text-lg font-semibold bg-slate-700 hover:bg-slate-800"
+                className=" text-white w-full py-6 text-lg font-semibold bg-slate-700 hover:bg-slate-800 cursor-pointer"
               >
                 Enregistrer
               </Button>
@@ -158,8 +182,8 @@ export default function AnnulationCommande() {
         {/* 🟡 Message d’aide */}
         <div className="mt-6 bg-yellow-50 border-l-4 border-yellow-500 rounded-r-lg p-5">
           <p className="text-yellow-900 text-sm leading-relaxed">
-            ⚠️ <strong>Pour guider le client :</strong> pour avoir un suivi, merci
-            d’également faire un ticket dans l’app en cliquant sur{" "}
+            ⚠️ <strong>Pour guider le client :</strong> pour avoir un suivi,
+            merci d’également faire un ticket dans l’app en cliquant sur{" "}
             <strong>Menu</strong>, puis <strong>Contact</strong>, puis{" "}
             <strong>Envoyer un ticket</strong> et remplir le formulaire.
           </p>

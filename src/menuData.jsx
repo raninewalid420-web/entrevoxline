@@ -1,4 +1,12 @@
-import { ClipboardList, Database, FileText, FolderKanban, Home, Layers, Users } from "lucide-react";
+import {
+  ClipboardList,
+  Database,
+  FileText,
+  FolderKanban,
+  Home,
+  Layers,
+  Users,
+} from "lucide-react";
 
 export const menuData = [
   {
@@ -125,11 +133,11 @@ export const menuDataforagents = [
         label: "EAB Bank",
         icon: <Database className="w-4 h-4 opacity-70" />,
       },
-      {
-        path: "/Agents/DPCR",
-        label: "DPCR",
-        icon: <Database className="w-4 h-4 opacity-70" />,
-      },
+      // {
+      //   path: "/Agents/DPCR",
+      //   label: "DPCR",
+      //   icon: <Database className="w-4 h-4 opacity-70" />,
+      // },
       {
         path: "/Agents/commandeannulerData",
         label: "Annulation commande",
@@ -148,6 +156,11 @@ export const menuDataforClientMass = [
   {
     title: "Programme Mass",
     items: [
+      {
+        path: "/Client/Dashboard",
+        label: "Tableau de bord",
+        icon: <Home className="w-4 h-4" />,
+      },
       {
         path: "/Client/Purcsa",
         label: "Purcsa",
@@ -202,8 +215,7 @@ export const menuDataforClientMass = [
         path: "/Client/Rapport",
         label: "Rapport ",
         icon: <FolderKanban className="w-4 h-4 opacity-70" />,
-      }
+      },
     ],
   },
 ];
-

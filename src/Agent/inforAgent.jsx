@@ -23,6 +23,11 @@ import {
   SelectItem,
   SelectValue,
 } from "@/components/ui/select";
+import { useAuth } from "../context/AuthContext";
+import useAsync from "../hooks/useAsync";
+import { Info_Create } from "../api/information";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 // ✅ Validation du formulaire
 const formSchema = z.object({
@@ -33,6 +38,9 @@ const formSchema = z.object({
 });
 
 export default function InformationAgent() {
+  const { user } = useAuth();
+  const { execute } = useAsync(Info_Create, []);
+
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -43,13 +51,26 @@ export default function InformationAgent() {
     },
   });
 
-  const onSubmit = (data) => {
-    console.log("✅ Données Informations :", data);
-    alert("Informations envoyées avec succès !");
+  const onSubmit = async (values) => {
+    try {
+      const result = await execute(values, user.id);
+
+      if (result?.success) {
+        toast.success("Enregistrée avec succès !");
+      } else {
+        toast.error("Erreur lors de l'enregistrement.");
+      }
+
+      form.reset();
+    } catch (err) {
+      toast.error("Erreur lors de l'enregistrement de l'information.");
+      console.error(err);
+    }
   };
 
   return (
     <div className="min-h-screen bg-slate-100 p-8 border-r-3">
+      <ToastContainer position="top-center" />
       <div className="max-w-3xl mx-auto">
         {/* 🟦 En-tête */}
         <div className="bg-gradient-to-r from-slate-700 to-slate-800 px-6 py-5 rounded-t-xl">
@@ -69,7 +90,6 @@ export default function InformationAgent() {
         <div className="bg-white border border-slate-200 rounded-xl shadow-sm p-6">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
-              
               {/* Type d'info */}
               <FormField
                 control={form.control}
@@ -83,17 +103,43 @@ export default function InformationAgent() {
                           <SelectValue placeholder="Sélectionnez" />
                         </SelectTrigger>
                       </FormControl>
-                      <SelectContent>
-                        <SelectItem value="horaire">
-                          Horaire / Itinéraire
+                      <SelectContent className="bg-white w-full">
+                        <SelectItem
+                          value="adr"
+                          className="cursor-pointer hover:bg-blue-950 hover:text-white"
+                        >
+                          Adr info
                         </SelectItem>
-                        <SelectItem value="tarif">
-                          Tarif ou paiement
+                        <SelectItem
+                          value="arulos"
+                          className="cursor-pointer hover:bg-blue-950 hover:text-white"
+                        >
+                          Arulos Info
                         </SelectItem>
-                        <SelectItem value="objet-perdu">
-                          Objet perdu
+                        <SelectItem
+                          value="cartin"
+                          className="cursor-pointer hover:bg-blue-950 hover:text-white"
+                        >
+                          Cart in info
                         </SelectItem>
-                        <SelectItem value="autre">Autre information</SelectItem>
+                        <SelectItem
+                          value="Mass"
+                          className="cursor-pointer hover:bg-blue-950 hover:text-white"
+                        >
+                          Info Mass
+                        </SelectItem>
+                        <SelectItem
+                          value="La Poste"
+                          className="cursor-pointer hover:bg-blue-950 hover:text-white"
+                        >
+                          Info la poste
+                        </SelectItem>
+                        <SelectItem
+                          value="Ligne 2020"
+                          className="cursor-pointer hover:bg-blue-950 hover:text-white"
+                        >
+                          Info générale
+                        </SelectItem>
                       </SelectContent>
                     </Select>
                     <FormMessage />
@@ -150,7 +196,7 @@ export default function InformationAgent() {
               <div className="flex gap-4 pt-4">
                 <Button
                   type="submit"
-                  className="border-radius-8 text-white flex-1 bg-slate-700 hover:bg-slate-800 text-lg py-6 font-semibold"
+                  className="border-radius-8 text-white flex-1 bg-slate-700 hover:bg-slate-800 text-lg py-6 font-semibold cursor-pointer"
                 >
                   Soumettre
                 </Button>

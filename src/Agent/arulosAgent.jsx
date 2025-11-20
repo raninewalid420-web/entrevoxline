@@ -23,6 +23,11 @@ import {
   SelectItem,
   SelectValue,
 } from "@/components/ui/select";
+import useAsync from "../hooks/useAsync";
+import { CreateArulos } from "../api/arulos";
+import { useAuth } from "../context/AuthContext";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 // ✅ Validation du formulaire
 const formSchema = z.object({
@@ -36,9 +41,14 @@ const formSchema = z.object({
   affectation: z.string().min(1, "Affectation requise"),
   commentaire: z.string().min(5, "Commentaire obligatoire"),
   facture: z.string().optional(),
+  // 🆕 Champ conditionnel
+  nomChefChantier: z.string().optional(),
 });
 
 export default function ArulosAgent() {
+  const { user } = useAuth();
+  const { execute } = useAsync(CreateArulos, []);
+
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -52,16 +62,32 @@ export default function ArulosAgent() {
       affectation: "",
       commentaire: "",
       facture: "",
+      nomChefChantier: "", // 🆕
     },
   });
 
-  const onSubmit = (data) => {
-    console.log("✅ Données Arulos :", data);
-    alert("Formulaire soumis avec succès !");
+  const typeAppelValue = form.watch("typeAppel");
+
+  const onSubmit = async (values) => {
+    try {
+      const result = await execute(values, user.id);
+
+      if (result?.success) {
+        toast.success("Enregistrée avec succès !");
+      } else {
+        toast.error("Erreur lors de l'enregistrement.");
+      }
+
+      form.reset();
+    } catch (err) {
+      toast.error("Erreur lors de l'enregistrement de la plainte.");
+      console.error(err);
+    }
   };
 
   return (
     <div className="min-h-screen bg-slate-100 p-8 border-r-3">
+      <ToastContainer position="top-center" />
       <div className="max-w-3xl mx-auto">
         {/* En-tête */}
         <div className="bg-gradient-to-r from-slate-700 to-slate-800 px-6 py-5 rounded-t-xl">
@@ -72,7 +98,8 @@ export default function ArulosAgent() {
             Soumettre une Doléance ou Plainte
           </h1>
           <p className="text-white mt-2">
-            Bonjour et bienvenue sur la plateforme e.Doléance / Plainte d’Arulos.
+            Bonjour et bienvenue sur la plateforme e.Doléance / Plainte
+            d’Arulos.
             <br />
             Comment puis-je vous assister aujourd’hui ?
           </p>
@@ -82,7 +109,6 @@ export default function ArulosAgent() {
         <div className="bg-white border border-slate-200 rounded-xl shadow-sm p-6">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
-              
               {/* Nom */}
               <FormField
                 control={form.control}
@@ -141,10 +167,25 @@ export default function ArulosAgent() {
                           <SelectValue placeholder="Choisissez" />
                         </SelectTrigger>
                       </FormControl>
-                      <SelectContent>
-                        <SelectItem value="doleance">Doléance</SelectItem>
-                        <SelectItem value="plainte">Plainte</SelectItem>
-                        <SelectItem value="information">Information</SelectItem>
+                      <SelectContent className="bg-white w-full">
+                        <SelectItem
+                          value="doleance"
+                          className="cursor-pointer hover:bg-blue-950 hover:text-white"
+                        >
+                          Doléance
+                        </SelectItem>
+                        <SelectItem
+                          value="plainte"
+                          className="cursor-pointer hover:bg-blue-950 hover:text-white"
+                        >
+                          Plainte
+                        </SelectItem>
+                        <SelectItem
+                          value="information"
+                          className="cursor-pointer hover:bg-blue-950 hover:text-white"
+                        >
+                          Information
+                        </SelectItem>
                       </SelectContent>
                     </Select>
                     <FormMessage />
@@ -190,7 +231,10 @@ export default function ArulosAgent() {
                   <FormItem>
                     <FormLabel>Équipement</FormLabel>
                     <FormControl>
-                      <Input placeholder="Ex: Pompe, compteur, etc." {...field} />
+                      <Input
+                        placeholder="Ex: Pompe, compteur, etc."
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -210,10 +254,25 @@ export default function ArulosAgent() {
                           <SelectValue placeholder="Choisissez" />
                         </SelectTrigger>
                       </FormControl>
-                      <SelectContent>
-                        <SelectItem value="maintenance">Maintenance</SelectItem>
-                        <SelectItem value="service">Service Client</SelectItem>
-                        <SelectItem value="autre">Autre</SelectItem>
+                      <SelectContent className="bg-white w-full">
+                        <SelectItem
+                          value="reloge"
+                          className="cursor-pointer hover:bg-blue-950 hover:text-white"
+                        >
+                          Reloge
+                        </SelectItem>
+                        <SelectItem
+                          value="recul_de_facade"
+                          className="cursor-pointer hover:bg-blue-950 hover:text-white"
+                        >
+                          Recul de façade
+                        </SelectItem>
+                        <SelectItem
+                          value="information"
+                          className="cursor-pointer hover:bg-blue-950 hover:text-white"
+                        >
+                          Information
+                        </SelectItem>
                       </SelectContent>
                     </Select>
                     <FormMessage />
@@ -229,12 +288,34 @@ export default function ArulosAgent() {
                   <FormItem>
                     <FormLabel>Commentaire</FormLabel>
                     <FormControl>
-                      <Textarea placeholder="Décrivez votre doléance ou plainte..." {...field} />
+                      <Textarea
+                        placeholder="Décrivez votre doléance ou plainte..."
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
+              {/* Champ Nom Chef Chantier (affiché seulement si plainte) */}
+              {typeAppelValue === "plainte" && (
+                <FormField
+                  control={form.control}
+                  name="nomChefChantier"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Nom du chef de chantier</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Nom complet du chef de chantier"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              )}
 
               {/* Numéro facture */}
               <FormField
@@ -253,7 +334,10 @@ export default function ArulosAgent() {
 
               {/* Bouton */}
               <div className="flex gap-4 pt-4">
-                <Button type="submit" className="text-white flex-1 bg-slate-700 hover:bg-slate-800 text-lg py-6 font-semibold">
+                <Button
+                  type="submit"
+                  className="text-white flex-1 bg-slate-700 hover:bg-slate-800 text-lg py-6 font-semibold cursor-pointer"
+                >
                   Soumettre
                 </Button>
               </div>

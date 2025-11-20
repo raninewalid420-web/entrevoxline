@@ -14,3 +14,34 @@ export async function GetAllArulos() {
     console.error("Error fetching cartin:", error);
   }
 }
+
+export async function CreateArulos(Donnee, id) {
+  const apiUrl = `${API_BASE_URL}?method=EnregistreArulos&id=${id}`;
+  const payload = {
+    nom: Donnee.nom,
+    numero_telephone: Donnee.telephone,
+    numero_logement: Donnee.logement,
+    type: Donnee.typeAppel,
+    nom_projet: Donnee.projet,
+    quartier: Donnee.quartier,
+    equipement: Donnee.equipement,
+    affecterTotal: Donnee.affectation,
+    commentaire: Donnee.commentaire,
+    nomChefChantier: Donnee.nomChefChantier,
+    numero_facture: Donnee.facture,
+  };
+
+  try {
+    const res = await fetch(apiUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+    if (!res.ok) throw new Error("Erreur réseau détectée");
+    const data = await res.json();
+    return data;
+  } catch (error) {
+    console.error("Erreur lors de la création du cartin :", error);
+    throw error;
+  }
+}

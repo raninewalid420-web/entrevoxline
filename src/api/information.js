@@ -38,3 +38,17 @@ export async function Info_Create(Donnee, id) {
     throw error;
   }
 }
+
+ export async function CountInfo() {
+    const apiUrl = `${API_BASE_URL}?method=CountInfo`;
+    try {
+      const res = await fetch(apiUrl, {
+        method: "GET",
+      });
+      if (!res.ok) throw new Error("Erreur réseau détectée");
+      const data = await res.json();
+      return data;
+    } catch (error) {
+      console.error("Error fetching cartin:", error);
+    }
+  }

@@ -2,7 +2,7 @@ import React, { useState, useMemo } from "react";
 import { KPICard } from "./KPICard";
 import { FilterBar } from "./FilterBar";
 import { Charts } from "./Charts";
-import { mockData } from "./data";
+import { Mass } from "./data";
 
 export const DashboardClient = () => {
   const [filters, setFilters] = useState({ project: "", region: "", month: "" });
@@ -11,7 +11,7 @@ export const DashboardClient = () => {
 
   // Filtrage dynamique
   const filteredMass = useMemo(() => {
-    return mockData.mass.filter(item => {
+    return Mass.filter(item => {
       return (!filters.project || item.project === filters.project) &&
              (!filters.region || item.region === filters.region) &&
              (!filters.month || item.date.startsWith(filters.month));

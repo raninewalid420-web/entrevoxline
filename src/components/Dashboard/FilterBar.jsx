@@ -15,7 +15,7 @@ export const FilterBar = ({ filters, onChange }) => (
       </SelectContent>
     </Select>
 
-    <Select onValueChange={(value) => onChange("region", value)}>
+    {/* <Select onValueChange={(value) => onChange("region", value)}>
       <SelectTrigger className="w-40">
         <SelectValue placeholder="Région" />
       </SelectTrigger>
@@ -24,7 +24,7 @@ export const FilterBar = ({ filters, onChange }) => (
           <SelectItem key={reg} value={reg}  className="cursor-pointer hover:bg-blue-950 hover:text-white">{reg}</SelectItem>
         ))}
       </SelectContent>
-    </Select>
+    </Select> */}
 
     <Input type="month" className="w-40" onChange={(e) => onChange("month", e.target.value)} />
   </div>

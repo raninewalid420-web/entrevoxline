@@ -44,4 +44,23 @@ export async function CreateArulos(Donnee, id) {
     console.error("Erreur lors de la création du cartin :", error);
     throw error;
   }
+
 }
+
+
+
+
+
+  export async function Countarulos() {
+    const apiUrl = `${API_BASE_URL}?method=Countarulos`;
+    try {
+      const res = await fetch(apiUrl, {
+        method: "GET",
+      });
+      if (!res.ok) throw new Error("Erreur réseau détectée");
+      const data = await res.json();
+      return data;
+    } catch (error) {
+      console.error("Error fetching cartin:", error);
+    }
+  }

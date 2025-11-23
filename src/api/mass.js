@@ -404,3 +404,16 @@ export async function Mass_LastNumero() {
     console.error("Error fetching last mass numero:", error);
   }
 }
+export async function CountMass(Donnee, id) {
+  const apiUrl = `${API_BASE_URL}?method=CountMass`;
+  try {
+      const res = await fetch(apiUrl, {
+        method: "GET",
+      });
+      if (!res.ok) throw new Error("Erreur réseau détectée");
+      const data = await res.json();
+      return data;
+    } catch (error) {
+      console.error("Error fetching cartin:", error);
+    }
+}

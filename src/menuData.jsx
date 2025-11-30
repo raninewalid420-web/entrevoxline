@@ -47,15 +47,10 @@ export const menuData = [
           { path: "/masse/PirbData", label: "PIRB" },
           { path: "/masse/PsData", label: "PS" },
           { path: "/masse/HsData", label: "Hors Projet" },
-         
+
         ],
       },
-    ],
-  },
-   {
-   
-    items: [
-    {
+      {
         path: "/adr",
         label: "ADR",
         icon: <FolderKanban className="w-4 h-4 opacity-70" />,
@@ -65,7 +60,7 @@ export const menuData = [
         label: "Cartin",
         icon: <FolderKanban className="w-4 h-4 opacity-70" />,
       },
-       
+
       {
         path: "/recherche",
         label: "Recherche",
@@ -76,7 +71,7 @@ export const menuData = [
         label: "Arulos",
         icon: <FolderKanban className="w-4 h-4 opacity-70" />,
       },
-       {
+      {
         path: "/DPCR",
         label: "DPCR",
         icon: <Database className="w-4 h-4 opacity-70" />,
@@ -96,10 +91,8 @@ export const menuData = [
         label: "Information",
         icon: <FileText className="w-4 h-4 opacity-70" />,
       },
-         
     ],
   },
-
   {
     title: "Ligne EAB",
     items: [
@@ -108,7 +101,18 @@ export const menuData = [
         label: "EAB Bank",
         icon: <Database className="w-4 h-4 opacity-70" />,
       },
-     
+
+    ],
+  },
+  {
+    title: "Ligne Djibouti Telecom",
+    items: [
+      {
+        path: "/Djib-tel",
+        label: "Djibouti Telecom",
+        icon: <Database className="w-4 h-4 opacity-70" />,
+      },
+
     ],
   },
 ];

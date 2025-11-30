@@ -33,7 +33,7 @@ const ColisNontrouverData = lazy(() =>
 );
 const PurcsaData = lazy(() => import("./superviseur/purcsa"));
 const AGR = lazy(() => import("./superviseur/agr"));
-const { DPCR } = lazy(() => import("./superviseur/dpcr"));
+const  DPCR  = lazy(() => import("./superviseur/dpcr"));
 const Aseri = lazy(() => import("./superviseur/aseri"));
 const Crec = lazy(() => import("./superviseur/crec"));
 const EABData = lazy(() => import("./superviseur/eabmasse"));

@@ -10,7 +10,7 @@ import {
 
 export const menuData = [
   {
-    title: "Navigation",
+    title: "Gestion Des Utilisateurs Et Agents",
     items: [
       {
         path: "/dashboard",
@@ -22,11 +22,16 @@ export const menuData = [
         label: "Liste des agents",
         icon: <Users className="w-4 h-4" />,
       },
+      {
+        path: "/affectation-ligne",
+        label: "AffectationLigne",
+        icon: <Users className="w-4 h-4" />,
+      },
     ],
   },
 
   {
-    title: "Masse",
+    title: "Ligne 2020",
     items: [
       {
         label: "Masse",
@@ -42,15 +47,15 @@ export const menuData = [
           { path: "/masse/PirbData", label: "PIRB" },
           { path: "/masse/PsData", label: "PS" },
           { path: "/masse/HsData", label: "Hors Projet" },
+         
         ],
       },
     ],
   },
-
-  {
-    title: "Autres",
+   {
+   
     items: [
-      {
+    {
         path: "/adr",
         label: "ADR",
         icon: <FolderKanban className="w-4 h-4 opacity-70" />,
@@ -60,6 +65,7 @@ export const menuData = [
         label: "Cartin",
         icon: <FolderKanban className="w-4 h-4 opacity-70" />,
       },
+       
       {
         path: "/recherche",
         label: "Recherche",
@@ -70,12 +76,7 @@ export const menuData = [
         label: "Arulos",
         icon: <FolderKanban className="w-4 h-4 opacity-70" />,
       },
-      {
-        path: "/EAB",
-        label: "EAB Bank",
-        icon: <Database className="w-4 h-4 opacity-70" />,
-      },
-      {
+       {
         path: "/DPCR",
         label: "DPCR",
         icon: <Database className="w-4 h-4 opacity-70" />,
@@ -95,6 +96,19 @@ export const menuData = [
         label: "Information",
         icon: <FileText className="w-4 h-4 opacity-70" />,
       },
+         
+    ],
+  },
+
+  {
+    title: "Ligne EAB",
+    items: [
+      {
+        path: "/EAB",
+        label: "EAB Bank",
+        icon: <Database className="w-4 h-4 opacity-70" />,
+      },
+     
     ],
   },
 ];

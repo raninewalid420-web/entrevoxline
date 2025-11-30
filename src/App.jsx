@@ -23,6 +23,8 @@ const Recherche = lazy(() => import("./superviseur/recherche"));
 const Arulos = lazy(() => import("./superviseur/arulos"));
 const EAB = lazy(() => import("./superviseur/EAB"));
 const InformationData = lazy(() => import("./superviseur/information"));
+const AffectationLigne = lazy(() => import("./superviseur/affectation_ligne"));
+
 const CommandeannulerData = lazy(() =>
   import("./superviseur/annulationcommande")
 );
@@ -69,6 +71,7 @@ const MassAgent = lazy(() => import("./Agent/massagent"));
 import { menuData, menuDataforagents, menuDataforClientMass } from "./menuData";
 import { Dashboard } from "./components/Dashboard/Dashboard";
 import { DashboardClient } from "./components/Dashboard/DashboardClient";
+import FormDPCR from "./Agent/dpcrAgent";
 
 
 export default function App() {
@@ -109,6 +112,8 @@ export default function App() {
                 <Route path="/EAB" element={<EAB />} />
                 <Route path="/DPCR" element={<DPCR />} />
                 <Route path="/InformationData" element={<InformationData />} />
+                <Route path="/affectation-ligne" element={<AffectationLigne />} />
+
                 <Route
                   path="/CommandeannulerData"
                   element={<CommandeannulerData />}
@@ -142,7 +147,7 @@ export default function App() {
                 <Route path="/Agents/recherche" element={<Recherche />} />
                 <Route path="/Agents/Arulos" element={<ArulosForm />} />
                 <Route path="/Agents/EAB" element={<EABAgent/>} />
-                <Route path="/Agents/DPCR" element={<DPCRForm />} />
+                <Route path="/Agents/DPCR" element={<FormDPCR />} />
                 <Route path="/Agents/InformationData" element={<InformationAgent />} />
                 <Route path="/Agents/commandeannulerData" element={<AnnulationCommande />} />
 

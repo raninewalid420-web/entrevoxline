@@ -97,7 +97,7 @@ export default function AnnulationCommande() {
                   <FormItem>
                     <FormLabel>Nom du client</FormLabel>
                     <FormControl>
-                      <Input placeholder="Ex : Mohamed Walid" {...field} />
+                      <Input placeholder="Ex : Ranine Walid" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

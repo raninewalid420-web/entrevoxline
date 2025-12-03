@@ -63,7 +63,7 @@ export default function EAB() {
                 </p>
               </div>
             ) : (
-              <DataTable columns={EABcolumns} data={safeData} />
+              <DataTable columns={EABcolumns} data={safeData} TypeFilter="nom_client" />
             )}
           </div>
         </div>

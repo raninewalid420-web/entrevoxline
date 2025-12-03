@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Dialog,
   DialogContent,
@@ -7,10 +7,11 @@ import {
 } from "@/components/ui/dialog";
 import { Loader2 } from "lucide-react";
 import centreAppel from "./images/centre appel.avif";
-import loginImage from "./images/login-side.jpg";
 import { useNavigate } from "react-router-dom";
 import { Button } from "./components/ui/button";
 import { useAuth } from "./context/AuthContext";
+import useAsync from "./hooks/useAsync";
+import { AfficherAffecter } from "./api/affectation";
 
 export default function Accueil() {
   const [open, setOpen] = useState(false);
@@ -18,8 +19,20 @@ export default function Accueil() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+
   const navigate = useNavigate();
   const { login } = useAuth();
+
+  const {
+    data: AfficherData,
+    loading: AfficherLoading,
+    execute: AfficherExecute,
+  } = useAsync(AfficherAffecter, []);
+
+  // Charger les affectations dès que la page se charge
+  useEffect(() => {
+    AfficherExecute();
+  }, [AfficherExecute]);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -29,20 +42,59 @@ export default function Accueil() {
     try {
       const user = await login(email, password);
 
-      // Redirection selon le rôle
-      const redirectByRole = {
-        superAdmin: "/dashboard",
-        admin: "/dashboard",
-        chefCentre: "/dashboard",
-        agents: "/Agents/mass",
-        clients: "/Client/Dashboard",
-      };
-      navigate(redirectByRole[user.role] || "/dashboard");
+      if (user.role === "agents") {
+        // On redirige après que les données soient chargées
+        if (AfficherLoading || !AfficherData) return;
+        redirectAgent(AfficherData, user.id);
+      } else {
+        const redirectByRole = {
+          superAdmin: "/dashboard",
+          admin: "/dashboard",
+          chefCentre: "/dashboard",
+          clients: "/Client/dashboard",
+        };
+        navigate(redirectByRole[user.role] || "/dashboard");
+      }
+
       setOpen(false);
     } catch (err) {
       setError(err.message || "Erreur de connexion");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const redirectAgent = (data, userId) => {
+    if (!data?.length) {
+      alert("Erreur : aucune affectation disponible !");
+      return;
+    }
+
+    const uid = Number(userId); // conversion sûre
+
+    const affectation = data.find((item) => Number(item.id_user) === uid);
+
+    // console.log("Affectation trouvée :", affectation, "userId:", uid);
+
+    if (!affectation) {
+      alert("Erreur : aucune affectation trouvée pour cet agent !");
+      return;
+    }
+
+    const ligne = affectation.type_ligne?.toLowerCase().trim();
+
+    switch (ligne) {
+      case "ligne_2020":
+        navigate("/Agents/mass");
+        break;
+      case "ligne_eab":
+        navigate("/Agents/EAB");
+        break;
+      case "ligne_djib_tel":
+        navigate("/Agents/djibouti-tel");
+        break;
+      default:
+        alert(`Type ligne inconnu: ${ligne}`);
     }
   };
 
@@ -84,75 +136,66 @@ export default function Accueil() {
       {/* ---- Dialog ---- */}
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="sm:max-w-lg p-0 overflow-hidden rounded-2xl shadow-2xl border-0">
-          <div className="w-full">
-            {/* <div
-              className="hidden md:block bg-cover bg-center"
-              style={{
-                backgroundImage: `url(${loginImage})`,
-              }}
-            ></div> */}
+          <div className="bg-white p-8 md:p-10 flex flex-col justify-center">
+            <DialogHeader className="mb-6">
+              <DialogTitle className="text-3xl font-bold text-[#0B1F3A] text-center">
+                Connexion
+              </DialogTitle>
+              <p className="text-gray-500 text-center mt-1 text-sm">
+                Connectez-vous à votre espace de gestion
+              </p>
+            </DialogHeader>
 
-            <div className="bg-white p-8 md:p-10 flex flex-col justify-center">
-              <DialogHeader className="mb-6">
-                <DialogTitle className="text-3xl font-bold text-[#0B1F3A] text-center">
-                  Connexion
-                </DialogTitle>
-                <p className="text-gray-500 text-center mt-1 text-sm">
-                  Connectez-vous à votre espace de gestion
+            <form onSubmit={handleLogin} className="space-y-5">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Email
+                </label>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="exemple@domaine.com"
+                  required
+                  className="w-full border rounded-md px-3 py-2 focus:ring-2 focus:ring-[#0B1F3A] outline-none"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Mot de passe
+                </label>
+                <input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="••••••••"
+                  required
+                  className="w-full border rounded-md px-3 py-2 focus:ring-2 focus:ring-[#0B1F3A] outline-none"
+                />
+              </div>
+
+              {error && (
+                <p className="text-red-600 text-sm font-medium text-center">
+                  {error}
                 </p>
-              </DialogHeader>
+              )}
 
-              <form onSubmit={handleLogin} className="space-y-5">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Email
-                  </label>
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="exemple@domaine.com"
-                    required
-                    className="w-full border rounded-md px-3 py-2 focus:ring-2 focus:ring-[#0B1F3A] outline-none"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Mot de passe
-                  </label>
-                  <input
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    placeholder="••••••••"
-                    required
-                    className="w-full border rounded-md px-3 py-2 focus:ring-2 focus:ring-[#0B1F3A] outline-none"
-                  />
-                </div>
-
-                {error && (
-                  <p className="text-red-600 text-sm font-medium text-center">
-                    {error}
-                  </p>
+              <Button
+                type="submit"
+                disabled={loading}
+                className="w-full bg-[#0B1F3A] hover:bg-[#142f63] cursor-pointer text-white font-medium px-4 py-2 rounded-md shadow-md flex items-center justify-center gap-2"
+              >
+                {loading ? (
+                  <>
+                    <Loader2 className="animate-spin h-5 w-5" />
+                    Connexion...
+                  </>
+                ) : (
+                  "Se connecter"
                 )}
-
-                <Button
-                  type="submit"
-                  disabled={loading}
-                  className="w-full bg-[#0B1F3A] hover:bg-[#142f63] cursor-pointer text-white font-medium px-4 py-2 rounded-md shadow-md flex items-center justify-center gap-2"
-                >
-                  {loading ? (
-                    <>
-                      <Loader2 className="animate-spin h-5 w-5" />
-                      Connexion...
-                    </>
-                  ) : (
-                    "Se connecter"
-                  )}
-                </Button>
-              </form>
-            </div>
+              </Button>
+            </form>
           </div>
         </DialogContent>
       </Dialog>

@@ -42,7 +42,7 @@ export default function Crec() {
             </p>
           </div>
           <div className="p-6">
-            <DataTable columns={columnscrec} data={data || []} />
+            <DataTable columns={columnscrec} data={data || []} TypeFilter="nom" />
           </div>
         </div>
       </div>

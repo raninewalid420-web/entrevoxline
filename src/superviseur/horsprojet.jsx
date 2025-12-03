@@ -72,7 +72,7 @@ export default function HsData() {
                 </p>
               </div>
             ) : (
-              <DataTable columns={columnsHorsProjet} data={safeData} />
+              <DataTable columns={columnsHorsProjet} data={safeData} TypeFilter="nom" />
             )}
           </div>
         </div>

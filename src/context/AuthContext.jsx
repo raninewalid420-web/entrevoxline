@@ -11,27 +11,27 @@ export const AuthProvider = ({ children }) => {
 
   // ✅ Vérifie la session à chaque refresh
   useEffect(() => {
-    console.log("🟢 AuthContext mounted — vérification de session...");
+    // console.log("🟢 AuthContext mounted — vérification de session...");
 
     const verifySession = async () => {
       try {
-        console.log("📡 Appel de checkAuth...");
+        // console.log("📡 Appel de checkAuth...");
         const data = await checkAuth();
-        console.log("✅ Réponse checkAuth:", data);
+        // console.log("✅ Réponse checkAuth:", data);
 
         if (data.auth && data.user) {
           setUser(data.user);
-          console.log("👤 Session vérifiée avec succès:", data.user);
+          // console.log("👤 Session vérifiée avec succès:", data.user);
         } else {
-          console.log("⚠️ Session invalide ou expirée");
+          // console.log("⚠️ Session invalide ou expirée");
           setUser(null);
         }
       } catch (error) {
-        console.error("🚨 Erreur de vérification:", error);
+        // console.error("🚨 Erreur de vérification:", error);
         setUser(null);
       } finally {
         setLoading(false);
-        console.log("⏳ Vérification terminée");
+        // console.log("⏳ Vérification terminée");
       }
     };
 

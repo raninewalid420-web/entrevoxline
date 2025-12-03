@@ -41,7 +41,7 @@ export default function PurcsaData() {
             </p>
           </div>
           <div className="p-6">
-            <DataTable columns={columnPurcsa} data={data || []} />
+            <DataTable columns={columnPurcsa} data={data || []} TypeFilter="nom" />
           </div>
         </div>
       </div>

@@ -33,7 +33,7 @@ export default function InformationData() {
             </h2>
           </div>
           <div className="p-6">
-            <DataTable columns={columnsInformation} data={safeData} />
+            <DataTable columns={columnsInformation} data={safeData} TypeFilter="nom" />
           </div>
         </div>
       </div>

@@ -38,7 +38,7 @@ export default function Arulos() {
             </p>
           </div>
           <div className="p-6">
-            <DataTable columns={Aruloscolumns} data={safeData} />
+            <DataTable columns={Aruloscolumns} data={safeData} TypeFilter="nom" />
           </div>
         </div>
       </div>

@@ -64,7 +64,7 @@ export default function CartinData() {
                 </p>
               </div>
             ) : (
-              <DataTable columns={columncartin} data={safeData} />
+              <DataTable columns={columncartin} data={safeData} TypeFilter="nom" />
             )}
           </div>
         </div>

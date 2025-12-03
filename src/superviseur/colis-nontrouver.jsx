@@ -33,7 +33,7 @@ export default function ColisNontrouverData() {
             </h2>
           </div>
           <div className="p-6">
-            <DataTable columns={columnsColisNonTrouver} data={safeData} />
+            <DataTable columns={columnsColisNonTrouver} data={safeData} TypeFilter="nom" />
           </div>
         </div>
       </div>

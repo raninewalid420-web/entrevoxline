@@ -40,7 +40,7 @@ export default function AGR() {
             </p>
           </div>
           <div className="p-6">
-            <DataTable columns={columnsagr} data={data || []} />
+            <DataTable columns={columnsagr} data={data || []} TypeFilter="nom" />
           </div>
         </div>
       </div>

@@ -33,7 +33,7 @@ export default function CommandeannulerData() {
             </h2>
           </div>
           <div className="p-6">
-            <DataTable columns={columnsCommandAnnuler} data={safeData} />
+            <DataTable columns={columnsCommandAnnuler} data={safeData} TypeFilter="nom_client" />
           </div>
         </div>
       </div>

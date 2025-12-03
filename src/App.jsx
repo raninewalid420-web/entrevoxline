@@ -1,21 +1,15 @@
 import "./App.css";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Layout from "./layouts/DashboardLayout";
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { Suspense, lazy } from "react";
 import CatchAllRedirect from "./components/CatchAllRedirect";
 
-
-// 🌐 Page publique
+// Pages publiques
 const Accueil = lazy(() => import("./Accueil"));
 
-// Superviseur/Admin/SuperAdmin pages
+// Superviseur/Admin/SuperAdmin
 const Adr = lazy(() => import("./superviseur/adr"));
 const Agents = lazy(() => import("./superviseur/agents"));
 const CartinData = lazy(() => import("./superviseur/cartin"));
@@ -24,16 +18,16 @@ const Arulos = lazy(() => import("./superviseur/arulos"));
 const EAB = lazy(() => import("./superviseur/EAB"));
 const InformationData = lazy(() => import("./superviseur/information"));
 const AffectationLigne = lazy(() => import("./superviseur/affectation_ligne"));
-
 const CommandeannulerData = lazy(() =>
   import("./superviseur/annulationcommande")
 );
 const ColisNontrouverData = lazy(() =>
   import("./superviseur/colis-nontrouver")
 );
+
+// Masse
 const PurcsaData = lazy(() => import("./superviseur/purcsa"));
 const AGR = lazy(() => import("./superviseur/agr"));
-const  DPCR  = lazy(() => import("./superviseur/dpcr"));
 const Aseri = lazy(() => import("./superviseur/aseri"));
 const Crec = lazy(() => import("./superviseur/crec"));
 const EABData = lazy(() => import("./superviseur/eabmasse"));
@@ -43,7 +37,7 @@ const PirbData = lazy(() => import("./superviseur/pirb"));
 const PsData = lazy(() => import("./superviseur/ps"));
 const HsData = lazy(() => import("./superviseur/horsprojet"));
 
-// ClientMass pages
+// Clients Mass
 const AgrClient = lazy(() => import("./ClientMass/Agr"));
 const PurcsaClient = lazy(() => import("./ClientMass/Purcsa"));
 const FreshFood = lazy(() => import("./ClientMass/FreshFood"));
@@ -54,25 +48,14 @@ const Pirb = lazy(() => import("./ClientMass/Pirb"));
 const Crecs = lazy(() => import("./ClientMass/Crec"));
 const Aseris = lazy(() => import("./ClientMass/Aseri"));
 const Rapport = lazy(() => import("./ClientMass/Rapport"));
+const SupDpcr = lazy(() => import("./superviseur/dpcr"));
 
-//Agents pages 
+// Menu
+import { menuData, menuDataforClientMass } from "./menuData";
 
-const AdrForm = lazy(() => import("./Agent/AdrAgent"));
-const DPCRForm = lazy(() => import("./Agent/dpcrAgent"));
-const EABAgent = lazy(() => import("./Agent/eabAgent"));
-const ArulosForm = lazy(() => import("./Agent/arulosAgent"));
-const Cartinagent = lazy(() => import("./Agent/cartinAgent"));
-const AnnulationCommande = lazy(() => import("./Agent/annulationAgent"));
-const  InformationAgent = lazy(() => import("./Agent/inforAgent"));
-const MassAgent = lazy(() => import("./Agent/massagent"));
-
-
-// Menu data
-import { menuData, menuDataforagents, menuDataforClientMass } from "./menuData";
 import { Dashboard } from "./components/Dashboard/Dashboard";
 import { DashboardClient } from "./components/Dashboard/DashboardClient";
-import FormDPCR from "./Agent/dpcrAgent";
-
+import AgentsWrapper from "./components/AgentsWrapper";
 
 export default function App() {
   return (
@@ -86,10 +69,10 @@ export default function App() {
           }
         >
           <Routes>
-            {/* 🌐 Page publique */}
+            {/* Page publique */}
             <Route path="/" element={<Accueil />} />
 
-            {/* 🔒 Routes Superviseur / Admin / SuperAdmin */}
+            {/* Superviseur/Admin */}
             <Route
               element={
                 <ProtectedRoute
@@ -98,95 +81,64 @@ export default function App() {
               }
             >
               <Route element={<Layout menuItems={menuData} />}>
-                <Route
-                  path="/dashboard"
-                  element={
-                    <Dashboard />
-                  }
-                />
+                <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/adr" element={<Adr />} />
                 <Route path="/agents" element={<Agents />} />
                 <Route path="/cartin" element={<CartinData />} />
                 <Route path="/recherche" element={<Recherche />} />
-                <Route path="/Arulos" element={<Arulos />} />
-                <Route path="/EAB" element={<EAB />} />
-                <Route path="/DPCR" element={<DPCR />} />
+                <Route path="/arulos" element={<Arulos />} />
+                <Route path="/eab" element={<EAB />} />
+                <Route path="/dpcr" element={<SupDpcr />} />
                 <Route path="/InformationData" element={<InformationData />} />
-                <Route path="/affectation-ligne" element={<AffectationLigne />} />
-
                 <Route
-                  path="/CommandeannulerData"
+                  path="/affectation-ligne"
+                  element={<AffectationLigne />}
+                />
+                <Route
+                  path="/commandeannulerData"
                   element={<CommandeannulerData />}
                 />
                 <Route
                   path="/ColisNontrouverData"
                   element={<ColisNontrouverData />}
                 />
-
-                {/* Section Masse */}
-                <Route path="/masse/PurcsaData" element={<PurcsaData />} />
-                <Route path="/masse/AGR" element={<AGR />} />
-                <Route path="/masse/Aseri" element={<Aseri />} />
-                <Route path="/masse/Crec" element={<Crec />} />
-                <Route path="/masse/EABData" element={<EABData />} />
-                <Route path="/masse/FreeshData" element={<FreeshData />} />
-                <Route path="/masse/PassData" element={<PassData />} />
-                <Route path="/masse/PirbData" element={<PirbData />} />
-                <Route path="/masse/PsData" element={<PsData />} />
-                <Route path="/masse/HsData" element={<HsData />} />
+                <Route path="/masse/purcsa" element={<PurcsaData />} />
+                <Route path="/masse/agr" element={<AGR />} />
+                <Route path="/masse/aseri" element={<Aseri />} />
+                <Route path="/masse/crec" element={<Crec />} />
+                <Route path="/masse/eab" element={<EABData />} />
+                <Route path="/masse/freesh" element={<FreeshData />} />
+                <Route path="/masse/pass" element={<PassData />} />
+                <Route path="/masse/pirb" element={<PirbData />} />
+                <Route path="/masse/ps" element={<PsData />} />
+                <Route path="/masse/hs" element={<HsData />} />
+                <Route path="/Djib-tel" element={<h1>Djibouti Télécom</h1>} />
               </Route>
             </Route>
 
-            {/* 🔒 Routes Agents */}
-
+            {/* Agents */}
             <Route element={<ProtectedRoute allowedRoles={["agents"]} />}>
-              <Route element={<Layout role="agents" menuItems={menuDataforagents} />}>
-                <Route path="/Agents/adr" element={<AdrForm />} />
-                <Route path="/Agents/mass" element={<MassAgent />} />
-                <Route path="/Agents/cartin" element={<Cartinagent />} />
-                <Route path="/Agents/recherche" element={<Recherche />} />
-                <Route path="/Agents/Arulos" element={<ArulosForm />} />
-                <Route path="/Agents/EAB" element={<EABAgent/>} />
-                <Route path="/Agents/DPCR" element={<FormDPCR />} />
-                <Route path="/Agents/InformationData" element={<InformationAgent />} />
-                <Route path="/Agents/commandeannulerData" element={<AnnulationCommande />} />
-
-              </Route>
+              <Route path="/Agents/*" element={<AgentsWrapper />} />
             </Route>
 
-            {/* 🔒 Routes Client Mass */}
+            {/* Clients */}
             <Route element={<ProtectedRoute allowedRoles={["clients"]} />}>
               <Route element={<Layout menuItems={menuDataforClientMass} />}>
-                <Route path="/Client/Dashboard" element={<DashboardClient />} />
-                <Route path="/Client/Purcsa" element={<PurcsaClient />} />
-                <Route path="/Client/Agr" element={<AgrClient />} />
-                <Route path="/Client/Aseri" element={<Aseris />} />
-                <Route path="/Client/FreshFood" element={<FreshFood />} />
-                <Route path="/Client/Ps" element={<Ps />} />
-                <Route path="/Client/Eaps" element={<Eaps />} />
-                <Route path="/Client/Pass" element={<Pass />} />
-                <Route path="/Client/Pirb" element={<Pirb />} />
-                <Route path="/Client/Crec" element={<Crecs />} />
-                <Route path="/Client/Rapport" element={<Rapport />} />
-              </Route>
-            </Route>
-            {/* 🔒 Routes Agents */}
-            <Route element={<ProtectedRoute allowedRoles={["Agents"]} />}>
-              <Route element={<Layout role="Agents" menuItems={menuDataforClientMass} />}>
-                {/* <Route path="/Agents/Adr" element={<AdrForm />} /> */}
-                <Route path="/Agents/Agr" element={<AgrClient />} />
-                <Route path="/Agents/Aseri" element={<Aseris />} />
-                <Route path="/Agents/FreshFood" element={<FreshFood />} />
-                <Route path="/Agents/Ps" element={<Ps />} />
-                <Route path="/Agents/Eaps" element={<Eaps />} />
-                <Route path="/Agents/Pass" element={<Pass />} />
-                <Route path="/Agents/Pirb" element={<Pirb />} />
-                <Route path="/Agents/Crec" element={<Crecs />} />
-                <Route path="/Agents/Rapport" element={<Rapport />} />
+                <Route path="/Client/dashboard" element={<DashboardClient />} />
+                <Route path="/Client/purcsa" element={<PurcsaClient />} />
+                <Route path="/Client/agr" element={<AgrClient />} />
+                <Route path="/Client/aseri" element={<Aseris />} />
+                <Route path="/Client/freshfood" element={<FreshFood />} />
+                <Route path="/Client/ps" element={<Ps />} />
+                <Route path="/Client/eaps" element={<Eaps />} />
+                <Route path="/Client/pass" element={<Pass />} />
+                <Route path="/Client/pirb" element={<Pirb />} />
+                <Route path="/Client/crec" element={<Crecs />} />
+                <Route path="/Client/rapport" element={<Rapport />} />
               </Route>
             </Route>
 
-            {/* ❌ Route non trouvée */}
+            {/* 404 */}
             <Route path="*" element={<CatchAllRedirect />} />
           </Routes>
         </Suspense>

@@ -14,13 +14,22 @@ import { CountColisNoFound } from "../../api/coli_non_found";
 import { CountInfo } from "../../api/information";
 import { CountEab } from "../../api/eab";
 import { CountMass } from "../../api/mass";
-import { Mass } from "./data";
+import { GetMass } from "../../api/data";
 
 export const Dashboard = () => {
   const [filters, setFilters] = useState({
     project: "",
     month: "",
   });
+
+  // Mass
+  const { data, loading, execute } = useAsync(GetMass, []);
+
+  useEffect(() => {
+    execute();
+  }, [execute]);
+
+  const Mass = Array.isArray(data) ? data : [];
 
   const handleFilterChange = (key, value) =>
     setFilters((prev) => ({ ...prev, [key]: value }));
@@ -35,7 +44,7 @@ export const Dashboard = () => {
         (!filters.month || item.date.startsWith(filters.month))
       );
     });
-  }, [filters]);
+  }, [filters, Mass]); // <-- Correction importante
 
   // ---------------------------
   // 2️⃣ Prépare les graphiques
@@ -56,7 +65,7 @@ export const Dashboard = () => {
   ).map(([name, value]) => ({ name, value }));
 
   // -----------------------------------
-  // 3️⃣ Tableau dynamique des APIs
+  // 3️⃣ Liste des APIs dynamiques
   // -----------------------------------
   const apiList = [
     { key: "adr", fn: countAdrCases },
@@ -70,28 +79,34 @@ export const Dashboard = () => {
   ];
 
   // -----------------------------------
-  // 4️⃣ Génère dynamiquement les hooks
+  // 4️⃣ Hooks générés dynamiquement
   // -----------------------------------
   const hooks = apiList.map(({ fn }) => useAsync(fn, []));
 
   // -----------------------------------
-  // 5️⃣ Lance toutes les API au chargement
+  // 5️⃣ Lance toutes les API
   // -----------------------------------
   useEffect(() => {
     hooks.forEach((h) => h.execute());
-  }, []);
+  }, []); // ok
 
   // -----------------------------------
-  // 6️⃣ Stocke les résultats dans un objet clean
+  // 6️⃣ Résultat des APIs
   // -----------------------------------
   const results = Object.fromEntries(
     apiList.map((api, i) => [api.key, hooks[i].data])
   );
 
   // -----------------------------------
-  // 7️⃣ Loader si toutes les data ne sont pas encore arrivées
+  // 7️⃣ Loader global
   // -----------------------------------
-  if (Object.values(results).some((v) => !v)) {
+  const isLoadingAPIs =
+    loading || hooks.some((h) => h.loading);
+
+  const isMissingData =
+    Object.values(results).some((v) => !v);
+
+  if (isLoadingAPIs || isMissingData) {
     return <div className="text-center p-6">Chargement...</div>;
   }
 
@@ -124,42 +139,42 @@ export const Dashboard = () => {
       <div className="flex gap-4 flex-wrap">
         <KPICard
           title="Mass"
-          value={results.mass[0].total}
+          value={results.mass?.[0]?.total ?? 0}
           description="Total plaintes Mass"
         />
         <KPICard
           title="ADR"
-          value={results.adr[0].total}
+          value={results.adr?.[0]?.total ?? 0}
           description="Total ADR"
         />
         <KPICard
           title="Cartin"
-          value={results.cartin[0].total}
+          value={results.cartin?.[0]?.total ?? 0}
           description="Total Cartin"
         />
         <KPICard
           title="Arulos"
-          value={results.arulos[0].total}
+          value={results.arulos?.[0]?.total ?? 0}
           description="Total Arulos"
         />
         <KPICard
           title="EAB"
-          value={results.eab[0].total}
+          value={results.eab?.[0]?.total ?? 0}
           description="Total EAB"
         />
         <KPICard
           title="Cancel Orders"
-          value={results.cancel[0].total}
+          value={results.cancel?.[0]?.total ?? 0}
           description="Total commandes annulées"
         />
         <KPICard
           title="Colis Not Found"
-          value={results.colis[0].total}
+          value={results.colis?.[0]?.total ?? 0}
           description="Colis non trouvés"
         />
         <KPICard
           title="Information"
-          value={results.info[0].total}
+          value={results.info?.[0]?.total ?? 0}
           description="Informations reçues"
         />
       </div>

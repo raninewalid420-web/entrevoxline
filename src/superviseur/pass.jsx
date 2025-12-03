@@ -69,7 +69,7 @@ export default function PassData() {
                 </p>
               </div>
             ) : (
-              <DataTable columns={columnsPass} data={safeData} />
+              <DataTable columns={columnsPass} data={safeData} TypeFilter="nom" />
             )}
           </div>
         </div>

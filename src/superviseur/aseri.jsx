@@ -42,7 +42,7 @@ export default function Aseri() {
             </p>
           </div>
           <div className="p-6">
-            <DataTable columns={columnsaseri} data={data || []} />
+            <DataTable columns={columnsaseri} data={data || []} TypeFilter="nom" />
           </div>
         </div>
       </div>

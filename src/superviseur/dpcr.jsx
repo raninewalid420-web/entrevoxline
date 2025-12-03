@@ -1,57 +1,21 @@
-import { columnDPCR } from "../components/dataTables/columndpcr"
-import { Input } from "../components/ui/input";
-import { Button } from "../components/ui/button";
+import { useEffect } from "react";
+import { DpcrShow } from "../api/dpcr";
+import { columnDPCR } from "../components/dataTables/columndpcr";
 import { DataTable } from "../components/dataTables/data-table";
+import useAsync from "../hooks/useAsync";
 
-const datadpcr = [
-  {
-    idAppel: "AP-018",
-    usager: "Conducteur",
-    plaignant: "nadira test",
-    contact: "777777777",
-    typeRequete: "Incident / Urgence",
-    description: "elle a fais une accident contre d'autre voiture",
-    region: "Djibouti-ville",
-    ville: "Balbala",
-    route: "RN1",
-    date: "2025-10-20 19:39:00",
-    gravite: "Urgent",
-    piecesJointes: [],
-  },
-  {
-    idAppel: "AP-017",
-    usager: "Communauté riveraine",
-    plaignant: "zakaria",
-    contact: "77010204",
-    typeRequete: "Incident / Urgence",
-    description: "test",
-    region: "Djibouti-ville",
-    ville: "Balbala",
-    route: "RN1",
-    date: "2025-10-20 19:24:00",
-    gravite: "Très urgent",
-    piecesJointes: [],
-  },
-  {
-    idAppel: "AP-002",
-    usager: "Voyageur",
-    plaignant: "tesg",
-    contact: "77121445",
-    typeRequete: "Incident / Urgence",
-    description: "testtttttttttttttttttttttttttttttttttttttttttttttt",
-    region: "Djibouti-ville",
-    ville: "Boulaos",
-    route: "Route Industrielle",
-    date: "2025-10-20 17:26:00",
-    gravite: "Moyen",
-    piecesJointes: [],
-  },
-]
+export default function SupDpcr() {
+  const { data, error, loading, execute } = useAsync(DpcrShow, []);
 
-export function DPCR() {
+  useEffect(() => {
+    execute();
+  }, [execute]);
+  // Sécurise les données (évite les erreurs TanStack)
+  const safeData = Array.isArray(data) ? data : [];
+
   return (
     <div className="min-h-screen bg-slate-100 py-8 w-full">
-      <div className="w-[90%] mx-25">
+      <div className="w-[90%] mx-auto">
         {/* Header */}
         <div className="mb-6">
           <h1 className="text-3xl font-bold text-slate-800 mb-2">
@@ -64,19 +28,29 @@ export function DPCR() {
 
         {/* Tableau */}
         <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
-           <div className="bg-gradient-to-r from-slate-700 to-slate-800 px-6 py-5">
+          <div className="bg-gradient-to-r from-slate-700 to-slate-800 px-6 py-5">
             <h2 className="text-xl font-semibold text-white">
-              Registre des interventions ARULOS
+              Registre des interventions DPCR
             </h2>
             <p className="text-slate-300 text-sm mt-1">
               Liste complète des opérations enregistrées
             </p>
           </div>
-          <div className="p-6">
-            <DataTable columns={columnDPCR} data={datadpcr} />
-          </div>
+          {loading ? (
+            <div className="p-6 text-center text-blue-600 font-bold">
+              Chargement des données...
+            </div>
+          ) : error ? (
+            <div className="p-6 text-center text-red-600 font-bold">
+              Erreur lors du chargement des données : {error.message}
+            </div>
+          ) : (
+            <div className="p-6">
+              <DataTable columns={columnDPCR} data={safeData} TypeFilter="caller_name" />
+            </div>
+          )}
         </div>
       </div>
     </div>
-  )
+  );
 }

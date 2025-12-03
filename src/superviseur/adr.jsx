@@ -226,7 +226,7 @@ export default function Adr() {
               </h2>
             </div>
             <div className="bg-gradient-to-br from-red-50 to-orange-50 p-6 rounded-xl">
-              <DataTable columns={columnsSensibles} data={safeDataSensible} />
+              <DataTable columns={columnsSensibles} data={safeDataSensible} TypeFilter="Nom" />
             </div>
           </div>
         </TabsContent>
@@ -241,7 +241,7 @@ export default function Adr() {
               </h2>
             </div>
             <div className="bg-gradient-to-br from-blue-50 to-slate-50 p-6 rounded-xl">
-              <DataTable columns={columnormaux} data={safeDataNormale} />
+              <DataTable columns={columnormaux} data={safeDataNormale} TypeFilter="Nom" />
             </div>
           </div>
         </TabsContent>

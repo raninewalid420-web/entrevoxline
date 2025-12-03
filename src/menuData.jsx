@@ -47,7 +47,6 @@ export const menuData = [
           { path: "/masse/PirbData", label: "PIRB" },
           { path: "/masse/PsData", label: "PS" },
           { path: "/masse/HsData", label: "Hors Projet" },
-
         ],
       },
       {
@@ -72,7 +71,7 @@ export const menuData = [
         icon: <FolderKanban className="w-4 h-4 opacity-70" />,
       },
       {
-        path: "/DPCR",
+        path: "/dpcr",
         label: "DPCR",
         icon: <Database className="w-4 h-4 opacity-70" />,
       },
@@ -101,7 +100,6 @@ export const menuData = [
         label: "EAB Bank",
         icon: <Database className="w-4 h-4 opacity-70" />,
       },
-
     ],
   },
   {
@@ -112,14 +110,13 @@ export const menuData = [
         label: "Djibouti Telecom",
         icon: <Database className="w-4 h-4 opacity-70" />,
       },
-
     ],
   },
 ];
 
-export const menuDataforagents = [
+export const menuDataLigne2020 = [
   {
-    title: "Navigation",
+    title: "Ligne 2020",
     items: [
       {
         path: "/Agents/mass",
@@ -147,15 +144,10 @@ export const menuDataforagents = [
         icon: <FolderKanban className="w-4 h-4 opacity-70" />,
       },
       {
-        path: "/Agents/EAB",
-        label: "EAB Bank",
+        path: "/Agents/DPCR",
+        label: "DPCR",
         icon: <Database className="w-4 h-4 opacity-70" />,
       },
-      // {
-      //   path: "/Agents/DPCR",
-      //   label: "DPCR",
-      //   icon: <Database className="w-4 h-4 opacity-70" />,
-      // },
       {
         path: "/Agents/commandeannulerData",
         label: "Annulation commande",
@@ -165,6 +157,32 @@ export const menuDataforagents = [
         path: "/Agents/InformationData",
         label: "Information",
         icon: <FileText className="w-4 h-4 opacity-70" />,
+      },
+    ],
+  },
+];
+
+export const menuDataLigneEab = [
+  {
+    title: "Ligne EAB",
+    items: [
+      {
+        path: "/Agents/EAB",
+        label: "EAB Bank",
+        icon: <Database className="w-4 h-4 opacity-70" />,
+      },
+    ],
+  },
+];
+
+export const menuDataLigneDjiTelcom = [
+  {
+    title: "Ligne Djibouti Telecom",
+    items: [
+      {
+        path: "/Agents/Djibouti-Tel",
+        label: "Djibouti Telecom",
+        icon: <Database className="w-4 h-4 opacity-70" />,
       },
     ],
   },

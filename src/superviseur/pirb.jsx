@@ -70,7 +70,7 @@ export default function PirbData() {
                 </p>
               </div>
             ) : (
-              <DataTable columns={columnsPirb} data={safeData} />
+              <DataTable columns={columnsPirb} data={safeData} TypeFilter="nom" />
             )}
           </div>
         </div>

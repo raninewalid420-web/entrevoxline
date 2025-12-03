@@ -63,7 +63,7 @@ export default function Recherche() {
                 </p>
               </div>
             ) : (
-              <DataTable columns={columns} data={safeData} />
+              <DataTable columns={columns} data={safeData} TypeFilter="Nom" />
             )}
           </div>
         </div>

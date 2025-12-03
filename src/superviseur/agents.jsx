@@ -64,14 +64,18 @@ export default function Agents() {
                   </svg>
                 </div>
                 <p className="text-slate-700 font-medium mb-1">
-                  Aucune Utilisateur  enregistrée
+                  Aucune Utilisateur enregistrée
                 </p>
                 <p className="text-slate-500 text-sm">
                   Les Utilisateurs apparaîtront ici une fois ajoutées
                 </p>
               </div>
             ) : (
-              <DataTable columns={columnUser} data={safeData} />
+              <DataTable
+                columns={columnUser}
+                data={safeData}
+                TypeFilter="name"
+              />
             )}
           </div>
         </div>

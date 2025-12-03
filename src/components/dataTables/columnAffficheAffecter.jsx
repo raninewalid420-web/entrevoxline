@@ -16,35 +16,16 @@ import {
   AfficherAffecter,
   DesaffecterUserToLigne,
 } from "../../api/affectation";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useEffect } from "react";
+import { useAffecter } from "../../context/AffecterContext";
 
 // ✅ Boîte de confirmation action
 const CellAction = ({ id, name }) => {
-  const { loading: DesaLoading, execute: DesaExecute } = useAsync(
-    DesaffecterUserToLigne,
-    []
-  );
-  const { execute: AfficherExecute } = useAsync(AfficherAffecter, []);
+ 
+  const {handleDesactiver,DesaLoading} = useAffecter();
 
-  const handleDesactiver = async (id) => {
-    try {
-      const data = await DesaExecute(id);
-      if (data.success) {
-        toast.success("Desaffectation réussie !");
-      } else {
-        toast.error("Échec de Desaffectation.");
-      }
-    } catch (error) {
-      // Gérer l'erreur (par exemple, afficher une notification)
-      console.error("Erreur lors de la désaffectation :", error);
-    }
-  };
-
-  useEffect(() => {
-    AfficherExecute();
-  }, [handleDesactiver]);
 
   return (
     <Dialog>

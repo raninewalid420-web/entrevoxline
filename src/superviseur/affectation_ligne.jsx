@@ -11,29 +11,27 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { DataTable } from "../components/dataTables/data-table";
 import { columnAfficher } from "../components/dataTables/columnAffficheAffecter";
+import { useAffecter } from "../context/AffecterContext";
 
 export default function AffectationLigne() {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [selectedUsers2020, setSelectedUsers2020] = useState([]);
-  const [selectedUsersEAB, setSelectedUsersEAB] = useState([]);
-  const [selectedUsersDjibTel, setSelectedUsersDjibTel] = useState([]);
 
-  const { loading: AffecterLoading, execute: AffecterExecute } = useAsync(
-    AffecterUserToLigne,
-    []
-  );
-
- 
   const {
-    data: AfficherData,
-    error: AfficherError,
-    loading: AfficherLoading,
-    execute: AfficherExecute,
-  } = useAsync(AfficherAffecter, []);
-
- 
+    handleSubmit2020,
+    handleSubmitEAB,
+    handleSubmitDjibTel,
+    AfficherLoading,
+    AffecterLoading,
+    AfficherData,
+    setSelectedUsersEAB,
+    selectedUsersDjibTel,
+    setSelectedUsersDjibTel,
+    selectedUsers2020,
+    setSelectedUsers2020,
+    selectedUsersEAB,
+  } = useAffecter();
 
   // Récupération des utilisateurs
   useEffect(() => {
@@ -56,67 +54,6 @@ export default function AffectationLigne() {
       setLoading(false);
     }
   };
-
-  // Handlers pour ligne 2020
-  const handleSubmit2020 = async (e) => {
-    e.preventDefault();
-    const Data = {
-      users: selectedUsers2020,
-      ligne: "ligne_2020",
-    };
-    try {
-      const data = await AffecterExecute(Data);
-      if (data.success) {
-        toast.success("Affectation réussie !");
-      } else {
-        toast.error("Échec de l'affectation.");
-      }
-    } catch (error) {
-      console.error("Erreur lors de l'affectation :", error);
-    }
-  };
-
-  // Handlers pour ligne EAB
-  const handleSubmitEAB = async (e) => {
-    e.preventDefault();
-    const Data = {
-      users: selectedUsersEAB,
-      ligne: "ligne_EAB",
-    };
-    try {
-      const data = await AffecterExecute(Data);
-      if (data.success) {
-        toast.success("Affectation réussie !");
-      } else {
-        toast.error("Échec de l'affectation.");
-      }
-    } catch (error) {
-      console.error("Erreur lors de l'affectation :", error);
-    }
-  };
-
-  // Handlers pour ligne Djib Tel
-  const handleSubmitDjibTel = async (e) => {
-    e.preventDefault();
-    const Data = {
-      users: selectedUsersDjibTel,
-      ligne: "ligne_djib_tel",
-    };
-    try {
-      const data = await AffecterExecute(Data);
-      if (data.success) {
-        toast.success("Affectation réussie !");
-      } else {
-        toast.error("Échec de l'affectation.");
-      }
-    } catch (error) {
-      console.error("Erreur lors de l'affectation :", error);
-    }
-  };
-
-   useEffect(() => {
-    AfficherExecute();
-  }, [AfficherExecute]);
 
   // Gestion des cases à cocher
   const handleCheckboxChange = (userId, ligne) => {
@@ -360,7 +297,11 @@ export default function AffectationLigne() {
                 Chargement des affectations...
               </div>
             ) : (
-              <DataTable columns={columnAfficher} data={AfficherData || []}  TypeFilter="name"	 />
+              <DataTable
+                columns={columnAfficher}
+                data={AfficherData || []}
+                TypeFilter="name"
+              />
             )}
           </div>
         </TabsContent>

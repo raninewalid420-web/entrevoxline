@@ -94,4 +94,5 @@ export const columnscrec = [
   //     return <CellAction nom={nom} />;
   //   },
   // },
+  { header: "Creer par ", accessorKey: "agent" },
 ];

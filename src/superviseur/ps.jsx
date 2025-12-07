@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import { Mass_Ps } from "../api/mass";
 import { columnsPs } from "../components/dataTables/columnps";
-import { DataTable } from "../components/dataTables/data-table";
+import { DataTable } from "../components/dataTables/Tables/data-table";
 import useAsync from "../hooks/useAsync";
 
 export default function PsData() {

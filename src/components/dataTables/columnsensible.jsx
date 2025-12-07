@@ -41,8 +41,8 @@ export const columnsSensibles = [
       >{row.original.Description} </p>
     ),
   },
-  {
-    header: "Actions",
-    cell: ({ row }) => <CellAction nom={row.original.nom} />,
-  },
+  // {
+  //   header: "Actions",
+  //   cell: ({ row }) => <CellAction nom={row.original.nom} />,
+  // },
 ]

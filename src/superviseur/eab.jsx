@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { DataTable } from "../components/dataTables/data-table";
+import { DataTable } from "../components/dataTables/Tables/data-table";
 import { EABcolumns } from "../components/dataTables/columneab";
 import { EabShow } from "../api/eab";
 import useAsync from "../hooks/useAsync";

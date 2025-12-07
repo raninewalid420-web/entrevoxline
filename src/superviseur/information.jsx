@@ -1,4 +1,4 @@
-import { DataTable } from "../components/dataTables/data-table";
+import { DataTable } from "../components/dataTables/Tables/data-table";
 import { columnsInformation } from "../components/dataTables/columninfo";
 import { Info_Show } from "../api/information";
 import useAsync from "../hooks/useAsync";

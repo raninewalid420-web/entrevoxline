@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Mass_Purcsa } from "../api/mass";
 import { columnPurcsa } from "../components/dataTables/columnPurcsa";
-import { DataTable } from "../components/dataTables/data-table";
+import { DataTable } from "../components/dataTables/Tables/data-table";
 import useAsync from "../hooks/useAsync";
 
 // ✅ Données

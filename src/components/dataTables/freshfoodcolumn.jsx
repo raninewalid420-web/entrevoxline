@@ -65,6 +65,15 @@ export const columnsFreeFood = [
     ),
   },
   {
+    header: "Information",
+    accessorKey: "information",
+    cell: ({ row }) => (
+      <div className="min-w-[500px] max-w-[700px] whitespace-pre-wrap">
+        {row.original.information}
+      </div>
+    ),
+  },
+  {
     header: "category plainte",
     accessorKey: "category_plainte",
     cell: ({ row }) => (
@@ -88,4 +97,5 @@ export const columnsFreeFood = [
   //     return <CellAction nom={nom} />;
   //   },
   // },
+   { header: "Creer par ", accessorKey: "agent" },
 ];

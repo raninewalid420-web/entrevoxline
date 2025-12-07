@@ -42,13 +42,14 @@ export const columnDPCR = [
   { accessorKey: "datetime", header: "Date" },
   { accessorKey: "gravite", header: "Gravité" },
   { accessorKey: "attachments", header: "Pièces jointes" },
+  { header: "Creer par ", accessorKey: "agent" },
 
-  {
-    id: "actions",
-    header: "Actions",
-    cell: ({ row }) => {
-      const nom = row?.original.nom;
-      return <CellAction nom={nom} />;
-    },
-  },
+  // {
+  //   id: "actions",
+  //   header: "Actions",
+  //   cell: ({ row }) => {
+  //     const nom = row?.original.nom;
+  //     return <CellAction nom={nom} />;
+  //   },
+  // },
 ];

@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import { Hors_projets } from "../api/mass";
 import { columnsHorsProjet } from "../components/dataTables/columnhs";
-import { DataTable } from "../components/dataTables/data-table";
+import { DataTable } from "../components/dataTables/Tables/data-table";
 import useAsync from "../hooks/useAsync";
 
 // ✅ Données Hors Projet

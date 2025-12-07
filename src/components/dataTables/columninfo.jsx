@@ -45,11 +45,11 @@ export const columnsInformation = [
   { accessorKey: "created_at", header: "Date Enregistrement" },
   { accessorKey: "agent", header: "Créé par" },
 
-  {
-    header: "Actions",
-    cell: ({ row }) => {
-      const nom = row?.original.nom;
-      return <CellAction nom={nom} />;
-    },
-  },
+  // {
+  //   header: "Actions",
+  //   cell: ({ row }) => {
+  //     const nom = row?.original.nom;
+  //     return <CellAction nom={nom} />;
+  //   },
+  // },
 ];

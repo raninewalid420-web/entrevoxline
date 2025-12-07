@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { DataTable } from "../components/dataTables/data-table";
+import { DataTable } from "../components/dataTables/Tables/data-table";
 import { columnsFreeFood } from "../components/dataTables/freshfoodcolumn";
 import useAsync from "../hooks/useAsync";
 import { Mass_FreshFood } from "../api/mass";

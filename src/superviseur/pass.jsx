@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { DataTable } from "../components/dataTables/data-table";
+import { DataTable } from "../components/dataTables/Tables/data-table";
 import { columnsPass } from "../components/dataTables/passcolumn";
 import useAsync from "../hooks/useAsync";
 import { Mass_Pass } from "../api/mass";

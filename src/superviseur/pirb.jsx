@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { columnsPirb } from "../components/dataTables/columnpirb";
-import { DataTable } from "../components/dataTables/data-table";
+import { DataTable } from "../components/dataTables/Tables/data-table";
 import useAsync from "../hooks/useAsync";
 import { Mass_Pirb } from "../api/mass";
 

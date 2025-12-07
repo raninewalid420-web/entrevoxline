@@ -1,6 +1,5 @@
 "use client";
-
-import { DataTable } from "../components/dataTables/data-table";
+import { DataTable } from "../components/dataTables/Tables/data-table";
 import { columncartin } from "../components/dataTables/columnscartin";
 import useAsync from "../hooks/useAsync";
 import { GetAllCartin } from "../api/cartun";

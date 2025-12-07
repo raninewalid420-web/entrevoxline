@@ -48,12 +48,12 @@ export const columns = [
   { accessorKey: "Status", header: "Status" },
   { accessorKey: "Date_Enregistrement", header: "Date Enregistrement" },
   { accessorKey: "nom_user", header: "Enregistré par" },
-  {
-    id: "actions",
-    header: "Actions",
-    cell: ({ row }) => {
-      const nom = row?.original.nom;
-      return <CellAction nom={nom} />;
-    },
-  },
+  // {
+  //   id: "actions",
+  //   header: "Actions",
+  //   cell: ({ row }) => {
+  //     const nom = row?.original.nom;
+  //     return <CellAction nom={nom} />;
+  //   },
+  // },
 ];

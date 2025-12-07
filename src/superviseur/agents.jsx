@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import useAsync from "../hooks/useAsync";
 import { AllUser } from "../api/users";
-import { DataTable } from "../components/dataTables/data-table";
+import { DataTable } from "../components/dataTables/Tables/data-table";
 import { columnUser } from "../components/dataTables/columnUser";
 
 export default function Agents() {

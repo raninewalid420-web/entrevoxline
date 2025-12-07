@@ -45,11 +45,11 @@ export const columnsColisNonTrouver = [
   { accessorKey: "date", header: "Date" },
   { accessorKey: "Agent", header: "Créé par" },
 
-  {
-    header: "Actions",
-    cell: ({ row }) => {
-      const nom = row?.original.nom;
-      return <CellAction nom={nom} />;
-    },
-  },
+  // {
+  //   header: "Actions",
+  //   cell: ({ row }) => {
+  //     const nom = row?.original.nom;
+  //     return <CellAction nom={nom} />;
+  //   },
+  // },
 ];

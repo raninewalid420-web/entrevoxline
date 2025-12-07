@@ -52,12 +52,12 @@ export const Aruloscolumns = [
   { accessorKey: "agent", header: "Enregistré par" },
   { accessorKey: "created_at", header: "Date de Création" },
   { accessorKey: "nomChefChantier", header: "Nom du Chef de Chantier" },
-  {
-    id: "actions",
-    header: "Actions",
-    cell: ({ row }) => {
-      const nom = row?.original.nom;
-      return <CellAction nom={nom} />;
-    },
-  },
+  // {
+  //   id: "actions",
+  //   header: "Actions",
+  //   cell: ({ row }) => {
+  //     const nom = row?.original.nom;
+  //     return <CellAction nom={nom} />;
+  //   },
+  // },
 ];

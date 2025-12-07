@@ -82,7 +82,7 @@ const CellAction = ({ user }) => {
       </Dialog>
 
       {/* ---- Bouton Supprimer ---- */}
-      <Dialog open={openDelete} onOpenChange={setOpenDelete}>
+      {/* <Dialog open={openDelete} onOpenChange={setOpenDelete}>
         <DialogTrigger asChild>
           <X className="w-4 h-4 text-red-500 cursor-pointer hover:text-red-700" />
         </DialogTrigger>
@@ -104,7 +104,7 @@ const CellAction = ({ user }) => {
             </Button>
           </div>
         </DialogContent>
-      </Dialog>
+      </Dialog> */}
     </div>
   );
 };

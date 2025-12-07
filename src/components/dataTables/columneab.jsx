@@ -54,11 +54,11 @@ export const EABcolumns = [
   { accessorKey: "nom_du_compte", header: "Compte" },
   { accessorKey: "date", header: "Date enregistrement" },
   { accessorKey: "agent", header: "Enregistré par" },
-  {
-    header: "Actions",
-    cell: ({ row }) => {
-      const nom = row?.original.nom;
-      return <CellAction nom={nom} />;
-    },
-  },
+  // {
+  //   header: "Actions",
+  //   cell: ({ row }) => {
+  //     const nom = row?.original.nom;
+  //     return <CellAction nom={nom} />;
+  //   },
+  // },
 ];

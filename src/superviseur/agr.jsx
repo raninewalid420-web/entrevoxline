@@ -1,6 +1,6 @@
 import { Mass_Agr } from "../api/mass";
 import { columnsagr } from "../components/dataTables/columnsagr";
-import { DataTable } from "../components/dataTables/data-table";
+import { DataTable } from "../components/dataTables/Tables/data-table";
 import useAsync from "../hooks/useAsync";
 import { useEffect } from "react";
 

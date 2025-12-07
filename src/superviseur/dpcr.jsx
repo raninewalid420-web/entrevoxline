@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { DpcrShow } from "../api/dpcr";
 import { columnDPCR } from "../components/dataTables/columndpcr";
-import { DataTable } from "../components/dataTables/data-table";
+import { DataTable } from "../components/dataTables/Tables/data-table";
 import useAsync from "../hooks/useAsync";
 
 export default function SupDpcr() {

@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import { Mass_Aseri } from "../api/mass";
 import { columnsaseri } from "../components/dataTables/columnaseri";
-import { DataTable } from "../components/dataTables/data-table";
+import { DataTable } from "../components/dataTables/Tables/data-table";
 import useAsync from "../hooks/useAsync";
 
 export default function Aseri() {

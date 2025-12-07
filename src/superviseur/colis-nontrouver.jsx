@@ -1,4 +1,4 @@
-import { DataTable } from "../components/dataTables/data-table";
+import { DataTable } from "../components/dataTables/Tables/data-table";
 import { columnsColisNonTrouver } from "../components/dataTables/columnscolis-nontrouver";
 import useAsync from "../hooks/useAsync";
 import { ShowColis } from "../api/annulation_cmd";

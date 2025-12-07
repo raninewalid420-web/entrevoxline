@@ -57,12 +57,12 @@ export const columnsCommandAnnuler = [
     accessorKey: "agent",
     header: "Creer par",
   },
-  {
-    id: "actions",
-    header: "Actions",
-    cell: ({ row }) => {
-      const nom = row?.original.nom;
-      return <CellAction nom={nom} />;
-    },
-  },
+  // {
+  //   id: "actions",
+  //   header: "Actions",
+  //   cell: ({ row }) => {
+  //     const nom = row?.original.nom;
+  //     return <CellAction nom={nom} />;
+  //   },
+  // },
 ];

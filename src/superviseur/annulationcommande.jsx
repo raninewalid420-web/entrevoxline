@@ -1,4 +1,4 @@
-import { DataTable } from "../components/dataTables/data-table";
+import { DataTable } from "../components/dataTables/Tables/data-table";
 import { columnsCommandAnnuler } from "../components/dataTables/columncommandannuler";
 import { Cancel_order_Show } from "../api/coli_non_found";
 import useAsync from "../hooks/useAsync";

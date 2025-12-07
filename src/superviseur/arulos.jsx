@@ -1,6 +1,6 @@
 "use client";
 
-import { DataTable } from "../components/dataTables/data-table";
+import { DataTable } from "../components/dataTables/Tables/data-table";
 import { Aruloscolumns } from "../components/dataTables/columnarulos";
 import { GetAllArulos } from "../api/arulos";
 import useAsync from "../hooks/useAsync";

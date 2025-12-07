@@ -1,10 +1,10 @@
 "use client";
 
 import * as React from "react";
-import { DataTable } from "../components/dataTables/data-table";
 import { columns } from "../components/dataTables/columns";
 import useAsync from "../hooks/useAsync";
 import { AfficherCartin } from "../api/recherche";
+import { DataTable } from "../components/dataTables/Tables/data-table";
 
 export default function Recherche() {
   const { data, error, loading, execute } = useAsync(AfficherCartin, []);

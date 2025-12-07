@@ -1,0 +1,237 @@
+"use client";
+
+import * as React from "react";
+import {
+  flexRender,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  useReactTable,
+} from "@tanstack/react-table";
+
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "../../ui/table";
+
+import { Input } from "../../ui/input";
+import { useLocation } from "react-router-dom";
+import { Button } from "../../ui/button";
+import { FileUp } from "lucide-react";
+
+export function DataTable({ columns, data, TypeFilter }) {
+  const [columnFilters, setColumnFilters] = React.useState([]);
+
+  // 🔥 Pagination states FIXÉS
+  const [pageIndex, setPageIndex] = React.useState(0);
+  const [pageSize, setPageSize] = React.useState(10);
+
+  const location = useLocation();
+  const path = location.pathname;
+
+  // Fonction d'exportation des données en Excel
+  const exportToExcel = () => {
+    // const exportData = table.getRowModel().rows.map((row) =>
+    //   row.getVisibleCells().reduce((acc, cell) => {
+    //     acc[cell.column.id] = cell.getContext().getValue();
+    //     return acc;
+    //   }, {})
+    // );
+
+    // const wb = XLSX.utils.book_new();
+    // const ws = XLSX.utils.json_to_sheet(exportData);
+    // XLSX.utils.book_append_sheet(wb, ws, "Status des appelles");
+    // XLSX.writeFile(wb, "Status_des_appelles.xlsx");
+  };
+
+  // 🔥 Table config avec pagination
+  const table = useReactTable({
+    data,
+    columns,
+    state: {
+      columnFilters,
+      pagination: {
+        pageIndex,
+        pageSize,
+      },
+    },
+    onColumnFiltersChange: setColumnFilters,
+    onPaginationChange: (updater) => {
+      const newState =
+        typeof updater === "function"
+          ? updater({ pageIndex, pageSize })
+          : updater;
+
+      setPageIndex(newState.pageIndex);
+      setPageSize(newState.pageSize);
+    },
+    getCoreRowModel: getCoreRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+  });
+
+  return (
+    <div className="space-y-4">
+      {/* Zone de filtres */}
+      <div className="flex items-center gap-4">
+        {TypeFilter && (
+          <Input
+            placeholder="Filtrer par nom..."
+            value={table.getColumn(TypeFilter)?.getFilterValue() ?? ""}
+            onChange={(event) =>
+              table.getColumn(TypeFilter)?.setFilterValue(event.target.value)
+            }
+            className="max-w-sm"
+          />
+        )}
+        <Input
+          placeholder="Filtrer par agent..."
+          value={table.getColumn("agent")?.getFilterValue() ?? ""}
+          onChange={(event) =>
+            table.getColumn("agent")?.setFilterValue(event.target.value)
+          }
+          className="max-w-sm"
+        />
+
+        {path && path === "/recherche" && (
+          <Input
+            placeholder="Filtrer par commande..."
+            value={table.getColumn("commande")?.getFilterValue() ?? ""}
+            onChange={(event) =>
+              table.getColumn("commande")?.setFilterValue(event.target.value)
+            }
+            className="max-w-sm"
+          />
+        )}
+        {path && path === "/cartin" && (
+          <Input
+            placeholder="Filtrer par commande..."
+            value={table.getColumn("numero_commande")?.getFilterValue() ?? ""}
+            onChange={(event) =>
+              table
+                .getColumn("numero_commande")
+                ?.setFilterValue(event.target.value)
+            }
+            className="max-w-sm"
+          />
+        )}
+        {path && path === "/commandeannulerData" && (
+          <Input
+            placeholder="Filtrer par commande..."
+            value={table.getColumn("numero_dj")?.getFilterValue() ?? ""}
+            onChange={(event) =>
+              table.getColumn("numero_dj")?.setFilterValue(event.target.value)
+            }
+            className="max-w-sm"
+          />
+        )}
+
+        <Button
+          className="text-white bg-blue-950 hover:bg-blue/90 duration-300 p-2 w-max flex justify-center items-center space-x-2 rounded-lg cursor-pointer"
+          onClick={exportToExcel}
+        >
+          <FileUp className="" />
+          <span>Exportation</span>
+        </Button>
+      </div>
+
+      {/* Tableau */}
+      <div className="overflow-hidden rounded-md border">
+        <Table>
+          <TableHeader className="bg-gradient-to-r from-slate-700 to-slate-800 text-xl font-bold text-white">
+            {table.getHeaderGroups().map((headerGroup) => (
+              <TableRow key={headerGroup.id}>
+                {headerGroup.headers.map((header) => (
+                  <TableHead
+                    key={header.id}
+                    className="border-r last:border-r-0"
+                  >
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
+                  </TableHead>
+                ))}
+              </TableRow>
+            ))}
+          </TableHeader>
+
+          <TableBody>
+            {table.getRowModel().rows.length ? (
+              table.getRowModel().rows.map((row) => (
+                <TableRow key={row.id}>
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell
+                      key={cell.id}
+                      className="border-r last:border-r-0"
+                    >
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell
+                  colSpan={columns.length}
+                  className="h-24 text-center"
+                >
+                  Aucun résultat trouvé.
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+
+        {/* PAGINATION FIXÉE */}
+        <div className="flex items-center justify-end space-x-2 py-4 px-2">
+          {/* Rows per page selector */}
+          <div className="flex items-center space-x-2">
+            <label htmlFor="rows-per-page" className="text-sm">
+              Rows per page:
+            </label>
+            <select
+              id="rows-per-page"
+              value={pageSize}
+              onChange={(e) => table.setPageSize(Number(e.target.value))}
+              className="border rounded-md p-1"
+            >
+              {[10, 20, 30, 40, 50].map((size) => (
+                <option key={size} value={size}>
+                  {size}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Pagination buttons */}
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => table.previousPage()}
+            disabled={!table.getCanPreviousPage()}
+          >
+            Previous
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => table.nextPage()}
+            disabled={!table.getCanNextPage()}
+          >
+            Next
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
+}

@@ -9,7 +9,7 @@ import {
 } from "../api/affectation";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { DataTable } from "../components/dataTables/data-table";
+import { DataTable } from "../components/dataTables/Tables/data-table";
 import { columnAfficher } from "../components/dataTables/columnAffficheAffecter";
 import { useAffecter } from "../context/AffecterContext";
 

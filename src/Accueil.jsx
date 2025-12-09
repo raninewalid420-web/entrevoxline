@@ -87,7 +87,19 @@ export default function Accueil() {
       case "ligne_2020":
         navigate("/Agents/mass");
         break;
+      case "allligne":
+        navigate("/Agents/mass");
+        break;
+      case "mix_ligne_eab_2020":
+        navigate("/Agents/mass");
+        break;
+      case "mix_ligne_2020_djib_tel":
+        navigate("/Agents/mass");
+        break;
       case "ligne_eab":
+        navigate("/Agents/EAB");
+        break;
+      case "mix_ligne_eab_djib_tel":
         navigate("/Agents/EAB");
         break;
       case "ligne_djib_tel":

@@ -31,6 +31,18 @@ export default function AffectationLigne() {
     selectedUsers2020,
     setSelectedUsers2020,
     selectedUsersEAB,
+    selectedUsers2020Eab,
+    setSelectedUsers2020Eab,
+    selectedUsersEABDjibtel,
+    setSelectedUsersEABDjibtel,
+    selectedUsersDjibTel2020,
+    setSelectedUsersDjibTel2020,
+    selectedUsersAllLigne,
+    setSelectedUsersDjibTelAllLigne,
+    handleSubmit2020Eab,
+    handleSubmitEABDjibtel,
+    handleSubmitDjibTel2020,
+    handleSubmitAllLigne,
   } = useAffecter();
 
   // Récupération des utilisateurs
@@ -75,6 +87,30 @@ export default function AffectationLigne() {
           ? prev.filter((id) => id !== userId)
           : [...prev, userId]
       );
+    } else if (ligne === "mixe2020EAB") {
+      setSelectedUsers2020Eab((prev) =>
+        prev.includes(userId)
+          ? prev.filter((id) => id !== userId)
+          : [...prev, userId]
+      );
+    } else if (ligne === "mixeEABDjibTel") {
+      setSelectedUsersEABDjibtel((prev) =>
+        prev.includes(userId)
+          ? prev.filter((id) => id !== userId)
+          : [...prev, userId]
+      );
+    } else if (ligne === "mixe2020DjibTel") {
+      setSelectedUsersDjibTel2020((prev) =>
+        prev.includes(userId)
+          ? prev.filter((id) => id !== userId)
+          : [...prev, userId]
+      );
+    } else if (ligne === "mixeAllLignes") {
+      setSelectedUsersDjibTelAllLigne((prev) =>
+        prev.includes(userId)
+          ? prev.filter((id) => id !== userId)
+          : [...prev, userId]
+      );
     }
   };
 
@@ -91,6 +127,22 @@ export default function AffectationLigne() {
     } else if (ligne === "DjibTel") {
       setSelectedUsersDjibTel(
         selectedUsersDjibTel.length === users.length ? [] : allUserIds
+      );
+    } else if (ligne === "mixe2020EAB") {
+      setSelectedUsers2020Eab(
+        selectedUsers2020Eab.length === users.length ? [] : allUserIds
+      );
+    } else if (ligne === "mixeEABDjibTel") {
+      setSelectedUsersEABDjibtel(
+        selectedUsersEABDjibtel.length === users.length ? [] : allUserIds
+      );
+    } else if (ligne === "mixe2020DjibTel") {
+      setSelectedUsersDjibTel2020(
+        selectedUsersDjibTel2020.length === users.length ? [] : allUserIds
+      );
+    } else if (ligne === "mixeAllLignes") {
+      setSelectedUsersDjibTelAllLigne(
+        selectedUsersAllLigne.length === users.length ? [] : allUserIds
       );
     }
   };
@@ -214,7 +266,30 @@ export default function AffectationLigne() {
           >
             Ligne Djib Tel
           </TabsTrigger>
-
+          <TabsTrigger
+            value="mixe2020EAB"
+            className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-slate-500 data-[state=active]:to-slate-600 data-[state=active]:text-white text-slate-600 hover:text-slate-900 transition-all rounded-lg px-6 py-3 font-semibold"
+          >
+            Mixe ligne 2020 & EAB
+          </TabsTrigger>
+          <TabsTrigger
+            value="MixeEABDjibTel"
+            className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-lime-500 data-[state=active]:to-lime-600 data-[state=active]:text-white text-slate-600 hover:text-slate-900 transition-all rounded-lg px-6 py-3 font-semibold"
+          >
+            Mix ligne EAB & Djib Tel
+          </TabsTrigger>
+          <TabsTrigger
+            value="Mixe2020DjibTel"
+            className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-cyan-500 data-[state=active]:to-cyan-600 data-[state=active]:text-white text-slate-600 hover:text-slate-900 transition-all rounded-lg px-6 py-3 font-semibold"
+          >
+            Mixe ligne 2020 & Djib Tel
+          </TabsTrigger>
+          <TabsTrigger
+            value="MixeAllLignes"
+            className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-fuchsia-500 data-[state=active]:to-fuchsia-600 data-[state=active]:text-white text-slate-600 hover:text-slate-900 transition-all rounded-lg px-6 py-3 font-semibold"
+          >
+            Mix toutes les lignes
+          </TabsTrigger>
           <TabsTrigger
             value="AfficherAffecter"
             className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-yellow-500 data-[state=active]:to-yellow-600 data-[state=active]:text-white text-slate-600 hover:text-slate-900 transition-all rounded-lg px-6 py-3 font-semibold"
@@ -279,6 +354,82 @@ export default function AffectationLigne() {
               buttonColor="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700"
               ligne="DjibTel"
               selectedUsers={selectedUsersDjibTel}
+            />
+          </div>
+        </TabsContent>
+        {/* Onglet Ligne Djib Tel */}
+        <TabsContent value="mixe2020EAB">
+          <div className="bg-white rounded-2xl shadow-lg p-8 border border-slate-200">
+            <div className="flex items-center gap-3 mb-6 pb-4 border-b-2 border-blue-100">
+              <div className="w-1 h-8 bg-gradient-to-b from-slate-500 to-slate-600 rounded-full"></div>
+              <h2 className="text-3xl font-bold text-slate-800">
+                Affectation Ligne 2020 & EAB
+              </h2>
+            </div>
+
+            <UsersList
+              onSubmit={handleSubmit2020Eab}
+              buttonText="Affecter Ligne 2030 & EAB"
+              buttonColor="bg-gradient-to-r from-slate-500 to-slate-600 hover:from-slate-600 hover:to-slate-700"
+              ligne="mixe2020EAB"
+              selectedUsers={selectedUsers2020Eab}
+            />
+          </div>
+        </TabsContent>
+        {/* Onglet Ligne Djib Tel */}
+        <TabsContent value="MixeEABDjibTel">
+          <div className="bg-white rounded-2xl shadow-lg p-8 border border-slate-200">
+            <div className="flex items-center gap-3 mb-6 pb-4 border-b-2 border-blue-100">
+              <div className="w-1 h-8 bg-gradient-to-b from-lime-500 to-lime-600 rounded-full"></div>
+              <h2 className="text-3xl font-bold text-slate-800">
+                Affectation Ligne EAB & Djib Tel
+              </h2>
+            </div>
+
+            <UsersList
+              onSubmit={handleSubmitEABDjibtel}
+              buttonText="Affecter Ligne EAB & Djib Tel"
+              buttonColor="bg-gradient-to-r from-lime-500 to-lime-600 hover:from-lime-600 hover:to-lime-700"
+              ligne="mixeEABDjibTel"
+              selectedUsers={selectedUsersEABDjibtel}
+            />
+          </div>
+        </TabsContent>
+        {/* Onglet Ligne Djib Tel */}
+        <TabsContent value="Mixe2020DjibTel">
+          <div className="bg-white rounded-2xl shadow-lg p-8 border border-slate-200">
+            <div className="flex items-center gap-3 mb-6 pb-4 border-b-2 border-blue-100">
+              <div className="w-1 h-8 bg-gradient-to-b from-cyan-500 to-cyan-600 rounded-full"></div>
+              <h2 className="text-3xl font-bold text-slate-800">
+                Affectation Ligne 2020 & Djib Tel
+              </h2>
+            </div>
+
+            <UsersList
+              onSubmit={handleSubmitDjibTel2020}
+              buttonText="Affecter la ligne Djib Tel"
+              buttonColor="bg-gradient-to-r from-cyan-500 to-cyan-600 hover:from-cyan-600 hover:to-cyan-700"
+              ligne="mixe2020DjibTel"
+              selectedUsers={selectedUsersDjibTel2020}
+            />
+          </div>
+        </TabsContent>
+        {/* Onglet Ligne Djib Tel */}
+        <TabsContent value="MixeAllLignes">
+          <div className="bg-white rounded-2xl shadow-lg p-8 border border-slate-200">
+            <div className="flex items-center gap-3 mb-6 pb-4 border-b-2 border-blue-100">
+              <div className="w-1 h-8 bg-gradient-to-b from-fuchsia-500 to-fuchsia-600 rounded-full"></div>
+              <h2 className="text-3xl font-bold text-slate-800">
+                Affectation Tous Les Lignes
+              </h2>
+            </div>
+
+            <UsersList
+              onSubmit={handleSubmitAllLigne}
+              buttonText="Affecter Tous Les Lignes"
+              buttonColor="bg-gradient-to-r from-fuchsia-500 to-fuchsia-600 hover:from-fuchsia-600 hover:to-fuchsia-700"
+              ligne="mixeAllLignes"
+              selectedUsers={selectedUsersAllLigne}
             />
           </div>
         </TabsContent>

@@ -6,6 +6,10 @@ import {
   menuDataLigne2020,
   menuDataLigneEab,
   menuDataLigneDjiTelcom,
+  menuAllLigne,
+  menuLigne2020Eab,
+  menuLigne2020Djibtel,
+  menuLigneEabDjibtel,
 } from "../menuData";
 
 import useAsync from "../hooks/useAsync";
@@ -96,16 +100,113 @@ export default function AgentsWrapper() {
         <Route key="recherche" path="recherche" element={<Recherche />} />,
         <Route key="arulos" path="arulos" element={<ArulosAgent />} />,
         <Route key="dpcr" path="dpcr" element={<FormDPCR />} />,
-        <Route key="information" path="InformationData" element={<InformationAgent />} />,
-        <Route key="commande-annulee" path="commandeannulerData" element={<AnnulationCommande />} />,
+        <Route
+          key="information"
+          path="InformationData"
+          element={<InformationAgent />}
+        />,
+        <Route
+          key="commande-annulee"
+          path="commandeannulerData"
+          element={<AnnulationCommande />}
+        />,
+      ];
+      break;
+    case "allligne":
+      menuItems = menuAllLigne;
+      defaultRedirect = "mass"; // redirect relatif -> /Agents/mass
+      childRoutes = [
+        <Route key="mass" path="mass" element={<MassAgent />} />,
+        <Route key="adr" path="adr" element={<AdrAgent />} />,
+        <Route key="cartin" path="cartin" element={<Cartinagent />} />,
+        <Route key="recherche" path="recherche" element={<Recherche />} />,
+        <Route key="arulos" path="arulos" element={<ArulosAgent />} />,
+        <Route key="dpcr" path="dpcr" element={<FormDPCR />} />,
+        <Route
+          key="information"
+          path="InformationData"
+          element={<InformationAgent />}
+        />,
+        <Route
+          key="commande-annulee"
+          path="commandeannulerData"
+          element={<AnnulationCommande />}
+        />,
+        <Route key="EAB" path="EAB" element={<EABAgent />} />,
+        <Route
+          key="djibouti-tel"
+          path="djibouti-tel"
+          element={<h1>Djibouti Télécom</h1>}
+        />,
+      ];
+      break;
+
+    case "mix_ligne_eab_djib_tel":
+      menuItems = menuLigneEabDjibtel;
+      defaultRedirect = "EAB"; // redirect relatif -> /Agents/mass
+      childRoutes = [
+        <Route key="EAB" path="EAB" element={<EABAgent />} />,
+        <Route
+          key="djibouti-tel"
+          path="djibouti-tel"
+          element={<h1>Djibouti Télécom</h1>}
+        />,
       ];
       break;
 
     case "ligne_eab":
       menuItems = menuDataLigneEab;
       defaultRedirect = "EAB";
+      childRoutes = [<Route key="EAB" path="EAB" element={<EABAgent />} />];
+      break;
+    case "mix_ligne_eab_2020":
+      menuItems = menuLigne2020Eab;
+      defaultRedirect = "EAB";
       childRoutes = [
+        <Route key="mass" path="mass" element={<MassAgent />} />,
+        <Route key="adr" path="adr" element={<AdrAgent />} />,
+        <Route key="cartin" path="cartin" element={<Cartinagent />} />,
+        <Route key="recherche" path="recherche" element={<Recherche />} />,
+        <Route key="arulos" path="arulos" element={<ArulosAgent />} />,
+        <Route key="dpcr" path="dpcr" element={<FormDPCR />} />,
+        <Route
+          key="information"
+          path="InformationData"
+          element={<InformationAgent />}
+        />,
+        <Route
+          key="commande-annulee"
+          path="commandeannulerData"
+          element={<AnnulationCommande />}
+        />,
         <Route key="EAB" path="EAB" element={<EABAgent />} />,
+      ];
+      break;
+    case "mix_ligne_2020_djib_tel":
+      menuItems = menuLigne2020Djibtel;
+      defaultRedirect = "EAB";
+      childRoutes = [
+        <Route key="mass" path="mass" element={<MassAgent />} />,
+        <Route key="adr" path="adr" element={<AdrAgent />} />,
+        <Route key="cartin" path="cartin" element={<Cartinagent />} />,
+        <Route key="recherche" path="recherche" element={<Recherche />} />,
+        <Route key="arulos" path="arulos" element={<ArulosAgent />} />,
+        <Route key="dpcr" path="dpcr" element={<FormDPCR />} />,
+        <Route
+          key="information"
+          path="InformationData"
+          element={<InformationAgent />}
+        />,
+        <Route
+          key="commande-annulee"
+          path="commandeannulerData"
+          element={<AnnulationCommande />}
+        />,
+        <Route
+          key="djibouti-tel"
+          path="djibouti-tel"
+          element={<h1>Djibouti Télécom</h1>}
+        />,
       ];
       break;
 
@@ -113,7 +214,11 @@ export default function AgentsWrapper() {
       menuItems = menuDataLigneDjiTelcom;
       defaultRedirect = "djibouti-tel";
       childRoutes = [
-        <Route key="djibouti-tel" path="djibouti-tel" element={<h1>Djibouti Télécom</h1>} />,
+        <Route
+          key="djibouti-tel"
+          path="djibouti-tel"
+          element={<h1>Djibouti Télécom</h1>}
+        />,
       ];
       break;
 
@@ -131,10 +236,7 @@ export default function AgentsWrapper() {
     <Routes>
       <Route element={<Layout role="agents" menuItems={menuItems} />}>
         {/* index redirige vers la page par défaut de l'agent */}
-        <Route
-          index
-          element={<Navigate to={defaultRedirect} replace />}
-        />
+        <Route index element={<Navigate to={defaultRedirect} replace />} />
 
         {/* routes enfants */}
         {childRoutes}

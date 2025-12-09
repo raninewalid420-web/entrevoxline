@@ -22,7 +22,7 @@ import { Input } from "../../ui/input";
 import { useLocation } from "react-router-dom";
 import { Button } from "../../ui/button";
 import { FileUp } from "lucide-react";
-import * as XLSX from "xlsx"; // Importer la librairie SheetJS
+// import * as XLSX from "xlsx"; // Importer la librairie SheetJS
 
 export function DataTable({ columns, data, TypeFilter }) {
   const [columnFilters, setColumnFilters] = React.useState([]);
@@ -36,17 +36,17 @@ export function DataTable({ columns, data, TypeFilter }) {
 
   // Fonction d'exportation des données en Excel
   const exportToExcel = () => {
-    const exportData = table.getRowModel().rows.map((row) =>
-      row.getVisibleCells().reduce((acc, cell) => {
-        acc[cell.column.id] = cell.getContext().getValue();
-        return acc;
-      }, {})
-    );
+    // const exportData = table.getRowModel().rows.map((row) =>
+    //   row.getVisibleCells().reduce((acc, cell) => {
+    //     acc[cell.column.id] = cell.getContext().getValue();
+    //     return acc;
+    //   }, {})
+    // );
 
-    const wb = XLSX.utils.book_new();
-    const ws = XLSX.utils.json_to_sheet(exportData);
-    XLSX.utils.book_append_sheet(wb, ws, "Rapports");
-    XLSX.writeFile(wb, "Rapports.xlsx");
+    // const wb = XLSX.utils.book_new();
+    // const ws = XLSX.utils.json_to_sheet(exportData);
+    // XLSX.utils.book_append_sheet(wb, ws, "Rapports");
+    // XLSX.writeFile(wb, "Rapports.xlsx");
   };
 
   // 🔥 Table config avec pagination

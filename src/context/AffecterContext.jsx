@@ -14,6 +14,10 @@ export const AffecterProvider = ({ children }) => {
   const [selectedUsers2020, setSelectedUsers2020] = useState([]);
   const [selectedUsersEAB, setSelectedUsersEAB] = useState([]);
   const [selectedUsersDjibTel, setSelectedUsersDjibTel] = useState([]);
+  const [selectedUsers2020Eab, setSelectedUsers2020Eab] = useState([]);
+  const [selectedUsersEABDjibtel, setSelectedUsersEABDjibtel] = useState([]);
+  const [selectedUsersDjibTel2020, setSelectedUsersDjibTel2020] = useState([]);
+  const [selectedUsersAllLigne, setSelectedUsersDjibTelAllLigne] = useState([]);
 
   const { loading: DesaLoading, execute: DesaExecute } = useAsync(
     DesaffecterUserToLigne,
@@ -100,6 +104,84 @@ export const AffecterProvider = ({ children }) => {
       console.error("Erreur lors de l'affectation :", error);
     }
   };
+  // Handlers pour ligne 2020 & eab
+  const handleSubmit2020Eab = async (e) => {
+    e.preventDefault();
+    const Data = {
+      users: selectedUsers2020Eab,
+      ligne: "Mix_ligne_EAB_2020",
+    };
+    try {
+      const data = await AffecterExecute(Data);
+      if (data.success) {
+        toast.success("Affectation réussie !");
+        refresh(); // ➜ Mise à jour auto
+      } else {
+        toast.error("Échec de l'affectation.");
+      }
+    } catch (error) {
+      console.error("Erreur lors de l'affectation :", error);
+    }
+  };
+
+  // Handlers pour ligne EAB & Djib tel
+  const handleSubmitEABDjibtel = async (e) => {
+    e.preventDefault();
+    const Data = {
+      users: selectedUsersEABDjibtel,
+      ligne: "Mix_ligne_EAB_djib_tel",
+    };
+    try {
+      const data = await AffecterExecute(Data);
+      if (data.success) {
+        toast.success("Affectation réussie !");
+        refresh(); // ➜ Mise à jour auto
+      } else {
+        toast.error("Échec de l'affectation.");
+      }
+    } catch (error) {
+      console.error("Erreur lors de l'affectation :", error);
+    }
+  };
+
+  // Handlers pour ligne Djib Tel & 2020
+  const handleSubmitDjibTel2020 = async (e) => {
+    e.preventDefault();
+    const Data = {
+      users: selectedUsersDjibTel2020,
+      ligne: "Mix_ligne_2020_djib_tel",
+    };
+    try {
+      const data = await AffecterExecute(Data);
+      if (data.success) {
+        toast.success("Affectation réussie !");
+        refresh(); // ➜ Mise à jour auto
+      } else {
+        toast.error("Échec de l'affectation.");
+      }
+    } catch (error) {
+      console.error("Erreur lors de l'affectation :", error);
+    }
+  };
+  // Handlers pour ligne Djib Tel & 2020
+  const handleSubmitAllLigne = async (e) => {
+    e.preventDefault();
+    const Data = {
+      users: selectedUsersAllLigne,
+      ligne: "AllLigne",
+    };
+    try {
+      const data = await AffecterExecute(Data);
+      if (data.success) {
+        toast.success("Affectation réussie !");
+        refresh(); // ➜ Mise à jour auto
+      } else {
+        toast.error("Échec de l'affectation.");
+      }
+    } catch (error) {
+      console.error("Erreur lors de l'affectation :", error);
+    }
+  };
 
   // 🟦 Désaffecter + rafraîchir automatiquement
   const handleDesactiver = async (id) => {
@@ -137,6 +219,18 @@ export const AffecterProvider = ({ children }) => {
         setSelectedUsersEAB,
         selectedUsersDjibTel,
         setSelectedUsersDjibTel,
+        selectedUsers2020Eab,
+        setSelectedUsers2020Eab,
+        selectedUsersEABDjibtel,
+        setSelectedUsersEABDjibtel,
+        selectedUsersDjibTel2020,
+        setSelectedUsersDjibTel2020,
+        selectedUsersAllLigne,
+        setSelectedUsersDjibTelAllLigne,
+        handleSubmit2020Eab,
+        handleSubmitEABDjibtel,
+        handleSubmitDjibTel2020,
+        handleSubmitAllLigne,
 
         DesaLoading,
         AffecterLoading,

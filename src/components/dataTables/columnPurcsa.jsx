@@ -9,7 +9,7 @@ import {
 } from "../ui/dialog";
 
 // ✅ Composant d’action (boîte de confirmation)
-const CellAction = ({ nom }) => {
+const CellAction = ({ nom,id,description,information }) => {
   return (
     <Dialog>
       <DialogTrigger>
@@ -17,10 +17,10 @@ const CellAction = ({ nom }) => {
       </DialogTrigger>
       <DialogContent className="bg-white">
         <DialogHeader>
-          <DialogTitle>Supprimer {nom} ?</DialogTitle>
+          <DialogTitle>Supprimer {nom} do'ou l'id = {id} ?</DialogTitle>
           <DialogDescription>
-            Cette action est irréversible. Êtes-vous sûr de vouloir supprimer ce
-            colis ?
+           dezscription: {description} <br /> <br />
+            information: {information}
           </DialogDescription>
         </DialogHeader>
       </DialogContent>
@@ -146,11 +146,14 @@ export const columnPurcsa = [
   },
   { header: "Creer par ", accessorKey: "agent" },
 
-  // {
-  //   header: "Actions",
-  //   cell: ({ row }) => {
-  //     const nom = row?.original.nom;
-  //     return <CellAction nom={nom} />;
-  //   },
-  // },
+  {
+    header: "Actions",
+    cell: ({ row }) => {
+      const nom = row?.original.nom;
+      const id = row?.original.id;
+      const description = row?.original.description;
+      const information = row?.original.information;
+      return <CellAction nom={nom} id={id} description={description} information={information} />;
+    },
+  },
 ];

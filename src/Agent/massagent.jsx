@@ -252,6 +252,7 @@ const quartiersBalbala = [
   "pk13",
   "Balbala 2,Agadalise",
   "bulduqo",
+  "biokate",
 ];
 const quartiersBoulaos = [
   "Quartier 1",

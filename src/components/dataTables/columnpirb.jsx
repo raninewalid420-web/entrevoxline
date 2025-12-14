@@ -95,4 +95,14 @@ export const columnsPirb = [
   //   },
   // },
    { header: "Creer par ", accessorKey: "agent" },
+     {
+    header: "Actions",
+    cell: ({ row }) => {
+      const nom = row?.original.nom;
+      const id = row?.original.id;
+      const description = row?.original.description;
+      const information = row?.original.information;
+      return <CellAction nom={nom} id={id} description={description} information={information} />;
+    },
+  },
 ];

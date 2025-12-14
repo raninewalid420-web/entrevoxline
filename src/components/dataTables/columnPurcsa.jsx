@@ -1,4 +1,4 @@
-import { X } from "lucide-react";
+import { Pencil } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -7,26 +7,77 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "../ui/dialog";
+import { useState } from "react";
+import { Button } from "../ui/button";
+import { Textarea } from "../ui/textarea";
+
 
 // ✅ Composant d’action (boîte de confirmation)
-const CellAction = ({ nom,id,description,information }) => {
+
+
+
+const CellAction = ({ nom, id, description, information }) => {
+  const [newDescription, setNewDescription] = useState(description);
+  const [newInformation, setNewInformation] = useState(information);
+
+  const handleSave = () => {
+    // 👉 Ici tu brancheras ton API plus tard
+    console.log("ID :", id);
+    console.log("Description :", newDescription);
+    console.log("Information :", newInformation);
+
+    alert("Modification enregistrée (frontend uniquement)");
+  };
+
   return (
     <Dialog>
-      <DialogTrigger>
-        <X className="w-4 h-4 text-red-500 hover:text-red-700 cursor-pointer" />
+      <DialogTrigger asChild>
+        <Button variant="outline" size="sm" className="flex gap-1">
+          <Pencil className="w-4 h-4" />
+          Modifier
+        </Button>
       </DialogTrigger>
-      <DialogContent className="bg-white">
+
+      <DialogContent className="bg-white max-w-lg">
         <DialogHeader>
-          <DialogTitle>Supprimer {nom} do'ou l'id = {id} ?</DialogTitle>
+          <DialogTitle>
+            Modifier la plainte de <strong>{nom}</strong>
+          </DialogTitle>
           <DialogDescription>
-           dezscription: {description} <br /> <br />
-            information: {information}
+            ID de la plainte : <strong>{id}</strong>
           </DialogDescription>
         </DialogHeader>
+
+        <div className="space-y-4">
+          <div>
+            <label className="text-sm font-semibold">Description</label>
+            <Textarea
+              value={newDescription}
+              onChange={(e) => setNewDescription(e.target.value)}
+              className="mt-1"
+            />
+          </div>
+
+          <div>
+            <label className="text-sm font-semibold">Information</label>
+            <Textarea
+              value={newInformation}
+              onChange={(e) => setNewInformation(e.target.value)}
+              className="mt-1"
+            />
+          </div>
+
+          <div className="flex justify-end gap-2">
+            <Button variant="secondary">Annuler</Button>
+            <Button onClick={handleSave}>Enregistrer</Button>
+          </div>
+        </div>
       </DialogContent>
     </Dialog>
   );
 };
+
+export default CellAction;
 
 // colonnes purcsa//
 export const columnPurcsa = [

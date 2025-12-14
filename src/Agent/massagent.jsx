@@ -56,6 +56,7 @@ const regionspurcas= {
     "Bondara",
     "Yoboki",
     "Dakka",
+    "Moutrous",
   ],
 
   Obock: [
@@ -131,11 +132,36 @@ const regionspurcas= {
     "Wabeyta",
     "Mounkour",
     "Waydarim",
+    "Otoy ",
+    "Aylaadou",
+    "Boli",
+    "Ougoulfoum",
+    "Gablablou",
+    "Kalou",
+    "Dar’Dara",
+    "Hedargabo",
+    "Alaf’af",
+    "Malaho",
+    "Saboub",
+    "Dok’af",
   ],
 };
 
 // Noms délégués par localité
 const Deleguerpurcas= {
+  "Dok’af": ["Ali Kamil Orbiso"],
+  "Saboub": ["Med Kamil Med"],
+  "Aylaadou": ["Ali Hassan Med"],
+  "Boli": ["Med Kamil Ali"],
+  "Ougoulfoum": ["Abdo Ali Hamdou "],
+  "Gablablou": ["Med Hamadou"],
+  "Kalou": ["Ahmed Ali Med"],
+  "Dar’Dara": ["Med Ali Med"],
+  "Hedargabo": ["Houmed Med Houmed"],
+  "Alaf’af": ["Badoul Gama Ali"],
+  "Malaho": ["Med Aden Moussa"],
+  "Moutrous": ["Hamad Mohamed Aidahis"],
+  "Otoy ": ["Med Ali Hamadou"],
   "Holl-Holl": ["Rahma Osman Ali"],
   "Hamboucto": ["Moustapha Djama"],
   "Assamo": ["Fathia Idleh Doubed"],
@@ -252,6 +278,7 @@ const quartiersBalbala = [
   "pk13",
   "Balbala 2,Agadalise",
   "bulduqo",
+  "biokate",
 ];
 const quartiersBoulaos = [
   "Quartier 1",
@@ -266,6 +293,7 @@ const quartiersBoulaos = [
   "Stade",
   "Ambouli",
   "Einguela",
+  "Zone industrielle",
 ];
 const quartiersRasdika = ["Plateau", "Marabout", "Héron", "Serpent", "Paid"];
 

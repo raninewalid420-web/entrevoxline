@@ -1,4 +1,4 @@
-import { X } from "lucide-react";
+import { Pencil, X } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -7,22 +7,67 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "../ui/dialog";
+import { Button } from "../ui/button";
+import { Textarea } from "../ui/textarea";
+import { useState } from "react";
 
 // ✅ Composant d’action (boîte de confirmation)
-const CellAction = ({ nom }) => {
+const CellAction = ({ nom, id, description, information }) => {
+  const [newDescription, setNewDescription] = useState(description);
+  const [newInformation, setNewInformation] = useState(information);
+
+  const handleSave = () => {
+    // 👉 Ici tu brancheras ton API plus tard
+    console.log("ID :", id);
+    console.log("Description :", newDescription);
+    console.log("Information :", newInformation);
+
+    alert("Modification enregistrée (frontend uniquement)");
+  };
+
   return (
     <Dialog>
-      <DialogTrigger>
-        <X className="w-4 h-4 text-red-500 hover:text-red-700 cursor-pointer" />
+      <DialogTrigger asChild>
+        <Button variant="outline" size="sm" className="flex gap-1">
+          <Pencil className="w-4 h-4" />
+          Modifier
+        </Button>
       </DialogTrigger>
-      <DialogContent className="bg-white">
+
+      <DialogContent className="bg-white max-w-lg">
         <DialogHeader>
-          <DialogTitle>Supprimer {nom} ?</DialogTitle>
+          <DialogTitle>
+            Modifier la plainte de <strong>{nom}</strong>
+          </DialogTitle>
           <DialogDescription>
-            Cette action est irréversible. Êtes-vous sûr de vouloir supprimer ce
-            colis ?
+            ID de la plainte : <strong>{id}</strong>
           </DialogDescription>
         </DialogHeader>
+
+        <div className="space-y-4">
+          <div>
+            <label className="text-sm font-semibold">Description</label>
+            <Textarea
+              value={newDescription}
+              onChange={(e) => setNewDescription(e.target.value)}
+              className="mt-1"
+            />
+          </div>
+
+          <div>
+            <label className="text-sm font-semibold">Information</label>
+            <Textarea
+              value={newInformation}
+              onChange={(e) => setNewInformation(e.target.value)}
+              className="mt-1"
+            />
+          </div>
+
+          <div className="flex justify-end gap-2">
+            <Button variant="secondary">Annuler</Button>
+            <Button onClick={handleSave}>Enregistrer</Button>
+          </div>
+        </div>
       </DialogContent>
     </Dialog>
   );
@@ -95,4 +140,14 @@ export const columnsHorsProjet = [
   //   },
   // },
   { header: "Creer par ", accessorKey: "agent" },
+    {
+    header: "Actions",
+    cell: ({ row }) => {
+      const nom = row?.original.nom;
+      const id = row?.original.id;
+      const description = row?.original.description;
+      const information = row?.original.information;
+      return <CellAction nom={nom} id={id} description={description} information={information} />;
+    },
+  },
 ];

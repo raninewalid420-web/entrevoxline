@@ -279,6 +279,7 @@ const quartiersBalbala = [
   "Balbala 2,Agadalise",
   "bulduqo",
   "biokate",
+  "wahledaba",
 ];
 const quartiersBoulaos = [
   "Quartier 1",

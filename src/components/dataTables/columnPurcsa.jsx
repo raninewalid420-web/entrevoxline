@@ -17,7 +17,7 @@ const CellAction = ({ nom,id,description,information }) => {
       </DialogTrigger>
       <DialogContent className="bg-white">
         <DialogHeader>
-          <DialogTitle>Supprimer {nom} do'ou l'id = {id} ?</DialogTitle>
+          <DialogTitle>Supprimer {nom} d'ou l'id = {id} ?</DialogTitle>
           <DialogDescription>
            dezscription: {description} <br /> <br />
             information: {information}

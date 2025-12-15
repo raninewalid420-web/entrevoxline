@@ -1,16 +1,26 @@
 import { Navigate, Outlet } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { Loader2 } from "lucide-react";
 
-export default function ProtectedRoute({ allowedRoles}) {
-  const { user, isAuthenticated } = useAuth();
-  // console.log("ProtectedRoute - user:", user, "isAuthenticated:", isAuthenticated);
+export default function ProtectedRoute({ allowedRoles }) {
+  const { user, isAuthenticated, loading } = useAuth();
 
-  if (!user) {
+  // ⏳ Attendre la vérification de session
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <Loader2 className="animate-spin h-8 w-8" />
+      </div>
+    );
+  }
+
+  // ❌ Pas connecté
+  if (!isAuthenticated || !user) {
     return <Navigate to="/" replace />;
   }
 
-  if (allowedRoles && !allowedRoles.includes(user?.role)) {
-    // Si l'utilisateur essaie d'accéder à une route qui n’est pas la sienne
+  // 🚫 Rôle non autorisé
+  if (allowedRoles && !allowedRoles.includes(user.role)) {
     const homeByRole = {
       superAdmin: "/dashboard",
       admin: "/dashboard",
@@ -18,8 +28,10 @@ export default function ProtectedRoute({ allowedRoles}) {
       agents: "/Agents/mass",
       clients: "/Client/Dashboard",
     };
-    return <Navigate to={homeByRole[user?.role]}  />;
+
+    return <Navigate to={homeByRole[user.role]} replace />;
   }
 
+  // ✅ Accès autorisé
   return <Outlet />;
 }

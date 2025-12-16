@@ -12,13 +12,15 @@ import { useState } from "react";
 import { Textarea } from "../ui/textarea";
 
 // ✅ Composant d’action (boîte de confirmation)
-const CellAction = ({ nom, id, description, information }) => {
+const CellAction = ({ nom, id, description, information,quartier }) => {
   const [newDescription, setNewDescription] = useState(description);
   const [newInformation, setNewInformation] = useState(information);
+  const [newQuartier, setNewQuartier] = useState( quartier);
 
   const handleSave = () => {
     // 👉 Ici tu brancheras ton API plus tard
     console.log("ID :", id);
+    console.log("Quartier:", newQuartier);
     console.log("Description :", newDescription);
     console.log("Information :", newInformation);
 
@@ -45,6 +47,15 @@ const CellAction = ({ nom, id, description, information }) => {
         </DialogHeader>
 
         <div className="space-y-4">
+           {/* Quartier */}
+          <div>
+            <label className="text-sm font-semibold">Quartier</label>
+            <Textarea
+              value={newQuartier}
+              onChange={(e) => setNewQuartier(e.target.value)}
+              className="mt-1"
+            />
+          </div>
           <div>
             <label className="text-sm font-semibold">Description</label>
             <Textarea
@@ -146,10 +157,11 @@ export const columnsaseri = [
     header: "Actions",
     cell: ({ row }) => {
       const nom = row?.original.nom;
+      const quartier = row?.original.quartier;
       const id = row?.original.id;
       const description = row?.original.description;
       const information = row?.original.information;
-      return <CellAction nom={nom} id={id} description={description} information={information} />;
+      return <CellAction nom={nom} id={id} description={description} information={information}quartier={quartier} />;
     },
   },
 ];

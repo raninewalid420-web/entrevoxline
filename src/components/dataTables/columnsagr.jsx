@@ -11,17 +11,18 @@ import { Button } from "../ui/button";
 import { useState } from "react";
 import { Textarea } from "../ui/textarea";
 
-// ✅ Composant d’action (boîte de confirmation)
-const CellAction = ({ nom, id, description, information }) => {
+// ✅ Composant d'action (boîte de confirmation)
+const CellAction = ({ nom, id, description, information, quartier }) => {
   const [newDescription, setNewDescription] = useState(description);
   const [newInformation, setNewInformation] = useState(information);
+  const [newQuartier, setNewQuartier] = useState(quartier || "");
 
   const handleSave = () => {
-    // 👉 Ici tu brancheras ton API plus tard
+    // pour le API plus tard
     console.log("ID :", id);
+    console.log("Quartier :", newQuartier);
     console.log("Description :", newDescription);
     console.log("Information :", newInformation);
-
     alert("Modification enregistrée (frontend uniquement)");
   };
 
@@ -45,6 +46,17 @@ const CellAction = ({ nom, id, description, information }) => {
         </DialogHeader>
 
         <div className="space-y-4">
+          {/* Quartier */}
+          <div>
+            <label className="text-sm font-semibold">Quartier</label>
+            <Textarea
+              value={newQuartier}
+              onChange={(e) => setNewQuartier(e.target.value)}
+              className="mt-1"
+            />
+          </div>
+
+          {/* Description */}
           <div>
             <label className="text-sm font-semibold">Description</label>
             <Textarea
@@ -54,6 +66,7 @@ const CellAction = ({ nom, id, description, information }) => {
             />
           </div>
 
+          {/* Information */}
           <div>
             <label className="text-sm font-semibold">Information</label>
             <Textarea
@@ -72,6 +85,7 @@ const CellAction = ({ nom, id, description, information }) => {
     </Dialog>
   );
 };
+
 // ✅ columns/columnsagr.jsx
 export const columnsagr = [
   { header: "Numéro plainte", accessorKey: "numero" },
@@ -86,11 +100,10 @@ export const columnsagr = [
     accessorKey: "genre",
     cell: ({ row }) => (
       <span
-        className={`px-2 py-1 rounded-full text-xs font-semibold ${
-          row.original.genre === "Femme"
-            ? "bg-blue-100 text-blue-700"
-            : "bg-red-100 text-red-700"
-        }`}
+        className={`px-2 py-1 rounded-full text-xs font-semibold ${row.original.genre === "Femme"
+          ? "bg-blue-100 text-blue-700"
+          : "bg-red-100 text-red-700"
+          }`}
       >
         {row.original.genre}
       </span>
@@ -107,7 +120,7 @@ export const columnsagr = [
       </div>
     ),
   },
-   {
+  {
     header: "Information",
     accessorKey: "information",
     cell: ({ row }) => (
@@ -121,34 +134,26 @@ export const columnsagr = [
     accessorKey: "category_plainte",
     cell: ({ row }) => (
       <span
-        className={`px-2 py-1 rounded-full text-xs font-semibold ${
-          row.original.category_plainte === "doleance"
-            ? "bg-purple-100 text-purple-700"
-            : "bg-orange-100 text-orange-700"
-        }`}
+        className={`px-2 py-1 rounded-full text-xs font-semibold ${row.original.category_plainte === "doleance"
+          ? "bg-purple-100 text-purple-700"
+          : "bg-orange-100 text-orange-700"
+          }`}
       >
         {row.original.category_plainte}
       </span>
     ),
   },
   { header: "TypeProbleme", accessorKey: "TypeProbleme" },
-
-  // {
-  //   header: "Actions",
-  //   cell: ({ row }) => {
-  //     const nom = row?.original.nom;
-  //     return <CellAction nom={nom} />;
-  //   },
-  // },
-   { header: "Creer par ", accessorKey: "agent" },
-     {
+  { header: "Creer par ", accessorKey: "agent" },
+  {
     header: "Actions",
     cell: ({ row }) => {
       const nom = row?.original.nom;
       const id = row?.original.id;
+      const quartier = row.original.quartier;
       const description = row?.original.description;
       const information = row?.original.information;
-      return <CellAction nom={nom} id={id} description={description} information={information} />;
+      return <CellAction nom={nom} id={id} description={description} information={information} quartier={quartier} />;
     },
   },
 ];

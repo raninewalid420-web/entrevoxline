@@ -1,6 +1,7 @@
 import { Pencil } from "lucide-react";
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogHeader,
@@ -65,7 +66,9 @@ const CellAction = ({ nom, id, description, information }) => {
           </div>
 
           <div className="flex justify-end gap-2">
-            <Button variant="secondary">Annuler</Button>
+            <DialogClose asChild>
+              <Button variant="secondary">Annuler</Button>
+            </DialogClose>
             <Button onClick={handleSave}>Enregistrer</Button>
           </div>
         </div>

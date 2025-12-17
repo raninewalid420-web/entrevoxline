@@ -280,6 +280,7 @@ const quartiersBalbala = [
   "bulduqo",
   "biokate",
   "wahledaba",
+  "warabaley",
 ];
 const quartiersBoulaos = [
   "Quartier 1",
@@ -295,6 +296,7 @@ const quartiersBoulaos = [
   "Ambouli",
   "Einguela",
   "Zone industrielle",
+  "Jamal",
 ];
 const quartiersRasdika = ["Plateau", "Marabout", "Héron", "Serpent", "Paid"];
 

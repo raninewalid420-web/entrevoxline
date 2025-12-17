@@ -10,6 +10,8 @@ import {
 import { Button } from "../ui/button";
 import { Textarea } from "../ui/textarea";
 import { useState } from "react";
+import { PartialUpdateMass } from "../../api/mass";
+import { toast, ToastContainer } from "react-toastify";
 
 // ✅ Composant d’action (boîte de confirmation)
 const CellAction = ({ nom, id, description, information,quartier}) => {
@@ -17,18 +19,29 @@ const CellAction = ({ nom, id, description, information,quartier}) => {
   const [newInformation, setNewInformation] = useState(information);
   const [newQuartier, setNewQuartier] = useState(quartier);
 
-  const handleSave = () => {
-    // 👉 Ici tu brancheras ton API plus tard
-    console.log("ID :", id);
-    console.log("Quartier :", newQuartier);
-    console.log("Description :", newDescription);
-    console.log("Information :", newInformation);
-
-    alert("Modification enregistrée (frontend uniquement)");
+  const handleSave = async () => {
+    const Donnee = {
+      description: newDescription,
+      quartier: newQuartier,
+      information: newInformation,
+    };
+    // Appel API pour la mise à jour partielle
+    // Exemple : await PartialUpdateMass(Donnee, id);   
+    try {
+      const response = await PartialUpdateMass(Donnee, id); 
+      if (response.success) {
+        toast.success("Mise à jour réussie");
+      } else {
+        toast.error("Échec de la mise à jour partielle :", response.message);
+      } 
+    } catch (error) {
+      console.error("Erreur lors de la mise à jour partielle :", error);
+    } 
   };
 
   return (
     <Dialog>
+        <ToastContainer position="top-center" />
       <DialogTrigger asChild>
         <Button variant="outline" size="sm" className="flex gap-1">
           <Pencil className="w-4 h-4" />

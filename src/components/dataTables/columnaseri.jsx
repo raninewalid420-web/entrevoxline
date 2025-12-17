@@ -10,25 +10,38 @@ import {
 import { Button } from "../ui/button";
 import { useState } from "react";
 import { Textarea } from "../ui/textarea";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { PartialUpdateMass } from "../../api/mass";
 
 // ✅ Composant d’action (boîte de confirmation)
-const CellAction = ({ nom, id, description, information,quartier }) => {
+const CellAction = ({ nom, id, description, information, quartier }) => {
   const [newDescription, setNewDescription] = useState(description);
   const [newInformation, setNewInformation] = useState(information);
-  const [newQuartier, setNewQuartier] = useState( quartier);
+  const [newQuartier, setNewQuartier] = useState(quartier);
 
-  const handleSave = () => {
-    // 👉 Ici tu brancheras ton API plus tard
-    console.log("ID :", id);
-    console.log("Quartier:", newQuartier);
-    console.log("Description :", newDescription);
-    console.log("Information :", newInformation);
-
-    alert("Modification enregistrée (frontend uniquement)");
+  const handleSave = async () => {
+    const Donnee = {
+      description: newDescription,
+      quartier: newQuartier,
+      information: newInformation,
+    };
+    try {
+      const response = await PartialUpdateMass(Donnee, id);
+      if (response.success) {
+        toast.success("Mise à jour réussie");
+        // Vous pouvez ajouter une logique supplémentaire ici, comme fermer le dialogue ou rafraîchir les données
+      } else {
+        toast.error("Échec de la mise à jour partielle :", response.message);
+      }
+    } catch (error) {
+      console.error("Erreur lors de la mise à jour partielle :", error);
+    }
   };
 
   return (
     <Dialog>
+      <ToastContainer position="top-center" />
       <DialogTrigger asChild>
         <Button variant="outline" size="sm" className="flex gap-1">
           <Pencil className="w-4 h-4" />
@@ -47,7 +60,7 @@ const CellAction = ({ nom, id, description, information,quartier }) => {
         </DialogHeader>
 
         <div className="space-y-4">
-           {/* Quartier */}
+          {/* Quartier */}
           <div>
             <label className="text-sm font-semibold">Quartier</label>
             <Textarea
@@ -119,7 +132,7 @@ export const columnsaseri = [
       </div>
     ),
   },
-   {
+  {
     header: "Information",
     accessorKey: "information",
     cell: ({ row }) => (
@@ -144,7 +157,7 @@ export const columnsaseri = [
     ),
   },
   { header: "TypeProbleme", accessorKey: "TypeProbleme" },
-  
+
   // {
   //   header: "Actions",
   //   cell: ({ row }) => {
@@ -153,7 +166,7 @@ export const columnsaseri = [
   //   },
   // },
   { header: "Creer par ", accessorKey: "agent" },
-    {
+  {
     header: "Actions",
     cell: ({ row }) => {
       const nom = row?.original.nom;
@@ -161,7 +174,15 @@ export const columnsaseri = [
       const id = row?.original.id;
       const description = row?.original.description;
       const information = row?.original.information;
-      return <CellAction nom={nom} id={id} description={description} information={information}quartier={quartier} />;
+      return (
+        <CellAction
+          nom={nom}
+          id={id}
+          description={description}
+          information={information}
+          quartier={quartier}
+        />
+      );
     },
   },
 ];

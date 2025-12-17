@@ -11,6 +11,9 @@ import {
 import { useState } from "react";
 import { Button } from "../ui/button";
 import { Textarea } from "../ui/textarea";
+import { tr } from "zod/v4/locales";
+import { toast, ToastContainer } from "react-toastify";
+import { PartialUpdateMass } from "../../api/mass";
 
 // ✅ Composant d’action (boîte de confirmation)
 
@@ -18,17 +21,27 @@ const CellAction = ({ nom, id, description, information }) => {
   const [newDescription, setNewDescription] = useState(description);
   const [newInformation, setNewInformation] = useState(information);
 
-  const handleSave = () => {
-    // 👉 Ici tu brancheras ton API plus tard
-    console.log("ID :", id);
-    console.log("Description :", newDescription);
-    console.log("Information :", newInformation);
-
-    alert("Modification enregistrée (frontend uniquement)");
+  const handleSave =async () => {
+    const Donnee = {
+      description: newDescription,
+      information: newInformation,
+      quartier:"",
+    };
+    try {
+      const response = await PartialUpdateMass(Donnee, id);   
+      if (response.success) {
+        toast.success("Mise à jour réussie");
+      } else {
+        toast.error("Échec de la mise à jour partielle :", response.message);
+      } 
+    } catch (error) {
+      console.error("Erreur lors de la mise à jour partielle :", error);
+    } 
   };
 
   return (
     <Dialog>
+        <ToastContainer position="top-center" />
       <DialogTrigger asChild>
         <Button variant="outline" size="sm" className="flex gap-1">
           <Pencil className="w-4 h-4" />

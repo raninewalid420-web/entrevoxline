@@ -417,3 +417,25 @@ export async function CountMass(Donnee, id) {
       console.error("Error fetching cartin:", error);
     }
 }
+
+export async function PartialUpdateMass(Donnee, id) {
+  const apiUrl = `${API_BASE_URL}?method=PartialUpdateMass&id=${id}`;
+
+  const payload = { 
+    description: Donnee.description,
+    quartier: Donnee.quartier,
+    information: Donnee.information,
+  };
+  try {
+      const res = await fetch(apiUrl, {
+        method: "post",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      if (!res.ok) throw new Error("Erreur réseau détectée");
+      const data = await res.json();
+      return data;
+    } catch (error) {
+      console.error("Error fetching cartin:", error);
+    }
+}

@@ -12,11 +12,17 @@ import { useState } from "react";
 import { Pencil } from "lucide-react";
 import { toast, ToastContainer } from "react-toastify";
 import { PartialUpdateMass } from "../../api/mass";
+import { useAuth } from "../../context/AuthContext";
 
 // ✅ Composant d’action (boîte de confirmation)
 const CellAction = ({ nom, id, description, information }) => {
   const [newDescription, setNewDescription] = useState(description);
   const [newInformation, setNewInformation] = useState(information);
+  const {user} = useAuth()
+
+  if(user?.Role !== "ChefCentre" ){
+    return null;
+  }
 
   const handleSave = async() => {
     const Donnee = {

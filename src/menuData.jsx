@@ -114,6 +114,107 @@ export const menuData = [
   },
 ];
 
+export const menuDataEquipe_Qualiter= [
+  {
+    title: "Gestion Des Utilisateurs Et Agents",
+    items: [
+      {
+        path: "/Equipe_Qualiter/dashboard",
+        label: "Tableau de bord",
+        icon: <Home className="w-4 h-4" />,
+      },
+      {
+        path: "/Equipe_Qualiter/agents",
+        label: "Liste des agents",
+        icon: <Users className="w-4 h-4" />,
+      },
+    ],
+  },
+
+  {
+    title: "Ligne 2020",
+    items: [
+      {
+        label: "Masse",
+        icon: <Layers className="w-4 h-4" />,
+        children: [
+          { path: "/Equipe_Qualiter/masse/purcsa", label: "PURCSA" },
+          { path: "/Equipe_Qualiter/masse/AGR", label: "AGR" },
+          { path: "/Equipe_Qualiter/masse/Aseri", label: "ASERI" },
+          { path: "/Equipe_Qualiter/masse/Crec", label: "CREC" },
+          { path: "/Equipe_Qualiter/masse/eab", label: "Eabs" },
+          { path: "/Equipe_Qualiter/masse/freesh", label: "Freesh Food" },
+          { path: "/Equipe_Qualiter/masse/pass", label: "Pass" },
+          { path: "/Equipe_Qualiter/masse/pirb", label: "PIRB" },
+          { path: "/Equipe_Qualiter/masse/ps", label: "PS" },
+          { path: "/Equipe_Qualiter/masse/hs", label: "Hors Projet" },
+        ],
+      },
+      {
+        path: "/Equipe_Qualiter/adr",
+        label: "ADR",
+        icon: <FolderKanban className="w-4 h-4 opacity-70" />,
+      },
+      {
+        path: "/Equipe_Qualiter/cartin",
+        label: "Cartin",
+        icon: <FolderKanban className="w-4 h-4 opacity-70" />,
+      },
+
+      {
+        path: "/Equipe_Qualiter/recherche",
+        label: "Recherche",
+        icon: <FolderKanban className="w-4 h-4 opacity-70" />,
+      },
+      {
+        path: "/Equipe_Qualiter/Arulos",
+        label: "Arulos",
+        icon: <FolderKanban className="w-4 h-4 opacity-70" />,
+      },
+      {
+        path: "/Equipe_Qualiter/dpcr",
+        label: "DPCR",
+        icon: <Database className="w-4 h-4 opacity-70" />,
+      },
+      {
+        path: "/Equipe_Qualiter/commandeannulerData",
+        label: "Annulation commande",
+        icon: <ClipboardList className="w-4 h-4 opacity-70" />,
+      },
+      {
+        path: "/Equipe_Qualiter/ColisNontrouverData",
+        label: "Colis non trouvé",
+        icon: <FileText className="w-4 h-4 opacity-70" />,
+      },
+      {
+        path: "/Equipe_Qualiter/InformationData",
+        label: "Information",
+        icon: <FileText className="w-4 h-4 opacity-70" />,
+      },
+    ],
+  },
+  {
+    title: "Ligne EAB",
+    items: [
+      {
+        path: "/Equipe_Qualiter/EAB",
+        label: "EAB Bank",
+        icon: <Database className="w-4 h-4 opacity-70" />,
+      },
+    ],
+  },
+  {
+    title: "Ligne Djibouti Telecom",
+    items: [
+      {
+        path: "/Equipe_Qualiter/Djib-tel",
+        label: "Djibouti Telecom",
+        icon: <Database className="w-4 h-4 opacity-70" />,
+      },
+    ],
+  },
+];
+
 export const menuDataLigne2020 = [
   {
     title: "Ligne 2020",

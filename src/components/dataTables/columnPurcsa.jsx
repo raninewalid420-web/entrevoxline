@@ -14,12 +14,16 @@ import { Textarea } from "../ui/textarea";
 import { tr } from "zod/v4/locales";
 import { toast, ToastContainer } from "react-toastify";
 import { PartialUpdateMass } from "../../api/mass";
+import { useAuth } from "../../context/AuthContext";
 
 // ✅ Composant d’action (boîte de confirmation)
 
 const CellAction = ({ nom, id, description, information }) => {
+  const {user} = useAuth()
+  
   const [newDescription, setNewDescription] = useState(description);
-  const [newInformation, setNewInformation] = useState(information);
+  const [newInformation, setNewInformation] = useState(information); 
+  
 
   const handleSave =async () => {
     const Donnee = {
@@ -38,6 +42,12 @@ const CellAction = ({ nom, id, description, information }) => {
       console.error("Erreur lors de la mise à jour partielle :", error);
     } 
   };
+
+
+  if(user?.Role !== "ChefCentre" ){
+    return null;
+  }
+  
 
   return (
     <Dialog>

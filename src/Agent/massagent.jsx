@@ -802,13 +802,7 @@ export default function MassAgent() {
     []
   );
 
-  useEffect(() => {
-    NumExecute();
-    setValue("numero", LastNumero);
-    setValue("date", new Date().toISOString().split("T")[0]);
-  }, [NumExecute]);
-
-  const onSubmit = async (data) => {
+   const onSubmit = async (data) => {
     console.log("Données du formulaire soumis :", data);
     try {
       const result = await MassExecute(data, user?.id);
@@ -827,6 +821,14 @@ export default function MassAgent() {
     }
   };
 
+
+  useEffect(() => {
+    NumExecute();
+    setValue("numero", LastNumero);
+    setValue("date", new Date().toISOString().split("T")[0]);
+  }, [NumExecute]);
+
+ 
   return (
     <div className="min-h-screen bg-slate-100 p-8">
       <ToastContainer position="top-center" />

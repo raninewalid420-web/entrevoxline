@@ -15,13 +15,18 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ca, tr } from "zod/v4/locales";
 import { PartialUpdateMass } from "../../api/mass";
+import { useAuth } from "../../context/AuthContext";
 
 // ✅ Composant d’action (boîte de confirmation)
 const CellAction = ({ nom, id, description, information,quartier }) => {
   const [newDescription, setNewDescription] = useState(description);
   const [newInformation, setNewInformation] = useState(information);
   const [newQuartier, setNewQuartier] = useState(quartier);
+  const {user} = useAuth()
 
+  if(user?.Role !== "ChefCentre" ){
+    return null;
+  }
   const handleSave =async () => {
  const Donnee = {
       description: newDescription,

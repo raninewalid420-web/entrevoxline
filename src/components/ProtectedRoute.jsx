@@ -25,6 +25,7 @@ export default function ProtectedRoute({ allowedRoles }) {
       superAdmin: "/dashboard",
       admin: "/dashboard",
       chefCentre: "/dashboard",
+      equipe_qualiter: "/Equipe_Qualiter/dashboard",
       agents: "/Agents/mass",
       clients: "/Client/Dashboard",
     };

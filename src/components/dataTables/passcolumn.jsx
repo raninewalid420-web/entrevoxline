@@ -12,12 +12,17 @@ import { Textarea } from "../ui/textarea";
 import { useState } from "react";
 import { PartialUpdateMass } from "../../api/mass";
 import { toast, ToastContainer } from "react-toastify";
+import { useAuth } from "../../context/AuthContext";
 
 // ✅ Composant d’action (boîte de confirmation)
 const CellAction = ({ nom, id, description, information }) => {
   const [newDescription, setNewDescription] = useState(description);
   const [newInformation, setNewInformation] = useState(information);
+  const {user} = useAuth()
 
+  if(user?.Role !== "ChefCentre" ){
+    return null;
+  }
   const handleSave = async() => {
     // Logique de sauvegarde ici
     const Donnee = {

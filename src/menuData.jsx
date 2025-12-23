@@ -259,6 +259,11 @@ export const menuDataLigne2020 = [
         label: "Information",
         icon: <FileText className="w-4 h-4 opacity-70" />,
       },
+      {
+        path: "/Agents/Far",
+        label: "Far",
+        icon: <FileText className="w-4 h-4 opacity-70" />,
+      },
     ],
   },
 ];

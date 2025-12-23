@@ -273,15 +273,20 @@ const quartiersBalbala = [
   "Barwago 2",
   "cité nassib",
   "Torabora",
-  "cite doumeura",
+  "cite doumeira",
   "cite gargar",
   "pk13",
   "Balbala 2,Agadalise",
   "bulduqo",
-  "biokate",
+  "Bioked",
   "wahledaba",
   "warabaley",
   "Balbala T9",
+  "Chabeley",
+  "PK14",
+  "cité Moustakaire",
+  "8 mètres",
+  " 4 mètres",
 ];
 const quartiersBoulaos = [
   "Quartier 1",
@@ -298,6 +303,7 @@ const quartiersBoulaos = [
   "Einguela",
   "Zone industrielle",
   "Jamal",
+  "Gabode 4",
 ];
 const quartiersRasdika = ["Plateau", "Marabout", "Héron", "Serpent", "Paid"];
 

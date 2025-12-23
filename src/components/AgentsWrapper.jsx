@@ -26,6 +26,7 @@ import FormDPCR from "../Agent/dpcrAgent";
 import InformationAgent from "../Agent/inforAgent";
 import AnnulationCommande from "../Agent/annulationAgent";
 import EABAgent from "../Agent/eabAgent";
+import PlainteForm from "../Agent/Far";
 
 export default function AgentsWrapper() {
   const { user } = useAuth();
@@ -109,6 +110,11 @@ export default function AgentsWrapper() {
           key="commande-annulee"
           path="commandeannulerData"
           element={<AnnulationCommande />}
+        />,
+        <Route
+          key="Far"
+          path="Far"
+          element={<PlainteForm />}
         />,
       ];
       break;

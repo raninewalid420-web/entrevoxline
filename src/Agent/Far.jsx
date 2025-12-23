@@ -6,6 +6,8 @@ export default function PlainteForm() {
     nomReclamant: "",
     contact: "",
     projet: "",
+    typePlainte: "",
+    langue: "",
     details: "",
     signatureReclamant: "",
     anonyme: false,
@@ -42,6 +44,8 @@ export default function PlainteForm() {
       nomReclamant: "",
       contact: "",
       projet: "",
+      typePlainte: "",
+      langue: "",
       details: "",
       signatureReclamant: "",
       anonyme: false,
@@ -134,6 +138,41 @@ export default function PlainteForm() {
                 className="w-full border p-2 rounded"
                 required
               />
+            </div>
+
+            {/* Type de plainte */}
+            <div>
+              <label className="block font-medium">Type de plainte</label>
+              <select
+                name="typePlainte"
+                value={formData.typePlainte}
+                onChange={handleChange}
+                className="w-full border p-2 rounded"
+                required
+              >
+                <option value="">Sélectionner un type</option>
+                <option value="Doléance">Doléance</option>
+                <option value="Plainte">Plainte</option>
+              </select>
+            </div>
+
+            {/* Langue */}
+            <div>
+              <label className="block font-medium">Langue</label>
+              <select
+                name="langue"
+                value={formData.langue}
+                onChange={handleChange}
+                className="w-full border p-2 rounded"
+                required
+              >
+                <option value="">Sélectionner une langue</option>
+                <option value="Somali">Somali</option>
+                <option value="Afar">Afar</option>
+                <option value="Arabe">Arabe</option>
+                <option value="Amharique">Amharique</option>
+                <option value="Anglais">Anglais</option>
+              </select>
             </div>
 
             {/* Projet */}
@@ -230,19 +269,27 @@ export default function PlainteForm() {
                     </div>
 
                     <div className="text-sm space-y-1">
-                      <p>
+                      <p className="break-words">
                         <span className="font-medium">Réclamant:</span>{" "}
                         {plainte.anonyme ? "Anonyme" : plainte.nomReclamant}
                       </p>
-                      <p>
+                      <p className="break-words">
                         <span className="font-medium">Contact:</span>{" "}
                         {plainte.contact}
                       </p>
-                      <p>
+                      <p className="break-words">
+                        <span className="font-medium">Type:</span>{" "}
+                        {plainte.typePlainte}
+                      </p>
+                      <p className="break-words">
+                        <span className="font-medium">Langue:</span>{" "}
+                        {plainte.langue}
+                      </p>
+                      <p className="break-words">
                         <span className="font-medium">Projet:</span>{" "}
                         {plainte.projet}
                       </p>
-                      <p>
+                      <p className="break-words">
                         <span className="font-medium">Détails:</span>{" "}
                         {plainte.details}
                       </p>

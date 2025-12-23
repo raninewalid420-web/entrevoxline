@@ -55,11 +55,13 @@ import {
   menuData,
   menuDataEquipe_Qualiter,
   menuDataforClientMass,
+  menuFar,
 } from "./menuData";
 
 import { Dashboard } from "./components/Dashboard/Dashboard";
 import { DashboardClient } from "./components/Dashboard/DashboardClient";
 import AgentsWrapper from "./components/AgentsWrapper";
+import PlainteForm from "./Agent/Far";
 
 export default function App() {
   return (
@@ -125,15 +127,27 @@ export default function App() {
               element={<ProtectedRoute allowedRoles={["equipe_qualiter"]} />}
             >
               <Route element={<Layout menuItems={menuDataEquipe_Qualiter} />}>
-                <Route path="/Equipe_Qualiter/dashboard" element={<Dashboard />} />
+                <Route
+                  path="/Equipe_Qualiter/dashboard"
+                  element={<Dashboard />}
+                />
                 <Route path="/Equipe_Qualiter/adr" element={<Adr />} />
                 <Route path="/Equipe_Qualiter/agents" element={<Agents />} />
-                <Route path="/Equipe_Qualiter/cartin" element={<CartinData />} />
-                <Route path="/Equipe_Qualiter/recherche" element={<Recherche />} />
+                <Route
+                  path="/Equipe_Qualiter/cartin"
+                  element={<CartinData />}
+                />
+                <Route
+                  path="/Equipe_Qualiter/recherche"
+                  element={<Recherche />}
+                />
                 <Route path="/Equipe_Qualiter/arulos" element={<Arulos />} />
                 <Route path="/Equipe_Qualiter/eab" element={<EAB />} />
                 <Route path="/Equipe_Qualiter/dpcr" element={<SupDpcr />} />
-                <Route path="/Equipe_Qualiter/InformationData" element={<InformationData />} />
+                <Route
+                  path="/Equipe_Qualiter/InformationData"
+                  element={<InformationData />}
+                />
                 <Route
                   path="/Equipe_Qualiter/commandeannulerData"
                   element={<CommandeannulerData />}
@@ -142,17 +156,45 @@ export default function App() {
                   path="/Equipe_Qualiter/ColisNontrouverData"
                   element={<ColisNontrouverData />}
                 />
-                <Route path="/Equipe_Qualiter/masse/purcsa" element={<PurcsaData />} />
+                <Route
+                  path="/Equipe_Qualiter/masse/purcsa"
+                  element={<PurcsaData />}
+                />
                 <Route path="/Equipe_Qualiter/masse/agr" element={<AGR />} />
-                <Route path="/Equipe_Qualiter/masse/aseri" element={<Aseri />} />
+                <Route
+                  path="/Equipe_Qualiter/masse/aseri"
+                  element={<Aseri />}
+                />
                 <Route path="/Equipe_Qualiter/masse/crec" element={<Crec />} />
-                <Route path="/Equipe_Qualiter/masse/eab" element={<EABData />} />
-                <Route path="/Equipe_Qualiter/masse/freesh" element={<FreeshData />} />
-                <Route path="/Equipe_Qualiter/masse/pass" element={<PassData />} />
-                <Route path="/Equipe_Qualiter/masse/pirb" element={<PirbData />} />
+                <Route
+                  path="/Equipe_Qualiter/masse/eab"
+                  element={<EABData />}
+                />
+                <Route
+                  path="/Equipe_Qualiter/masse/freesh"
+                  element={<FreeshData />}
+                />
+                <Route
+                  path="/Equipe_Qualiter/masse/pass"
+                  element={<PassData />}
+                />
+                <Route
+                  path="/Equipe_Qualiter/masse/pirb"
+                  element={<PirbData />}
+                />
                 <Route path="/Equipe_Qualiter/masse/ps" element={<PsData />} />
                 <Route path="/Equipe_Qualiter/masse/hs" element={<HsData />} />
-                <Route path="/Equipe_Qualiter/Djib-tel" element={<h1>Djibouti Télécom</h1>} />
+                <Route
+                  path="/Equipe_Qualiter/Djib-tel"
+                  element={<h1>Djibouti Télécom</h1>}
+                />
+              </Route>
+            </Route>
+
+            {/* Equipe Qualiter */}
+            <Route element={<ProtectedRoute allowedRoles={["far_client"]} />}>
+              <Route element={<Layout menuItems={menuFar} />}>
+                <Route key="Far" path="Agent/Far" element={<PlainteForm />} />
               </Route>
             </Route>
 

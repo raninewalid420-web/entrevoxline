@@ -52,6 +52,7 @@ export default function Accueil() {
           admin: "/dashboard",
           chefCentre: "/dashboard",
           equipe_qualiter: "/Equipe_Qualiter/dashboard",
+          far_client: "/Agent/Far",
           clients: "/Client/dashboard",
         };
         navigate(redirectByRole[user.role] || "/dashboard");

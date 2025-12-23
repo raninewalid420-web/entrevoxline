@@ -215,6 +215,19 @@ export const menuDataEquipe_Qualiter= [
   },
 ];
 
+export const menuFar = [
+  {
+    title: "Ligne 2020",
+    items: [
+      {
+        path: "/Agent/Far",
+        label: "Far",
+        icon: <FileText className="w-4 h-4 opacity-70" />,
+      },
+    ],
+  },
+];
+
 export const menuDataLigne2020 = [
   {
     title: "Ligne 2020",

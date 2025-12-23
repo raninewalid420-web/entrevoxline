@@ -10,6 +10,7 @@ export default function CatchAllRedirect() {
     chefCentre: "/dashboard",
     equipe_qualiter: "/Equipe_Qualiter/dashboard",
     agents: "/Agents/mass",
+    far_client: "/Agents/Far",
     clients: "/Client/Dashboard",
   };
 

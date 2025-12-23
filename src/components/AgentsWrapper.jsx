@@ -111,11 +111,6 @@ export default function AgentsWrapper() {
           path="commandeannulerData"
           element={<AnnulationCommande />}
         />,
-        <Route
-          key="Far"
-          path="Far"
-          element={<PlainteForm />}
-        />,
       ];
       break;
     case "allligne":

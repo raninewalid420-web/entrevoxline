@@ -82,6 +82,7 @@ export default function PlainteForm() {
             </h1>
           </div>
           <form onSubmit={handleSubmit} className="space-y-4 px-6 py-4">
+            <h1 className="font-semibold">Reference : {`FAR-${String(counter).padStart(4, "0")}`}</h1>
             {/* Date */}
             <div>
               <label className="block font-medium">Date</label>

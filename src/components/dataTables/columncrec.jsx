@@ -20,7 +20,7 @@ const CellAction = ({ nom, id, description, information }) => {
   const [newInformation, setNewInformation] = useState(information);
   const {user} = useAuth()
 
-  if(user?.Role !== "ChefCentre" ){
+  if(user?.role != "chefCentre" ){
     return null;
   }
 

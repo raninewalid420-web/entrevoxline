@@ -22,7 +22,7 @@ const CellAction = ({ nom, id, description, information, quartier }) => {
   const [newQuartier, setNewQuartier] = useState(quartier);
    const {user} = useAuth()
 
-  if(user?.Role !== "ChefCentre" ){
+  if(user?.role != "chefCentre" ){
     return null;
   }
   const handleSave = async () => {

@@ -15,13 +15,13 @@ import { PartialUpdateMass } from "../../api/mass";
 import { useAuth } from "../../context/AuthContext";
 
 // ✅ Composant d’action (boîte de confirmation)
-const CellAction = ({ nom, id, description, information,quartier }) => {
+const CellAction = ({ nom, id, description, information, quartier }) => {
   const [newDescription, setNewDescription] = useState(description);
   const [newInformation, setNewInformation] = useState(information);
   const [newQuartier, setNewQuartier] = useState(quartier);
-  const {user} = useAuth()
+  const { user } = useAuth()
 
-  if(user?.Role !== "ChefCentre" ){
+  if (user?.role != "chefCentre") {
     return null;
   }
 
@@ -38,14 +38,15 @@ const CellAction = ({ nom, id, description, information,quartier }) => {
       }
       else {
         toast.error("Échec de la mise à jour partielle :", response.message);
-      }  } catch (error) {    
+      }
+    } catch (error) {
       console.error("Erreur lors de la mise à jour partielle :", error);
     }
   };
 
   return (
     <Dialog>
-        <ToastContainer position="top-center" />
+      <ToastContainer position="top-center" />
       <DialogTrigger asChild>
         <Button variant="outline" size="sm" className="flex gap-1">
           <Pencil className="w-4 h-4" />
@@ -115,11 +116,10 @@ export const columnsFreeFood = [
     accessorKey: "genre",
     cell: ({ row }) => (
       <span
-        className={`px-2 py-1 rounded-full text-xs font-semibold ${
-          row.original.genre === "Femme"
+        className={`px-2 py-1 rounded-full text-xs font-semibold ${row.original.genre === "Femme"
             ? "bg-blue-100 text-blue-700"
             : "bg-red-100 text-red-700"
-        }`}
+          }`}
       >
         {row.original.genre}
       </span>
@@ -151,11 +151,10 @@ export const columnsFreeFood = [
     accessorKey: "category_plainte",
     cell: ({ row }) => (
       <span
-        className={`px-2 py-1 rounded-full text-xs font-semibold ${
-          row.original.category_plainte === "doleance"
+        className={`px-2 py-1 rounded-full text-xs font-semibold ${row.original.category_plainte === "doleance"
             ? "bg-purple-100 text-purple-700"
             : "bg-orange-100 text-orange-700"
-        }`}
+          }`}
       >
         {row.original.category_plainte}
       </span>
@@ -170,8 +169,8 @@ export const columnsFreeFood = [
   //     return <CellAction nom={nom} />;
   //   },
   // },
-   { header: "Creer par ", accessorKey: "agent" },
-     {
+  { header: "Creer par ", accessorKey: "agent" },
+  {
     header: "Actions",
     cell: ({ row }) => {
       const nom = row?.original.nom;

@@ -23,6 +23,10 @@ const CellAction = ({ nom, id, description, information }) => {
   
   const [newDescription, setNewDescription] = useState(description);
   const [newInformation, setNewInformation] = useState(information); 
+
+  if(user?.role != "chefCentre" ){
+    return null;
+  }
   
 
   const handleSave =async () => {
@@ -44,9 +48,6 @@ const CellAction = ({ nom, id, description, information }) => {
   };
 
 
-  if(user?.Role !== "ChefCentre" ){
-    return null;
-  }
   
 
   return (

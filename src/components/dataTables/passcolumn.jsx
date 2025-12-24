@@ -18,33 +18,33 @@ import { useAuth } from "../../context/AuthContext";
 const CellAction = ({ nom, id, description, information }) => {
   const [newDescription, setNewDescription] = useState(description);
   const [newInformation, setNewInformation] = useState(information);
-  const {user} = useAuth()
+  const { user } = useAuth()
 
-  if(user?.Role !== "ChefCentre" ){
+  if (user?.role != "chefCentre") {
     return null;
   }
-  const handleSave = async() => {
+  const handleSave = async () => {
     // Logique de sauvegarde ici
     const Donnee = {
       description: newDescription,
       information: newInformation,
-      quartier:"",
+      quartier: "",
     };
-   try {
-     const response = await PartialUpdateMass(Donnee, id);  
-      if (response.success) {   
-        toast.success("Mise à jour réussie"); 
+    try {
+      const response = await PartialUpdateMass(Donnee, id);
+      if (response.success) {
+        toast.success("Mise à jour réussie");
       } else {
         toast.error("Échec de la mise à jour partielle :", response.message);
       }
-    } catch (error) { 
+    } catch (error) {
       console.error("Erreur lors de la mise à jour partielle :", error);
     }
   };
 
   return (
     <Dialog>
-        <ToastContainer position="top-center" />
+      <ToastContainer position="top-center" />
       <DialogTrigger asChild>
         <Button variant="outline" size="sm" className="flex gap-1">
           <Pencil className="w-4 h-4" />
@@ -105,11 +105,10 @@ export const columnsPass = [
     accessorKey: "genre",
     cell: ({ row }) => (
       <span
-        className={`px-2 py-1 rounded-full text-xs font-semibold ${
-          row.original.genre === "Femme"
+        className={`px-2 py-1 rounded-full text-xs font-semibold ${row.original.genre === "Femme"
             ? "bg-blue-100 text-blue-700"
             : "bg-red-100 text-red-700"
-        }`}
+          }`}
       >
         {row.original.genre}
       </span>
@@ -140,11 +139,10 @@ export const columnsPass = [
     accessorKey: "category_plainte",
     cell: ({ row }) => (
       <span
-        className={`px-2 py-1 rounded-full text-xs font-semibold ${
-          row.original.category_plainte === "doleance"
+        className={`px-2 py-1 rounded-full text-xs font-semibold ${row.original.category_plainte === "doleance"
             ? "bg-purple-100 text-purple-700"
             : "bg-orange-100 text-orange-700"
-        }`}
+          }`}
       >
         {row.original.category_plainte}
       </span>
@@ -158,8 +156,8 @@ export const columnsPass = [
   //     return <CellAction nom={nom} />;
   //   },
   // },
-   { header: "Creer par ", accessorKey: "agent" },
-     {
+  { header: "Creer par ", accessorKey: "agent" },
+  {
     header: "Actions",
     cell: ({ row }) => {
       const nom = row?.original.nom;

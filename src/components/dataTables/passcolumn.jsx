@@ -15,10 +15,11 @@ import { toast, ToastContainer } from "react-toastify";
 import { useAuth } from "../../context/AuthContext";
 
 // ✅ Composant d’action (boîte de confirmation)
-const CellAction = ({ nom, id, description, information }) => {
+const CellAction = ({ nom, id, description, information, cin, updated_at }) => {
   const [newDescription, setNewDescription] = useState(description);
   const [newInformation, setNewInformation] = useState(information);
-  const { user } = useAuth()
+  const [newCin, setNewCin] = useState(cin);
+  const { user } = useAuth();
 
   if (user?.role != "chefCentre") {
     return null;
@@ -28,6 +29,9 @@ const CellAction = ({ nom, id, description, information }) => {
     const Donnee = {
       description: newDescription,
       information: newInformation,
+      cin: newCin,
+      updated_by: user?.id,
+      updated_at: new Date().toISOString(),
       quartier: "",
     };
     try {
@@ -60,9 +64,28 @@ const CellAction = ({ nom, id, description, information }) => {
           <DialogDescription>
             ID de la plainte : <strong>{id}</strong>
           </DialogDescription>
+          {updated_at && (
+            <p className="text-sm text-gray-500">
+              Dernière modification :{" "}
+              <strong>
+                {new Date(updated_at).toLocaleDateString("fr-FR")}
+              </strong>
+            </p>
+          )}
         </DialogHeader>
 
         <div className="space-y-4">
+          {/* CIN */}
+          <div>
+            <label className="text-sm font-semibold">CIN</label>
+            <input
+              type="text"
+              value={newCin}
+              onChange={(e) => setNewCin(e.target.value)}
+              className="mt-1 w-full border rounded-md px-3 py-2"
+            />
+          </div>
+
           <div>
             <label className="text-sm font-semibold">Description</label>
             <Textarea
@@ -105,10 +128,11 @@ export const columnsPass = [
     accessorKey: "genre",
     cell: ({ row }) => (
       <span
-        className={`px-2 py-1 rounded-full text-xs font-semibold ${row.original.genre === "Femme"
+        className={`px-2 py-1 rounded-full text-xs font-semibold ${
+          row.original.genre === "Femme"
             ? "bg-blue-100 text-blue-700"
             : "bg-red-100 text-red-700"
-          }`}
+        }`}
       >
         {row.original.genre}
       </span>
@@ -139,23 +163,31 @@ export const columnsPass = [
     accessorKey: "category_plainte",
     cell: ({ row }) => (
       <span
-        className={`px-2 py-1 rounded-full text-xs font-semibold ${row.original.category_plainte === "doleance"
+        className={`px-2 py-1 rounded-full text-xs font-semibold ${
+          row.original.category_plainte === "doleance"
             ? "bg-purple-100 text-purple-700"
             : "bg-orange-100 text-orange-700"
-          }`}
+        }`}
       >
         {row.original.category_plainte}
       </span>
     ),
   },
   { header: "TypeProbleme", accessorKey: "TypeProbleme" },
-  // {
-  //   header: "Actions",
-  //   cell: ({ row }) => {
-  //     const nom = row?.original.nom;
-  //     return <CellAction nom={nom} />;
-  //   },
-  // },
+  {
+    header: "Dernière modification",
+    accessorKey: "updated_at",
+    cell: ({ row }) => {
+      const date = row.original.updated_at;
+      if (!date) return <span className="text-gray-400">—</span>;
+      return (
+        <span className="text-sm text-gray-700">
+          {new Date(date).toLocaleDateString("fr-FR")}
+        </span>
+      );
+    },
+  },
+
   { header: "Creer par ", accessorKey: "agent" },
   {
     header: "Actions",
@@ -164,7 +196,14 @@ export const columnsPass = [
       const id = row?.original.id;
       const description = row?.original.description;
       const information = row?.original.information;
-      return <CellAction nom={nom} id={id} description={description} information={information} />;
+      return (
+        <CellAction
+          nom={nom}
+          id={id}
+          description={description}
+          information={information}
+        />
+      );
     },
   },
 ];

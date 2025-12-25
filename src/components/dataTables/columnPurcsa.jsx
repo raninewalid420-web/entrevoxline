@@ -18,41 +18,42 @@ import { useAuth } from "../../context/AuthContext";
 
 // ✅ Composant d’action (boîte de confirmation)
 
-const CellAction = ({ nom, id, description, information }) => {
-  const {user} = useAuth()
-  
-  const [newDescription, setNewDescription] = useState(description);
-  const [newInformation, setNewInformation] = useState(information); 
+const CellAction = ({ nom, id, description, information, cin ,updated_at}) => {
+  const { user } = useAuth();
 
-  if(user?.role != "chefCentre" ){
+  const [newDescription, setNewDescription] = useState(description);
+  const [newInformation, setNewInformation] = useState(information);
+  const [newCin, setNewCin] = useState(cin);
+
+  if (user?.role != "chefCentre") {
     return null;
   }
-  
 
-  const handleSave =async () => {
+  const handleSave = async () => {
     const Donnee = {
+      cin:newCin,
       description: newDescription,
       information: newInformation,
-      quartier:"",
+      quartier: "",
+      updated_by:user?.id,
+      updated_at: new Date().toISOString(),
+
     };
     try {
-      const response = await PartialUpdateMass(Donnee, id);   
+      const response = await PartialUpdateMass(Donnee, id);
       if (response.success) {
         toast.success("Mise à jour réussie");
       } else {
         toast.error("Échec de la mise à jour partielle :", response.message);
-      } 
+      }
     } catch (error) {
       console.error("Erreur lors de la mise à jour partielle :", error);
-    } 
+    }
   };
-
-
-  
 
   return (
     <Dialog>
-        <ToastContainer position="top-center" />
+      <ToastContainer position="top-center" />
       <DialogTrigger asChild>
         <Button variant="outline" size="sm" className="flex gap-1">
           <Pencil className="w-4 h-4" />
@@ -68,8 +69,26 @@ const CellAction = ({ nom, id, description, information }) => {
           <DialogDescription>
             ID de la plainte : <strong>{id}</strong>
           </DialogDescription>
+           {updated_at && (
+            <p className="text-sm text-gray-500">
+              Dernière modification :{" "}
+              <strong>
+                {new Date(updated_at).toLocaleDateString("fr-FR")}
+              </strong>
+            </p>
+          )}
         </DialogHeader>
-
+        {/* ✅ CIN */}
+        <div>
+          <label className="text-sm font-semibold">CIN</label>
+          <input
+            type="text"
+            value={newCin}
+            onChange={(e) => setNewCin(e.target.value)}
+            className="mt-1 w-full border rounded-md px-3 py-2"
+          />
+        </div>
+        {/* description */}
         <div className="space-y-4">
           <div>
             <label className="text-sm font-semibold">Description</label>
@@ -220,20 +239,38 @@ export const columnPurcsa = [
     ),
   },
   { header: "Creer par ", accessorKey: "agent" },
+   {
+    header: "Dernière modification",
+    accessorKey: "updated_at",
+    cell: ({ row }) => {
+      const date = row.original.updated_at;
+      if (!date) return <span className="text-gray-400">—</span>;
+      return (
+        <span className="text-sm text-gray-700">
+          {new Date(date).toLocaleDateString("fr-FR")}
+        </span>
+      );
+    },
+  },
 
   {
     header: "Actions",
     cell: ({ row }) => {
       const nom = row?.original.nom;
       const id = row?.original.id;
+      const cin = row?.original.cin;
       const description = row?.original.description;
       const information = row?.original.information;
+      const updated_at = row?.original.updated_at;
       return (
         <CellAction
           nom={nom}
           id={id}
           description={description}
-          information={information}
+          information={information}          
+          updated_at={updated_at}          
+
+          cin={cin}
         />
       );
     },

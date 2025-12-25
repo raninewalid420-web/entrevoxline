@@ -16,37 +16,41 @@ import "react-toastify/dist/ReactToastify.css";
 import { useAuth } from "../../context/AuthContext";
 
 // ✅ Composant d'action (boîte de confirmation)
-const CellAction = ({ nom, id, description, information, quartier }) => {
+const CellAction = ({ nom, id, description, information, quartier, cin ,updated_at }) => {
   const [newDescription, setNewDescription] = useState(description);
   const [newInformation, setNewInformation] = useState(information);
-  const [newQuartier, setNewQuartier] = useState(quartier || "");
-  const {user} = useAuth()
+  const [newQuartier, setNewQuartier] = useState(quartier);
+  const [newCin, setNewCin] = useState(cin);
+  const { user } = useAuth();
 
-  if(user?.role != "chefCentre" ){
+  if (user?.role != "chefCentre") {
     return null;
   }
-  
-  const handleSave = async() => {
+
+  const handleSave = async () => {
     const Donnee = {
-         description: newDescription,
-         quartier: newQuartier,
-         information: newInformation,
-       };
-       try {
-         const response = await PartialUpdateMass(Donnee, id);
-         if (response.success) {
-           toast.success("Mise à jour réussie");
-         } else {
-           toast.error("Échec de la mise à jour partielle :", response.message);
-         }
-       } catch (error) {
-         console.error("Erreur lors de la mise à jour partielle :", error);
-       }
+      cin: newCin,
+      description: newDescription,
+      quartier: newQuartier,
+      information: newInformation,
+      updated_by: user?.id,
+      updated_at: new Date().toISOString(),
+    };
+    try {
+      const response = await PartialUpdateMass(Donnee, id);
+      if (response.success) {
+        toast.success("Mise à jour réussie");
+      } else {
+        toast.error("Échec de la mise à jour partielle :", response.message);
+      }
+    } catch (error) {
+      console.error("Erreur lors de la mise à jour partielle :", error);
+    }
   };
 
   return (
     <Dialog>
-        <ToastContainer position="top-center" />
+      <ToastContainer position="top-center" />
       <DialogTrigger asChild>
         <Button variant="outline" size="sm" className="flex gap-1">
           <Pencil className="w-4 h-4" />
@@ -62,9 +66,27 @@ const CellAction = ({ nom, id, description, information, quartier }) => {
           <DialogDescription>
             ID de la plainte : <strong>{id}</strong>
           </DialogDescription>
+          {updated_at && (
+            <p className="text-sm text-gray-500">
+              Dernière modification :{" "}
+              <strong>
+                {new Date(updated_at).toLocaleDateString("fr-FR")}
+              </strong>
+            </p>
+          )}
         </DialogHeader>
 
         <div className="space-y-4">
+          {/* ✅ CIN */}
+          <div>
+            <label className="text-sm font-semibold">CIN</label>
+            <input
+              type="text"
+              value={newCin}
+              onChange={(e) => setNewCin(e.target.value)}
+              className="mt-1 w-full border rounded-md px-3 py-2"
+            />
+          </div>
           {/* Quartier */}
           <div>
             <label className="text-sm font-semibold">Quartier</label>
@@ -119,10 +141,11 @@ export const columnsagr = [
     accessorKey: "genre",
     cell: ({ row }) => (
       <span
-        className={`px-2 py-1 rounded-full text-xs font-semibold ${row.original.genre === "Femme"
-          ? "bg-blue-100 text-blue-700"
-          : "bg-red-100 text-red-700"
-          }`}
+        className={`px-2 py-1 rounded-full text-xs font-semibold ${
+          row.original.genre === "Femme"
+            ? "bg-blue-100 text-blue-700"
+            : "bg-red-100 text-red-700"
+        }`}
       >
         {row.original.genre}
       </span>
@@ -153,10 +176,11 @@ export const columnsagr = [
     accessorKey: "category_plainte",
     cell: ({ row }) => (
       <span
-        className={`px-2 py-1 rounded-full text-xs font-semibold ${row.original.category_plainte === "doleance"
-          ? "bg-purple-100 text-purple-700"
-          : "bg-orange-100 text-orange-700"
-          }`}
+        className={`px-2 py-1 rounded-full text-xs font-semibold ${
+          row.original.category_plainte === "doleance"
+            ? "bg-purple-100 text-purple-700"
+            : "bg-orange-100 text-orange-700"
+        }`}
       >
         {row.original.category_plainte}
       </span>
@@ -165,14 +189,39 @@ export const columnsagr = [
   { header: "TypeProbleme", accessorKey: "TypeProbleme" },
   { header: "Creer par ", accessorKey: "agent" },
   {
+    header: "Dernière modification",
+    accessorKey: "updated_at",
+    cell: ({ row }) => {
+      const date = row.original.updated_at;
+      if (!date) return <span className="text-gray-400">—</span>;
+      return (
+        <span className="text-sm text-gray-700">
+          {new Date(date).toLocaleDateString("fr-FR")}
+        </span>
+      );
+    },
+  },
+  {
     header: "Actions",
     cell: ({ row }) => {
       const nom = row?.original.nom;
       const id = row?.original.id;
+      const cin = row?.original.cin;
       const quartier = row.original.quartier;
       const description = row?.original.description;
       const information = row?.original.information;
-      return <CellAction nom={nom} id={id} description={description} information={information} quartier={quartier} />;
+      const updated_at = row?.original.updated_at;
+      return (
+        <CellAction
+          nom={nom}
+          id={id}
+          cin={cin}
+          description={description}
+          information={information}
+          quartier={quartier}
+          updated_at={updated_at}
+        />
+      );
     },
   },
 ];

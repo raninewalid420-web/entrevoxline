@@ -1,4 +1,3 @@
-
 import {
   Dialog,
   DialogContent,
@@ -17,21 +16,34 @@ import { ca, tr } from "zod/v4/locales";
 import { PartialUpdateMass } from "../../api/mass";
 import { useAuth } from "../../context/AuthContext";
 
-// ✅ Composant d’action (boîte de confirmation)
-const CellAction = ({ nom, id, description, information,quartier }) => {
+// ✅ Composant d’action
+const CellAction = ({
+  nom,
+  id,
+  description,
+  information,
+  quartier,
+  cin,
+  updated_at,
+}) => {
   const [newDescription, setNewDescription] = useState(description);
   const [newInformation, setNewInformation] = useState(information);
   const [newQuartier, setNewQuartier] = useState(quartier);
-  const {user} = useAuth()
+  const [newCin, setNewCin] = useState(cin);
 
-  if(user?.role != "chefCentre" ){
+  const { user } = useAuth();
+
+  if (user?.role != "chefCentre") {
     return null;
   }
-  const handleSave =async () => {
- const Donnee = {
+  const handleSave = async () => {
+    const Donnee = {
       description: newDescription,
       quartier: newQuartier,
       information: newInformation,
+      cin: newCin,
+      updated_by: user?.id,
+      updated_at: new Date().toISOString(),
     };
     try {
       const response = await PartialUpdateMass(Donnee, id);
@@ -47,7 +59,7 @@ const CellAction = ({ nom, id, description, information,quartier }) => {
 
   return (
     <Dialog>
-        <ToastContainer position="top-center" />
+      <ToastContainer position="top-center" />
       <DialogTrigger asChild>
         <Button variant="outline" size="sm" className="flex gap-1">
           <Pencil className="w-4 h-4" />
@@ -63,10 +75,28 @@ const CellAction = ({ nom, id, description, information,quartier }) => {
           <DialogDescription>
             ID de la plainte : <strong>{id}</strong>
           </DialogDescription>
+            {updated_at && (
+            <p className="text-sm text-gray-500">
+              Dernière modification :{" "}
+              <strong>
+                {new Date(updated_at).toLocaleDateString("fr-FR")}
+              </strong>
+            </p>
+          )}
         </DialogHeader>
+           <div className="space-y-4">
+          {/* CIN */}
+          <div>
+            <label className="text-sm font-semibold">CIN</label>
+            <input
+              type="text"
+              value={newCin}
+              onChange={(e) => setNewCin(e.target.value)}
+              className="mt-1 w-full border rounded-md px-3 py-2"
+            />
+          </div>
 
-        <div className="space-y-4">
-           {/* Quartier */}
+          {/* Quartier */}
           <div>
             <label className="text-sm font-semibold">Quartier</label>
             <Textarea
@@ -138,7 +168,7 @@ export const columnsEAB = [
       </div>
     ),
   },
-   {
+  {
     header: "Information",
     accessorKey: "information",
     cell: ({ row }) => (
@@ -147,7 +177,7 @@ export const columnsEAB = [
       </div>
     ),
   },
-  
+
   {
     header: "category plainte",
     accessorKey: "category_plainte",
@@ -164,16 +194,22 @@ export const columnsEAB = [
     ),
   },
   { header: "TypeProbleme", accessorKey: "TypeProbleme" },
+  { header: "Creer par ", accessorKey: "agent" },
+   {
+    header: "Dernière modification",
+    accessorKey: "updated_at",
+    cell: ({ row }) => {
+      const date = row.original.updated_at;
+      if (!date) return <span className="text-gray-400">—</span>;
+      return (
+        <span className="text-sm text-gray-700">
+          {new Date(date).toLocaleDateString("fr-FR")}
+        </span>
+      );
+    },
+  },
 
-  // {
-  //   header: "Actions",
-  //   cell: ({ row }) => {
-  //     const nom = row?.original.nom;
-  //     return <CellAction nom={nom} />;
-  //   },
-  // },
-   { header: "Creer par ", accessorKey: "agent" },
-     {
+  {
     header: "Actions",
     cell: ({ row }) => {
       const nom = row?.original.nom;
@@ -181,7 +217,20 @@ export const columnsEAB = [
       const id = row?.original.id;
       const description = row?.original.description;
       const information = row?.original.information;
-      return <CellAction nom={nom} id={id} description={description} information={information}quartier={quartier} />;
+      const cin = row?.original.cin;
+      const updated_at = row?.original.updated_at;
+      return (
+        <CellAction
+          nom={nom}
+          quartier={quartier}
+          id={id}
+          description={description}
+          information={information}
+          cin={cin}
+          updated_at={updated_at}
+         
+        />
+      );
     },
   },
 ];

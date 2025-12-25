@@ -15,29 +15,33 @@ import { PartialUpdateMass } from "../../api/mass";
 import { useAuth } from "../../context/AuthContext";
 
 // ✅ Composant d’action (boîte de confirmation)
-const CellAction = ({ nom, id, description, information }) => {
+const CellAction = ({ nom, id, description, information, cin, updated_at }) => {
   const [newDescription, setNewDescription] = useState(description);
   const [newInformation, setNewInformation] = useState(information);
-  const {user} = useAuth()
-  
-  if(user?.role != "chefCentre" ){
+  const [newCin, setNewCin] = useState(cin);
+  const { user } = useAuth();
+
+  if (user?.role != "chefCentre") {
     return null;
   }
 
-  const handleSave = async() => {
-    // Logique de sauvegarde ici  
+  const handleSave = async () => {
+    // Logique de sauvegarde ici
     const Donnee = {
       description: newDescription,
       information: newInformation,
-      quartier:"",
-  };
-  try {
-    const response = await PartialUpdateMass(Donnee, id);
+      cin: newCin,
+      updated_by: user?.id,
+      updated_at: new Date().toISOString(),
+      quartier: "",
+    };
+    try {
+      const response = await PartialUpdateMass(Donnee, id);
       if (response.success) {
         toast.success("Mise à jour réussie");
       } else {
         toast.error("Échec de la mise à jour partielle :", response.message);
-      } 
+      }
     } catch (error) {
       console.error("Erreur lors de la mise à jour partielle :", error);
     }
@@ -45,7 +49,7 @@ const CellAction = ({ nom, id, description, information }) => {
 
   return (
     <Dialog>
-        <ToastContainer position="top-center" />
+      <ToastContainer position="top-center" />
       <DialogTrigger asChild>
         <Button variant="outline" size="sm" className="flex gap-1">
           <Pencil className="w-4 h-4" />
@@ -61,9 +65,27 @@ const CellAction = ({ nom, id, description, information }) => {
           <DialogDescription>
             ID de la plainte : <strong>{id}</strong>
           </DialogDescription>
+           {updated_at && (
+            <p className="text-sm text-gray-500">
+              Dernière modification :{" "}
+              <strong>
+                {new Date(updated_at).toLocaleDateString("fr-FR")}
+              </strong>
+            </p>
+          )}
         </DialogHeader>
 
         <div className="space-y-4">
+           {/* CIN */}
+          <div>
+            <label className="text-sm font-semibold">CIN</label>
+            <input
+              type="text"
+              value={newCin}
+              onChange={(e) => setNewCin(e.target.value)}
+              className="mt-1 w-full border rounded-md px-3 py-2"
+            />
+          </div>
           <div>
             <label className="text-sm font-semibold">Description</label>
             <Textarea
@@ -194,22 +216,41 @@ export const columnsPs = [
   },
   { header: "Type de plainte", accessorKey: "category_plainte" },
   { header: "Type de problème", accessorKey: "TypeProbleme" },
-  // {
-  //   header: "Actions",
-  //   cell: ({ row }) => {
-  //     const nom = row?.original.nom;
-  //     return <CellAction nom={nom} />;
-  //   },
-  // },
+ 
   { header: "Creer par ", accessorKey: "agent" },
     {
+    header: "Dernière modification",
+    accessorKey: "updated_at",
+    cell: ({ row }) => {
+      const date = row.original.updated_at;
+      if (!date) return <span className="text-gray-400">—</span>;
+      return (
+        <span className="text-sm text-gray-700">
+          {new Date(date).toLocaleDateString("fr-FR")}
+        </span>
+      );
+    },
+  },
+
+  {
     header: "Actions",
     cell: ({ row }) => {
       const nom = row?.original.nom;
       const id = row?.original.id;
       const description = row?.original.description;
       const information = row?.original.information;
-      return <CellAction nom={nom} id={id} description={description} information={information} />;
+      const cin = row?.original.cin;
+      const updated_at = row?.original.updated_at;
+      return (
+        <CellAction
+          nom={nom}
+          id={id}
+          description={description}
+          information={information}
+          cin={cin}
+          updated_at={updated_at}
+        />
+      );
     },
   },
 ];

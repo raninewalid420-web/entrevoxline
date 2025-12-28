@@ -30,7 +30,7 @@ const regions = {
   "Djibouti-ville": [],
 };
 
-const regionspurcas= {
+const regionspurcas = {
   "Ali-Sabieh": [
     "Holl-Holl",
     "Hamboucto",
@@ -79,14 +79,7 @@ const regionspurcas= {
     "Arafa",
   ],
 
-  ARTA: [
-    "Omar Jagac",
-    "PK50",
-    "PK20",
-    "Atar/Dmarjog",
-    "Wea",
-    "Ali-oune",
-  ],
+  ARTA: ["Omar Jagac", "PK50", "PK20", "Atar/Dmarjog", "Wea", "Ali-oune"],
 
   Tadjourah: [
     "Andabba",
@@ -148,113 +141,112 @@ const regionspurcas= {
 };
 
 // Noms délégués par localité
-const Deleguerpurcas= {
+const Deleguerpurcas = {
   "Dok’af": ["Ali Kamil Orbiso"],
-  "Saboub": ["Med Kamil Med"],
-  "Aylaadou": ["Ali Hassan Med"],
-  "Boli": ["Med Kamil Ali"],
-  "Ougoulfoum": ["Abdo Ali Hamdou "],
-  "Gablablou": ["Med Hamadou"],
-  "Kalou": ["Ahmed Ali Med"],
+  Saboub: ["Med Kamil Med"],
+  Aylaadou: ["Ali Hassan Med"],
+  Boli: ["Med Kamil Ali"],
+  Ougoulfoum: ["Abdo Ali Hamdou "],
+  Gablablou: ["Med Hamadou"],
+  Kalou: ["Ahmed Ali Med"],
   "Dar’Dara": ["Med Ali Med"],
-  "Hedargabo": ["Houmed Med Houmed"],
+  Hedargabo: ["Houmed Med Houmed"],
   "Alaf’af": ["Badoul Gama Ali"],
-  "Malaho": ["Med Aden Moussa"],
-  "Moutrous": ["Hamad Mohamed Aidahis"],
+  Malaho: ["Med Aden Moussa"],
+  Moutrous: ["Hamad Mohamed Aidahis"],
   "Otoy ": ["Med Ali Hamadou"],
   "Holl-Holl": ["Rahma Osman Ali"],
-  "Hamboucto": ["Moustapha Djama"],
-  "Assamo": ["Fathia Idleh Doubed"],
+  Hamboucto: ["Moustapha Djama"],
+  Assamo: ["Fathia Idleh Doubed"],
   "Ali-Addeh": ["Harbi Sabrieh Darar"],
   "Ara-Madowleh": ["Mohammed Hassan Ismael"],
-  "Goubetto": ["Safia Osman Darar"],
-  "Daasbiyo": ["Asma Rayaleh Darar"],
+  Goubetto: ["Safia Osman Darar"],
+  Daasbiyo: ["Asma Rayaleh Darar"],
 
-  "Gami": ["Abdallah Robleh"],
-  "Gobaad": ["Mohamed Loita Ibrahim"],
-  "Hanle": ["Med Ali Kadito"],
-  "Harou": ["(aucun dans Excel, tu peux m’en donner un si besoin)"],
-  "Mouloud": ["Ayan Moussa Djama"],
-  "Sheikhatou": ["Areita"],
-  "Koutabouya": ["Med abate hassanle"],
-  "Biida": ["Goura Gairo"],
+  Gami: ["Abdallah Robleh"],
+  Gobaad: ["Mohamed Loita Ibrahim"],
+  Hanle: ["Med Ali Kadito"],
+  Harou: ["(aucun dans Excel, tu peux m’en donner un si besoin)"],
+  Mouloud: ["Ayan Moussa Djama"],
+  Sheikhatou: ["Areita"],
+  Koutabouya: ["Med abate hassanle"],
+  Biida: ["Goura Gairo"],
   "Seik-sabir": ["Ali Med Kadito"],
-  "Harougo": ["Med Ali Gadito"],
-  "Galamo": ["Said Moussa"],
-  "Bondara": ["Said Ismail"],
-  "Yoboki": ["Hamadou Med Hamadou"],
-  "Dakka": ["Hamadou Bekela Aramis"],
+  Harougo: ["Med Ali Gadito"],
+  Galamo: ["Said Moussa"],
+  Bondara: ["Said Ismail"],
+  Yoboki: ["Hamadou Med Hamadou"],
+  Dakka: ["Hamadou Bekela Aramis"],
 
-  "Oulma": ["Ali Ibrahim Mola"],
-  "Wadii": ["Omar Obaker Ahmed"],
-  "Assasan": ["Ahmed Abdo"],
-  "Soublaley": ["Ahmed Ali"],
-  "Ilisola": ["Houmed Dini"],
+  Oulma: ["Ali Ibrahim Mola"],
+  Wadii: ["Omar Obaker Ahmed"],
+  Assasan: ["Ahmed Abdo"],
+  Soublaley: ["Ahmed Ali"],
+  Ilisola: ["Houmed Dini"],
   "Oued-obocki": ["Meika Ali Kamil"],
-  "Bissidirou": ["Ali Abdo Abokor"],
+  Bissidirou: ["Ali Abdo Abokor"],
   "Khor-angar": ["Ibrahim Med Hamadou"],
-  "Alaylou": ["Moussa Ali Omar"],
-  "Obocki": ["Faycal Ali Bourhan"],
-  "Geuherlé": ["Houmed Ibrahim Med"],
-  "Bossali": ["Ahmed Ali Med"],
-  "Fididis": ["Assia Hassan Youssouf"],
+  Alaylou: ["Moussa Ali Omar"],
+  Obocki: ["Faycal Ali Bourhan"],
+  Geuherlé: ["Houmed Ibrahim Med"],
+  Bossali: ["Ahmed Ali Med"],
+  Fididis: ["Assia Hassan Youssouf"],
   "Ado-Daaba": ["Ahmed Kamil Ali"],
-  "Qaga": ["Bourhan Abdallah Kamil"],
-  "Amassa": ["Ali Mohamed Dato"],
-  "Arafa": ["Kamil Med Bourhan"],
+  Qaga: ["Bourhan Abdallah Kamil"],
+  Amassa: ["Ali Mohamed Dato"],
+  Arafa: ["Kamil Med Bourhan"],
 
   "Omar Jagac": ["Moustapha Abdillahi Darar"],
-  "PK50": ["Med Adaweh Djama"],
-  "PK20": ["Sadik Med Ali"],
+  PK50: ["Med Adaweh Djama"],
+  PK20: ["Sadik Med Ali"],
   "Atar/Dmarjog": ["Farhan Adaweh Guelleh"],
-  "Wea": ["Moussa Ahmed Sougueh"],
+  Wea: ["Moussa Ahmed Sougueh"],
   "Ali-oune": ["Djama Hassan Miguil"],
 
-  "Andabba": ["Biida Ali Ahmed"],
-  "Dorra": ["Mohamed Ali Mohamed"],
-  "Ardo": ["Houmed Sheik Ahmed"],
-  "Bankoualeh": ["Ahmed Med Hamad"],
-  "PK9": ["Med Aboubaker Sadik"],
-  "Dafenatou": ["Ali Kamil"],
-  "Guirori": ["Ibrahim Ali Med"],
-  "Kalaf": ["Med Soubourou"],
-  "Sagalou": ["Med Goura Med"],
-  "Douloul": ["Hasna Ahmed"],
-  "Hambokka": ["Kabo Isse Idriss"],
-  "Toha": ["Ahmed Baragoita Houssein"],
-  "Randa": ["Mohamed Ali Issa"],
+  Andabba: ["Biida Ali Ahmed"],
+  Dorra: ["Mohamed Ali Mohamed"],
+  Ardo: ["Houmed Sheik Ahmed"],
+  Bankoualeh: ["Ahmed Med Hamad"],
+  PK9: ["Med Aboubaker Sadik"],
+  Dafenatou: ["Ali Kamil"],
+  Guirori: ["Ibrahim Ali Med"],
+  Kalaf: ["Med Soubourou"],
+  Sagalou: ["Med Goura Med"],
+  Douloul: ["Hasna Ahmed"],
+  Hambokka: ["Kabo Isse Idriss"],
+  Toha: ["Ahmed Baragoita Houssein"],
+  Randa: ["Mohamed Ali Issa"],
   "Ibna-Radi": ["Moussa Ahmed Houssein"],
-  "Loublakleh": ["Moussa Kamil Bila"],
-  "Garassou": ["Mohamed Daoud Mohamed"],
-  "Magaleh": ["Gadito Gabir Rouffa"],
-  "Halou": ["Moussa Adoyta Mohamed"],
-  "Mabla": ["Ali Moussa Hassan"],
+  Loublakleh: ["Moussa Kamil Bila"],
+  Garassou: ["Mohamed Daoud Mohamed"],
+  Magaleh: ["Gadito Gabir Rouffa"],
+  Halou: ["Moussa Adoyta Mohamed"],
+  Mabla: ["Ali Moussa Hassan"],
   "Hoboy-harak": ["Hassan Mohamed Houssein"],
-  "Day": ["Hassan Merito Houssein"],
-  "Debné": ["Mohamed Ahmed Mohamed"],
-  "Ambabo": ["Mohamed Ali Aboubaker"],
-  "Daymoli": ["Houmed Ibrahim Moussa"],
-  "Galaqto": ["Kamil Ibrahim Ahmed"],
-  "Lagalene": ["Ali Hagueyta Ali"],
-  "Balho": ["Badoul Youssouf Ali"],
-  "Dooda": ["Hamadou Med Hmadou"],
-  "Menguela": ["Fatouma Ibanoh Youssouf"],
-  "Bouyya": ["Ibrahim Ali Ibrahim"],
-  "Ilayasa": ["Aramis Med Ali"],
-  "Koulayou": ["Nour Ali Kamil"],
-  "Gilagibleh": ["Mohamed Kamil Ali"],
-  "Adoyla": ["Mohamed Houmed Alshab"],
-  "Madgoul": ["Aboubaker Moussa Mohamed"],
-  "Adaillou": ["Mohamed Ibrahim Abdallah"],
+  Day: ["Hassan Merito Houssein"],
+  Debné: ["Mohamed Ahmed Mohamed"],
+  Ambabo: ["Mohamed Ali Aboubaker"],
+  Daymoli: ["Houmed Ibrahim Moussa"],
+  Galaqto: ["Kamil Ibrahim Ahmed"],
+  Lagalene: ["Ali Hagueyta Ali"],
+  Balho: ["Badoul Youssouf Ali"],
+  Dooda: ["Hamadou Med Hmadou"],
+  Menguela: ["Fatouma Ibanoh Youssouf"],
+  Bouyya: ["Ibrahim Ali Ibrahim"],
+  Ilayasa: ["Aramis Med Ali"],
+  Koulayou: ["Nour Ali Kamil"],
+  Gilagibleh: ["Mohamed Kamil Ali"],
+  Adoyla: ["Mohamed Houmed Alshab"],
+  Madgoul: ["Aboubaker Moussa Mohamed"],
+  Adaillou: ["Mohamed Ibrahim Abdallah"],
   "Assa-Gayla": ["Ahmed Mohamed Hassan"],
-  "Garabtisan": ["Youssouf Badoul Youssouf"],
-  "Ripta": ["Idriss Mohamed Hassan"],
-  "Wakir": ["Houmed Ali Med"],
-  "Wabeyta": ["Mohamed Obaker Houmed"],
-  "Mounkour": ["Aramis Ali Mohamed"],
-  "Waydarim": ["Abdo Ahmed Youssouf"],
+  Garabtisan: ["Youssouf Badoul Youssouf"],
+  Ripta: ["Idriss Mohamed Hassan"],
+  Wakir: ["Houmed Ali Med"],
+  Wabeyta: ["Mohamed Obaker Houmed"],
+  Mounkour: ["Aramis Ali Mohamed"],
+  Waydarim: ["Abdo Ahmed Youssouf"],
 };
-
 
 const communesDjibouti = ["Balbala", "Boulaos", "Ras-Dika"];
 const quartiersBalbala = [
@@ -797,45 +789,66 @@ export default function MassAgent() {
   const communeValue = watch("commune");
   const values = watch();
 
-  const {
-    data: LastNumero,
-    error: NumError,
-    loading: NumLoading,
-    execute: NumExecute,
-  } = useAsync(Mass_LastNumero, []);
+  const { execute: NumExecute } = useAsync(Mass_LastNumero, []);
 
   const { loading: MassLoading, execute: MassExecute } = useAsync(
     Add_Mass_Project,
     []
   );
 
-   const onSubmit = async (data) => {
-    console.log("Données du formulaire soumis :", data);
+  const onSubmit = async (data) => {
     try {
       const result = await MassExecute(data, user?.id);
 
       if (result?.success) {
         toast.success("Enregistrée avec succès !");
+
+        reset();
+
+        // 🔥 Recharger le nouveau numéro après insertion
+        const newNumero = await NumExecute();
+        if (newNumero) {
+          setValue("numero", newNumero);
+        }
       } else {
         toast.error("Erreur lors de l'enregistrement.");
       }
-
-      // 🔥 Reset correct
-      reset();
     } catch (err) {
       toast.error("Erreur lors de l'enregistrement de la Mass.");
       console.error(err);
     }
   };
 
+  useEffect(() => {
+    let isMounted = true;
+
+    const refreshNumero = async () => {
+      try {
+        const numero = await NumExecute();
+        if (isMounted && numero) {
+          setValue("numero", numero);
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    };
+
+    // 🔥 Chargement initial
+    refreshNumero();
+
+    // 🔁 Polling toutes les 5 secondes
+    const interval = setInterval(refreshNumero, 5000);
+
+    return () => {
+      isMounted = false;
+      clearInterval(interval);
+    };
+  }, []);
 
   useEffect(() => {
-    NumExecute();
-    setValue("numero", LastNumero);
     setValue("date", new Date().toISOString().split("T")[0]);
-  }, [NumExecute]);
+  }, []);
 
- 
   return (
     <div className="min-h-screen bg-slate-100 p-8">
       <ToastContainer position="top-center" />
@@ -871,7 +884,6 @@ export default function MassAgent() {
                   type="number"
                   readOnly
                   {...register("numero", { valueAsNumber: true })}
-                  value={LastNumero || ""} // <-- fallback vide si undefined
                   className="w-full border p-2 rounded-lg bg-gray-100 cursor-not-allowed"
                 />
               </div>

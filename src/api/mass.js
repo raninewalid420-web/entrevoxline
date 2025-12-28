@@ -398,7 +398,7 @@ export async function Mass_LastNumero() {
       method: "GET",
     });
     const data = await response.json();
-    const dernierNumero = (data.dernierNumero += 1);
+    const dernierNumero = data.dernierNumero + 1;
     return dernierNumero;
   } catch (error) {
     console.error("Error fetching last mass numero:", error);
@@ -407,35 +407,35 @@ export async function Mass_LastNumero() {
 export async function CountMass(Donnee, id) {
   const apiUrl = `${API_BASE_URL}?method=CountMass`;
   try {
-      const res = await fetch(apiUrl, {
-        method: "GET",
-      });
-      if (!res.ok) throw new Error("Erreur réseau détectée");
-      const data = await res.json();
-      return data;
-    } catch (error) {
-      console.error("Error fetching cartin:", error);
-    }
+    const res = await fetch(apiUrl, {
+      method: "GET",
+    });
+    if (!res.ok) throw new Error("Erreur réseau détectée");
+    const data = await res.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching cartin:", error);
+  }
 }
 
 export async function PartialUpdateMass(Donnee, id) {
   const apiUrl = `${API_BASE_URL}?method=PartialUpdateMass&id=${id}`;
 
-  const payload = { 
+  const payload = {
     description: Donnee.description,
     quartier: Donnee.quartier,
     information: Donnee.information,
   };
   try {
-      const res = await fetch(apiUrl, {
-        method: "post",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-      if (!res.ok) throw new Error("Erreur réseau détectée");
-      const data = await res.json();
-      return data;
-    } catch (error) {
-      console.error("Error fetching cartin:", error);
-    }
+    const res = await fetch(apiUrl, {
+      method: "post",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+    if (!res.ok) throw new Error("Erreur réseau détectée");
+    const data = await res.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching cartin:", error);
+  }
 }

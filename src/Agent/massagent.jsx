@@ -838,7 +838,7 @@ export default function MassAgent() {
     refreshNumero();
 
     // 🔁 Polling toutes les 5 secondes
-    const interval = setInterval(refreshNumero, 5000);
+    const interval = setInterval(refreshNumero, 3000);
 
     return () => {
       isMounted = false;

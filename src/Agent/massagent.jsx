@@ -279,6 +279,7 @@ const quartiersBalbala = [
   "cité Moustakaire",
   "8 mètres",
   " 4 mètres",
+  " nagaadh",
 ];
 const quartiersBoulaos = [
   "Quartier 1",

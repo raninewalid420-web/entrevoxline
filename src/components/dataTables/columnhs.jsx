@@ -15,39 +15,50 @@ import { toast, ToastContainer } from "react-toastify";
 import { useAuth } from "../../context/AuthContext";
 
 // ✅ Composant d’action (boîte de confirmation)
-const CellAction = ({ nom, id, description, information,quartier}) => {
+const CellAction = ({
+  nom,
+  id,
+  description,
+  information,
+  quartier,
+  cin,
+  updated_at,
+}) => {
   const [newDescription, setNewDescription] = useState(description);
   const [newInformation, setNewInformation] = useState(information);
   const [newQuartier, setNewQuartier] = useState(quartier);
-  const {user} = useAuth()
+  const [newCin, setNewCin] = useState(cin);
+  const { user } = useAuth();
 
-  if(user?.Role !== "ChefCentre" ){
+  if (user?.role != "chefCentre") {
     return null;
   }
-
   const handleSave = async () => {
     const Donnee = {
       description: newDescription,
       quartier: newQuartier,
       information: newInformation,
+      cin: newCin,
+      updated_by: user?.id,
+      updated_at: new Date().toISOString(),
     };
     // Appel API pour la mise à jour partielle
-    // Exemple : await PartialUpdateMass(Donnee, id);   
+    // Exemple : await PartialUpdateMass(Donnee, id);
     try {
-      const response = await PartialUpdateMass(Donnee, id); 
+      const response = await PartialUpdateMass(Donnee, id);
       if (response.success) {
         toast.success("Mise à jour réussie");
       } else {
         toast.error("Échec de la mise à jour partielle :", response.message);
-      } 
+      }
     } catch (error) {
       console.error("Erreur lors de la mise à jour partielle :", error);
-    } 
+    }
   };
 
   return (
     <Dialog>
-        <ToastContainer position="top-center" />
+      <ToastContainer position="top-center" />
       <DialogTrigger asChild>
         <Button variant="outline" size="sm" className="flex gap-1">
           <Pencil className="w-4 h-4" />
@@ -63,10 +74,28 @@ const CellAction = ({ nom, id, description, information,quartier}) => {
           <DialogDescription>
             ID de la plainte : <strong>{id}</strong>
           </DialogDescription>
+           {updated_at && (
+            <p className="text-sm text-gray-500">
+              Dernière modification :{" "}
+              <strong>
+                {new Date(updated_at).toLocaleDateString("fr-FR")}
+              </strong>
+            </p>
+          )}
         </DialogHeader>
 
         <div className="space-y-4">
-           {/* Quartier */}
+           {/* CIN */}
+          <div>
+            <label className="text-sm font-semibold">CIN</label>
+            <input
+              type="text"
+              value={newCin}
+              onChange={(e) => setNewCin(e.target.value)}
+              className="mt-1 w-full border rounded-md px-3 py-2"
+            />
+          </div>
+          {/* Quartier */}
           <div>
             <label className="text-sm font-semibold">Quartier</label>
             <Textarea
@@ -139,7 +168,7 @@ export const columnsHorsProjet = [
       </div>
     ),
   },
-   {
+  {
     header: "Information",
     accessorKey: "information",
     cell: ({ row }) => (
@@ -163,23 +192,42 @@ export const columnsHorsProjet = [
       </span>
     ),
   },
-  // {
-  //   header: "Actions",
-  //   cell: ({ row }) => {
-  //     const nom = row?.original.nom;
-  //     return <CellAction nom={nom} />;
-  //   },
-  // },
+
   { header: "Creer par ", accessorKey: "agent" },
-    {
+   {
+    header: "Dernière modification",
+    accessorKey: "updated_at",
+    cell: ({ row }) => {
+      const date = row.original.updated_at;
+      if (!date) return <span className="text-gray-400">—</span>;
+      return (
+        <span className="text-sm text-gray-700">
+          {new Date(date).toLocaleDateString("fr-FR")}
+        </span>
+      );
+    },
+  },
+  {
     header: "Actions",
     cell: ({ row }) => {
       const nom = row?.original.nom;
       const id = row?.original.id;
-      const quartier = row.original.quartier
+      const quartier = row.original.quartier;
       const description = row?.original.description;
       const information = row?.original.information;
-      return <CellAction nom={nom} id={id} description={description} information={information} quartier={quartier} />;
+      const cin = row?.original.cin;
+      const updated_at = row?.original.updated_at;
+      return (
+        <CellAction
+          nom={nom}
+          id={id}
+          description={description}
+          information={information}
+          quartier={quartier}
+          cin={cin}
+          updated_at={updated_at}
+        />
+      );
     },
   },
 ];

@@ -156,6 +156,9 @@ export default function PlainteForm() {
             <h1 className="text-3xl font-bold text-white mb-2">
               Enregistrement des Plaintes
             </h1>
+            <p className="text-white">
+              Bonjour et bienvenue sur la ligne verte 2020 du projet Far.
+            </p>
           </div>
           <div className="space-y-4 px-6 py-4">
             <h1 className="font-semibold">Reference : {counter}</h1>

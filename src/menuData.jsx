@@ -76,6 +76,11 @@ export const menuData = [
         icon: <Database className="w-4 h-4 opacity-70" />,
       },
       {
+        path: "/Far",
+        label: "Far",
+        icon: <Database className="w-4 h-4 opacity-70" />,
+      },
+      {
         path: "/commandeannulerData",
         label: "Annulation commande",
         icon: <ClipboardList className="w-4 h-4 opacity-70" />,
@@ -114,7 +119,7 @@ export const menuData = [
   },
 ];
 
-export const menuDataEquipe_Qualiter= [
+export const menuDataEquipe_Qualiter = [
   {
     title: "Gestion Des Utilisateurs Et Agents",
     items: [
@@ -174,6 +179,11 @@ export const menuDataEquipe_Qualiter= [
       {
         path: "/Equipe_Qualiter/dpcr",
         label: "DPCR",
+        icon: <Database className="w-4 h-4 opacity-70" />,
+      },
+      {
+        path: "/Equipe_Qualiter/Far",
+        label: "Far",
         icon: <Database className="w-4 h-4 opacity-70" />,
       },
       {
@@ -263,6 +273,11 @@ export const menuDataLigne2020 = [
         icon: <Database className="w-4 h-4 opacity-70" />,
       },
       {
+        path: "/Agents/Far",
+        label: "Far",
+        icon: <FileText className="w-4 h-4 opacity-70" />,
+      },
+      {
         path: "/Agents/commandeannulerData",
         label: "Annulation commande",
         icon: <ClipboardList className="w-4 h-4 opacity-70" />,
@@ -270,11 +285,6 @@ export const menuDataLigne2020 = [
       {
         path: "/Agents/InformationData",
         label: "Information",
-        icon: <FileText className="w-4 h-4 opacity-70" />,
-      },
-      {
-        path: "/Agents/Far",
-        label: "Far",
         icon: <FileText className="w-4 h-4 opacity-70" />,
       },
     ],

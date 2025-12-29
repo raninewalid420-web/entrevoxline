@@ -62,6 +62,7 @@ import { Dashboard } from "./components/Dashboard/Dashboard";
 import { DashboardClient } from "./components/Dashboard/DashboardClient";
 import AgentsWrapper from "./components/AgentsWrapper";
 import PlainteForm from "./Agent/Far";
+import FarSup from "./superviseur/FarSup";
 
 export default function App() {
   return (
@@ -95,6 +96,7 @@ export default function App() {
                 <Route path="/arulos" element={<Arulos />} />
                 <Route path="/eab" element={<EAB />} />
                 <Route path="/dpcr" element={<SupDpcr />} />
+                <Route path="/Far" element={<FarSup />} />
                 <Route path="/InformationData" element={<InformationData />} />
                 <Route
                   path="/affectation-ligne"
@@ -144,6 +146,7 @@ export default function App() {
                 <Route path="/Equipe_Qualiter/arulos" element={<Arulos />} />
                 <Route path="/Equipe_Qualiter/eab" element={<EAB />} />
                 <Route path="/Equipe_Qualiter/dpcr" element={<SupDpcr />} />
+                <Route path="/Equipe_Qualiter/Far" element={<FarSup />} />
                 <Route
                   path="/Equipe_Qualiter/InformationData"
                   element={<InformationData />}

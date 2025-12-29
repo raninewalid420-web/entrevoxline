@@ -1,4 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { CreateFar, ShowFar, ShowLastNumeroFar } from "../api/far";
+import useAsync from "../hooks/useAsync";
+import { useAuth } from "../context/AuthContext";
 
 export default function PlainteForm() {
   const [formData, setFormData] = useState({
@@ -8,14 +13,14 @@ export default function PlainteForm() {
     projet: "",
     typePlainte: "",
     langue: "",
+    region: "",
     details: "",
-    signatureReclamant: "",
     anonyme: false,
   });
 
   const [plaintes, setPlaintes] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [counter, setCounter] = useState(1);
+  const [counter, setCounter] = useState();
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -25,31 +30,58 @@ export default function PlainteForm() {
     });
   };
 
-  const handleSubmit = (e) => {
+  const { execute: NumExecute } = useAsync(ShowLastNumeroFar, []);
+  const { loading: LoadingFar, execute: FarExecute } = useAsync(CreateFar, []);
+  const { loading: ShowLoadingFar, execute: ShowFarExecute } = useAsync(
+    ShowFar,
+    []
+  );
+  const { user } = useAuth();
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    try {
+      const nouvellePlainte = {
+        ...formData,
+        reference: counter,
+        status: "En cours",
+        id: Date.now(),
+      };
 
-    const nouvellePlainte = {
-      ...formData,
-      reference: `FAR-${String(counter).padStart(4, "0")}`,
-      status: "En cours",
-      id: Date.now(),
-    };
+      const result = await FarExecute(nouvellePlainte, user?.id);
+      if (result?.success) {
+        toast.success(result?.message || "Enregistrée avec succès !");
 
-    setPlaintes([nouvellePlainte, ...plaintes]);
-    setCounter(counter + 1);
+        // Réinitialiser le formulaire
+        setFormData({
+          date: "",
+          nomReclamant: "",
+          contact: "",
+          projet: "",
+          typePlainte: "",
+          langue: "",
+          region: "",
+          details: "",
+          anonyme: false,
+        });
 
-    // Réinitialiser le formulaire
-    setFormData({
-      date: "",
-      nomReclamant: "",
-      contact: "",
-      projet: "",
-      typePlainte: "",
-      langue: "",
-      details: "",
-      signatureReclamant: "",
-      anonyme: false,
-    });
+        // 🔥 Recharger le nouveau numéro après insertion
+        const numero = await NumExecute();
+        if (numero) {
+          setCounter(numero);
+        }
+        // 🔥 Mettre à jour la liste des plaintes localemen
+        const updatedPlaintes = await ShowFarExecute();
+        if (updatedPlaintes) {
+          setPlaintes(updatedPlaintes);
+        }
+      } else {
+        toast.error(result?.error || "Erreur lors de l'enregistrement.");
+      }
+    } catch (error) {
+      toast.error("Erreur lors de l'enregistrement de la Mass.");
+      console.error(err);
+    }
   };
 
   const toggleStatus = (id) => {
@@ -62,12 +94,56 @@ export default function PlainteForm() {
     );
   };
 
+  useEffect(() => {
+    let isMounted = true;
+
+    const refreshNumero = async () => {
+      try {
+        const numero = await NumExecute();
+        if (isMounted && numero) {
+          setCounter(numero);
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    };
+
+    // 🔥 Chargement initial
+    refreshNumero();
+
+    // 🔁 Polling toutes les 5 secondes
+    const interval = setInterval(refreshNumero, 3000);
+
+    return () => {
+      isMounted = false;
+      clearInterval(interval);
+    };
+  }, []);
+
+  useEffect(() => {
+    // 🔥 Mettre à jour la liste des plaintes localemen
+    const Show = async () => {
+      try {
+        const updatedPlaintes = await ShowFarExecute();
+        if (updatedPlaintes) {
+          setPlaintes(updatedPlaintes);
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    };
+
+    // 🔥 Chargement initial
+    Show();
+  }, []);
+
   const plaintesFiltrees = plaintes.filter((p) =>
     p.reference.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
     <div className="min-h-screen bg-slate-100 p-8">
+      <ToastContainer position="top-center" />
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Formulaire */}
         <div className="bg-white rounded-xl shadow-md">
@@ -81,8 +157,8 @@ export default function PlainteForm() {
               Enregistrement des Plaintes
             </h1>
           </div>
-          <form onSubmit={handleSubmit} className="space-y-4 px-6 py-4">
-            <h1 className="font-semibold">Reference : {`FAR-${String(counter).padStart(4, "0")}`}</h1>
+          <div className="space-y-4 px-6 py-4">
+            <h1 className="font-semibold">Reference : {counter}</h1>
             {/* Date */}
             <div>
               <label className="block font-medium">Date</label>
@@ -176,6 +252,26 @@ export default function PlainteForm() {
               </select>
             </div>
 
+            {/* Région */}
+            <div>
+              <label className="block font-medium">Région</label>
+              <select
+                name="region"
+                value={formData.region}
+                onChange={handleChange}
+                className="w-full border p-2 rounded"
+                required
+              >
+                <option value="">Sélectionner une région</option>
+                <option value="Tadjourah">Tadjourah</option>
+                <option value="Dikhil">Dikhil</option>
+                <option value="Arta">Arta</option>
+                <option value="Ali-sabieh">Ali-sabieh</option>
+                <option value="Obock">Obock</option>
+                <option value="Djibouti ville">Djibouti ville</option>
+              </select>
+            </div>
+
             {/* Projet */}
             <div>
               <label className="block font-medium">
@@ -209,13 +305,13 @@ export default function PlainteForm() {
             {/* Bouton */}
             <div className="text-center">
               <button
-                type="submit"
+                onClick={handleSubmit}
                 className="text-white flex-1 bg-slate-700 hover:bg-slate-800 text-lg py-2 font-semibold cursor-pointer w-full rounded-md"
               >
                 Soumettre la plainte
               </button>
             </div>
-          </form>
+          </div>
         </div>
 
         {/* Tableau des plaintes */}
@@ -285,6 +381,10 @@ export default function PlainteForm() {
                       <p className="break-words">
                         <span className="font-medium">Langue:</span>{" "}
                         {plainte.langue}
+                      </p>
+                      <p className="break-words">
+                        <span className="font-medium">Région:</span>{" "}
+                        {plainte.region}
                       </p>
                       <p className="break-words">
                         <span className="font-medium">Projet:</span>{" "}

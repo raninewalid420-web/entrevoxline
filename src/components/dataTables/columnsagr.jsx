@@ -16,11 +16,21 @@ import "react-toastify/dist/ReactToastify.css";
 import { useAuth } from "../../context/AuthContext";
 
 // ✅ Composant d'action (boîte de confirmation)
-const CellAction = ({ nom, id, description, information, quartier, cin ,updated_at }) => {
+const CellAction = ({
+  nom,
+  id,
+  description,
+  information,
+  quartier,
+  cin,
+  updated_at,
+  telephone,
+}) => {
   const [newDescription, setNewDescription] = useState(description);
   const [newInformation, setNewInformation] = useState(information);
   const [newQuartier, setNewQuartier] = useState(quartier);
   const [newCin, setNewCin] = useState(cin);
+  const [newTelephone, setNewTelephone] = useState(telephone);
   const { user } = useAuth();
 
   if (user?.role != "chefCentre") {
@@ -30,6 +40,7 @@ const CellAction = ({ nom, id, description, information, quartier, cin ,updated_
   const handleSave = async () => {
     const Donnee = {
       cin: newCin,
+      telephone: newTelephone,
       description: newDescription,
       quartier: newQuartier,
       information: newInformation,
@@ -84,6 +95,16 @@ const CellAction = ({ nom, id, description, information, quartier, cin ,updated_
               type="text"
               value={newCin}
               onChange={(e) => setNewCin(e.target.value)}
+              className="mt-1 w-full border rounded-md px-3 py-2"
+            />
+          </div>
+          {/* ✅ Téléphone */}
+          <div>
+            <label className="text-sm font-semibold">Téléphone</label>
+            <input
+              type="text"
+              value={newTelephone}
+              onChange={(e) => setNewTelephone(e.target.value)}
               className="mt-1 w-full border rounded-md px-3 py-2"
             />
           </div>
@@ -207,6 +228,7 @@ export const columnsagr = [
       const nom = row?.original.nom;
       const id = row?.original.id;
       const cin = row?.original.cin;
+      const telephone = row?.original.telephone;
       const quartier = row.original.quartier;
       const description = row?.original.description;
       const information = row?.original.information;
@@ -216,6 +238,7 @@ export const columnsagr = [
           nom={nom}
           id={id}
           cin={cin}
+          telephone={telephone}
           description={description}
           information={information}
           quartier={quartier}

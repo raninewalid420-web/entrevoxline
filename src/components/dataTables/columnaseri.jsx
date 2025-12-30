@@ -23,12 +23,14 @@ const CellAction = ({
   information,
   quartier,
   cin,
+  telephone,
   updated_at,
 }) => {
   const [newDescription, setNewDescription] = useState(description);
   const [newInformation, setNewInformation] = useState(information);
   const [newQuartier, setNewQuartier] = useState(quartier);
   const [newCin, setNewCin] = useState(cin);
+  const [newTelephone, setNewTelephone] = useState(telephone);
 
   const { user } = useAuth();
 
@@ -40,9 +42,9 @@ const CellAction = ({
       quartier: newQuartier,
       information: newInformation,
       cin: newCin,
+      telephone: newTelephone,
       updated_by: user?.id,
       updated_at: new Date().toISOString(),
-
     };
 
     try {
@@ -96,6 +98,16 @@ const CellAction = ({
               type="text"
               value={newCin}
               onChange={(e) => setNewCin(e.target.value)}
+              className="mt-1 w-full border rounded-md px-3 py-2"
+            />
+          </div>
+          {/* ✅ Téléphone */}
+          <div>
+            <label className="text-sm font-semibold">Téléphone</label>
+            <input
+              type="text"
+              value={newTelephone}
+              onChange={(e) => setNewTelephone(e.target.value)}
               className="mt-1 w-full border rounded-md px-3 py-2"
             />
           </div>
@@ -154,7 +166,7 @@ export const columnsaseri = [
   { header: "Région", accessorKey: "region" },
   { header: "Commune", accessorKey: "commune" },
   { header: "Quartier", accessorKey: "quartier" },
-    { header: "Creer par ", accessorKey: "agent" },
+  { header: "Creer par ", accessorKey: "agent" },
 
   {
     header: "Dernière modification",
@@ -173,25 +185,19 @@ export const columnsaseri = [
   {
     header: "Actions",
     cell: ({ row }) => {
-      const {
-        nom,
-        id,
-        cin,
-        description,
-        information,
-        quartier,
-        updated_at,
-      } = row.original;
+      const { nom, id, cin, description, information, quartier, updated_at,telephone } =
+        row.original;
 
       return (
         <CellAction
           nom={nom}
           id={id}
           cin={cin}
+          telephone={telephone}
           description={description}
           information={information}
           quartier={quartier}
-          updated_at={updated_at}  
+          updated_at={updated_at}
         />
       );
     },

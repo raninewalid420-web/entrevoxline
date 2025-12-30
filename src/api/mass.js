@@ -428,6 +428,7 @@ export async function PartialUpdateMass(Donnee, id) {
     cin: Donnee.cin,
     updated_by: Donnee.updated_by,
     updated_at: Donnee.updated_at,
+    telephone:Donnee.telephone,
   };
   try {
     const res = await fetch(apiUrl, {

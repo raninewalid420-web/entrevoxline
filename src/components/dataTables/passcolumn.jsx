@@ -15,10 +15,19 @@ import { toast, ToastContainer } from "react-toastify";
 import { useAuth } from "../../context/AuthContext";
 
 // ✅ Composant d’action (boîte de confirmation)
-const CellAction = ({ nom, id, description, information, cin, updated_at }) => {
+const CellAction = ({
+  nom,
+  id,
+  description,
+  information,
+  cin,
+  updated_at,
+  telephone,
+}) => {
   const [newDescription, setNewDescription] = useState(description);
   const [newInformation, setNewInformation] = useState(information);
   const [newCin, setNewCin] = useState(cin);
+  const [newTelephone, setNewTelephone] = useState(telephone);
   const { user } = useAuth();
 
   if (user?.role != "chefCentre") {
@@ -30,6 +39,7 @@ const CellAction = ({ nom, id, description, information, cin, updated_at }) => {
       description: newDescription,
       information: newInformation,
       cin: newCin,
+      telephone: newTelephone,
       updated_by: user?.id,
       updated_at: new Date().toISOString(),
       quartier: "",
@@ -85,7 +95,16 @@ const CellAction = ({ nom, id, description, information, cin, updated_at }) => {
               className="mt-1 w-full border rounded-md px-3 py-2"
             />
           </div>
-
+          {/* ✅ Téléphone */}
+          <div>
+            <label className="text-sm font-semibold">Téléphone</label>
+            <input
+              type="text"
+              value={newTelephone}
+              onChange={(e) => setNewTelephone(e.target.value)}
+              className="mt-1 w-full border rounded-md px-3 py-2"
+            />
+          </div>
           <div>
             <label className="text-sm font-semibold">Description</label>
             <Textarea

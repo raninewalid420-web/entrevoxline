@@ -15,12 +15,22 @@ import { PartialUpdateMass } from "../../api/mass";
 import { useAuth } from "../../context/AuthContext";
 
 // ✅ Composant d’action (boîte de confirmation)
-const CellAction = ({ nom, id, description, information, quartier ,cin,updated_at }) => {
+const CellAction = ({
+  nom,
+  id,
+  description,
+  information,
+  quartier,
+  cin,
+  updated_at,
+  telephone,
+}) => {
   const [newDescription, setNewDescription] = useState(description);
   const [newInformation, setNewInformation] = useState(information);
   const [newQuartier, setNewQuartier] = useState(quartier);
   const [newCin, setNewCin] = useState(cin);
-  const { user } = useAuth()
+  const [newTelephone, setNewTelephone] = useState(telephone);
+  const { user } = useAuth();
 
   if (user?.role != "chefCentre") {
     return null;
@@ -32,6 +42,7 @@ const CellAction = ({ nom, id, description, information, quartier ,cin,updated_a
       quartier: newQuartier,
       information: newInformation,
       cin: newCin,
+      telephone: newTelephone,
       updated_by: user?.id,
       updated_at: new Date().toISOString(),
     };
@@ -39,8 +50,7 @@ const CellAction = ({ nom, id, description, information, quartier ,cin,updated_a
       const response = await PartialUpdateMass(Donnee, id);
       if (response.success) {
         toast.success("Mise à jour réussie");
-      }
-      else {
+      } else {
         toast.error("Échec de la mise à jour partielle :", response.message);
       }
     } catch (error) {
@@ -76,7 +86,7 @@ const CellAction = ({ nom, id, description, information, quartier ,cin,updated_a
           )}
         </DialogHeader>
 
-           <div className="space-y-4">
+        <div className="space-y-4">
           {/* CIN */}
           <div>
             <label className="text-sm font-semibold">CIN</label>
@@ -84,6 +94,16 @@ const CellAction = ({ nom, id, description, information, quartier ,cin,updated_a
               type="text"
               value={newCin}
               onChange={(e) => setNewCin(e.target.value)}
+              className="mt-1 w-full border rounded-md px-3 py-2"
+            />
+          </div>
+          {/* ✅ Téléphone */}
+          <div>
+            <label className="text-sm font-semibold">Téléphone</label>
+            <input
+              type="text"
+              value={newTelephone}
+              onChange={(e) => setNewTelephone(e.target.value)}
               className="mt-1 w-full border rounded-md px-3 py-2"
             />
           </div>
@@ -138,10 +158,11 @@ export const columnsFreeFood = [
     accessorKey: "genre",
     cell: ({ row }) => (
       <span
-        className={`px-2 py-1 rounded-full text-xs font-semibold ${row.original.genre === "Femme"
+        className={`px-2 py-1 rounded-full text-xs font-semibold ${
+          row.original.genre === "Femme"
             ? "bg-blue-100 text-blue-700"
             : "bg-red-100 text-red-700"
-          }`}
+        }`}
       >
         {row.original.genre}
       </span>
@@ -173,10 +194,11 @@ export const columnsFreeFood = [
     accessorKey: "category_plainte",
     cell: ({ row }) => (
       <span
-        className={`px-2 py-1 rounded-full text-xs font-semibold ${row.original.category_plainte === "doleance"
+        className={`px-2 py-1 rounded-full text-xs font-semibold ${
+          row.original.category_plainte === "doleance"
             ? "bg-purple-100 text-purple-700"
             : "bg-orange-100 text-orange-700"
-          }`}
+        }`}
       >
         {row.original.category_plainte}
       </span>
@@ -184,9 +206,8 @@ export const columnsFreeFood = [
   },
   { header: "TypeProbleme", accessorKey: "TypeProbleme" },
 
-
   { header: "Creer par ", accessorKey: "agent" },
-   {
+  {
     header: "Dernière modification",
     accessorKey: "updated_at",
     cell: ({ row }) => {
@@ -208,8 +229,20 @@ export const columnsFreeFood = [
       const description = row?.original.description;
       const information = row?.original.information;
       const cin = row?.original.cin;
+      const telephone =row?.original.telephone;
       const updated_at = row?.original.updated_at;
-      return <CellAction nom={nom} id={id} description={description} information={information} quartier={quartier} cin={cin } updated_at={updated_at} />;
+      return (
+        <CellAction
+          nom={nom}
+          id={id}
+          description={description}
+          information={information}
+          quartier={quartier}
+          cin={cin}
+          telephone={telephone}
+          updated_at={updated_at}
+        />
+      );
     },
   },
 ];

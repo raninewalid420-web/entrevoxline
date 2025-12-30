@@ -15,10 +15,19 @@ import { PartialUpdateMass } from "../../api/mass";
 import { useAuth } from "../../context/AuthContext";
 
 // ✅ Composant d’action (boîte de confirmation)
-const CellAction = ({ nom, id, description, information, cin, updated_at }) => {
+const CellAction = ({
+  nom,
+  id,
+  description,
+  information,
+  cin,
+  updated_at,
+  telephone,
+}) => {
   const [newDescription, setNewDescription] = useState(description);
   const [newInformation, setNewInformation] = useState(information);
   const [newCin, setNewCin] = useState(cin);
+  const [newTelephone, setNewTelephone] = useState(telephone);
   const { user } = useAuth();
 
   if (user?.role != "chefCentre") {
@@ -30,12 +39,13 @@ const CellAction = ({ nom, id, description, information, cin, updated_at }) => {
       description: newDescription,
       information: newInformation,
       cin: newCin,
+      telephone: newTelephone,
       quartier: "",
       updated_by: user?.id,
       updated_at: new Date().toLocaleDateString(),
     };
 
-    console.log(Donnee)
+    console.log(Donnee);
 
     try {
       const response = await PartialUpdateMass(Donnee, id);
@@ -85,6 +95,16 @@ const CellAction = ({ nom, id, description, information, cin, updated_at }) => {
               type="text"
               value={newCin}
               onChange={(e) => setNewCin(e.target.value)}
+              className="mt-1 w-full border rounded-md px-3 py-2"
+            />
+          </div>
+          {/* ✅ Téléphone */}
+          <div>
+            <label className="text-sm font-semibold">Téléphone</label>
+            <input
+              type="text"
+              value={newTelephone}
+              onChange={(e) => setNewTelephone(e.target.value)}
               className="mt-1 w-full border rounded-md px-3 py-2"
             />
           </div>
@@ -197,6 +217,7 @@ export const columnscrec = [
       const nom = row?.original.nom;
       const id = row?.original.id;
       const cin = row?.original.cin;
+      const telephone = row?.original.telephone;
       const description = row?.original.description;
       const information = row?.original.information;
       const updated_at = row?.original.updated_at;
@@ -205,6 +226,7 @@ export const columnscrec = [
           nom={nom}
           id={id}
           cin={cin}
+          telephone={telephone}
           description={description}
           information={information}
           updated_at={updated_at}

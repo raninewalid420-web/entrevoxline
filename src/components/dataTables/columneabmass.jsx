@@ -24,12 +24,14 @@ const CellAction = ({
   information,
   quartier,
   cin,
+  telephone,
   updated_at,
 }) => {
   const [newDescription, setNewDescription] = useState(description);
   const [newInformation, setNewInformation] = useState(information);
   const [newQuartier, setNewQuartier] = useState(quartier);
   const [newCin, setNewCin] = useState(cin);
+  const [newTelephone, setNewTelephone] = useState(telephone);
 
   const { user } = useAuth();
 
@@ -42,6 +44,7 @@ const CellAction = ({
       quartier: newQuartier,
       information: newInformation,
       cin: newCin,
+      telephone: newTelephone,
       updated_by: user?.id,
       updated_at: new Date().toISOString(),
     };
@@ -75,7 +78,7 @@ const CellAction = ({
           <DialogDescription>
             ID de la plainte : <strong>{id}</strong>
           </DialogDescription>
-            {updated_at && (
+          {updated_at && (
             <p className="text-sm text-gray-500">
               Dernière modification :{" "}
               <strong>
@@ -84,7 +87,7 @@ const CellAction = ({
             </p>
           )}
         </DialogHeader>
-           <div className="space-y-4">
+        <div className="space-y-4">
           {/* CIN */}
           <div>
             <label className="text-sm font-semibold">CIN</label>
@@ -92,6 +95,16 @@ const CellAction = ({
               type="text"
               value={newCin}
               onChange={(e) => setNewCin(e.target.value)}
+              className="mt-1 w-full border rounded-md px-3 py-2"
+            />
+          </div>
+          {/* ✅ Téléphone */}
+          <div>
+            <label className="text-sm font-semibold">Téléphone</label>
+            <input
+              type="text"
+              value={newTelephone}
+              onChange={(e) => setNewTelephone(e.target.value)}
               className="mt-1 w-full border rounded-md px-3 py-2"
             />
           </div>
@@ -195,7 +208,7 @@ export const columnsEAB = [
   },
   { header: "TypeProbleme", accessorKey: "TypeProbleme" },
   { header: "Creer par ", accessorKey: "agent" },
-   {
+  {
     header: "Dernière modification",
     accessorKey: "updated_at",
     cell: ({ row }) => {
@@ -218,6 +231,7 @@ export const columnsEAB = [
       const description = row?.original.description;
       const information = row?.original.information;
       const cin = row?.original.cin;
+      const telephone = row?.original.telephone;
       const updated_at = row?.original.updated_at;
       return (
         <CellAction
@@ -227,8 +241,8 @@ export const columnsEAB = [
           description={description}
           information={information}
           cin={cin}
+          telephone={telephone}
           updated_at={updated_at}
-         
         />
       );
     },

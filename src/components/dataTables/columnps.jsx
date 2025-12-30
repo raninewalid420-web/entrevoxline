@@ -15,10 +15,19 @@ import { PartialUpdateMass } from "../../api/mass";
 import { useAuth } from "../../context/AuthContext";
 
 // ✅ Composant d’action (boîte de confirmation)
-const CellAction = ({ nom, id, description, information, cin, updated_at }) => {
+const CellAction = ({
+  nom,
+  id,
+  description,
+  information,
+  cin,
+  updated_at,
+  telephone,
+}) => {
   const [newDescription, setNewDescription] = useState(description);
   const [newInformation, setNewInformation] = useState(information);
   const [newCin, setNewCin] = useState(cin);
+  const [newTelephone, setNewTelephone] = useState(telephone);
   const { user } = useAuth();
 
   if (user?.role != "chefCentre") {
@@ -31,6 +40,7 @@ const CellAction = ({ nom, id, description, information, cin, updated_at }) => {
       description: newDescription,
       information: newInformation,
       cin: newCin,
+      telephone: newTelephone,
       updated_by: user?.id,
       updated_at: new Date().toISOString(),
       quartier: "",
@@ -65,7 +75,7 @@ const CellAction = ({ nom, id, description, information, cin, updated_at }) => {
           <DialogDescription>
             ID de la plainte : <strong>{id}</strong>
           </DialogDescription>
-           {updated_at && (
+          {updated_at && (
             <p className="text-sm text-gray-500">
               Dernière modification :{" "}
               <strong>
@@ -76,13 +86,23 @@ const CellAction = ({ nom, id, description, information, cin, updated_at }) => {
         </DialogHeader>
 
         <div className="space-y-4">
-           {/* CIN */}
+          {/* CIN */}
           <div>
             <label className="text-sm font-semibold">CIN</label>
             <input
               type="text"
               value={newCin}
               onChange={(e) => setNewCin(e.target.value)}
+              className="mt-1 w-full border rounded-md px-3 py-2"
+            />
+          </div>
+          {/* ✅ Téléphone */}
+          <div>
+            <label className="text-sm font-semibold">Téléphone</label>
+            <input
+              type="text"
+              value={newTelephone}
+              onChange={(e) => setNewTelephone(e.target.value)}
               className="mt-1 w-full border rounded-md px-3 py-2"
             />
           </div>
@@ -216,9 +236,9 @@ export const columnsPs = [
   },
   { header: "Type de plainte", accessorKey: "category_plainte" },
   { header: "Type de problème", accessorKey: "TypeProbleme" },
- 
+
   { header: "Creer par ", accessorKey: "agent" },
-    {
+  {
     header: "Dernière modification",
     accessorKey: "updated_at",
     cell: ({ row }) => {
@@ -240,6 +260,7 @@ export const columnsPs = [
       const description = row?.original.description;
       const information = row?.original.information;
       const cin = row?.original.cin;
+      const telephone = row?.original.telephone;
       const updated_at = row?.original.updated_at;
       return (
         <CellAction
@@ -248,6 +269,7 @@ export const columnsPs = [
           description={description}
           information={information}
           cin={cin}
+          telephone={telephone}
           updated_at={updated_at}
         />
       );

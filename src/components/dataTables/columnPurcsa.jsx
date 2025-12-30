@@ -11,19 +11,27 @@ import {
 import { useState } from "react";
 import { Button } from "../ui/button";
 import { Textarea } from "../ui/textarea";
-import { tr } from "zod/v4/locales";
 import { toast, ToastContainer } from "react-toastify";
 import { PartialUpdateMass } from "../../api/mass";
 import { useAuth } from "../../context/AuthContext";
 
 // ✅ Composant d’action (boîte de confirmation)
 
-const CellAction = ({ nom, id, description, information, cin ,updated_at}) => {
+const CellAction = ({
+  nom,
+  id,
+  description,
+  information,
+  cin,
+  telephone,
+  updated_at,
+}) => {
   const { user } = useAuth();
 
   const [newDescription, setNewDescription] = useState(description);
   const [newInformation, setNewInformation] = useState(information);
   const [newCin, setNewCin] = useState(cin);
+  const [newTelephone, setNewTelephone] = useState(telephone);
 
   if (user?.role != "chefCentre") {
     return null;
@@ -31,13 +39,13 @@ const CellAction = ({ nom, id, description, information, cin ,updated_at}) => {
 
   const handleSave = async () => {
     const Donnee = {
-      cin:newCin,
+      cin: newCin,
       description: newDescription,
       information: newInformation,
       quartier: "",
-      updated_by:user?.id,
+      telephone: newTelephone,
+      updated_by: user?.id,
       updated_at: new Date().toISOString(),
-
     };
     try {
       const response = await PartialUpdateMass(Donnee, id);
@@ -69,7 +77,7 @@ const CellAction = ({ nom, id, description, information, cin ,updated_at}) => {
           <DialogDescription>
             ID de la plainte : <strong>{id}</strong>
           </DialogDescription>
-           {updated_at && (
+          {updated_at && (
             <p className="text-sm text-gray-500">
               Dernière modification :{" "}
               <strong>
@@ -85,6 +93,16 @@ const CellAction = ({ nom, id, description, information, cin ,updated_at}) => {
             type="text"
             value={newCin}
             onChange={(e) => setNewCin(e.target.value)}
+            className="mt-1 w-full border rounded-md px-3 py-2"
+          />
+        </div>
+        {/* ✅ Téléphone */}
+        <div>
+          <label className="text-sm font-semibold">Téléphone</label>
+          <input
+            type="text"
+            value={newTelephone}
+            onChange={(e) => setNewTelephone(e.target.value)}
             className="mt-1 w-full border rounded-md px-3 py-2"
           />
         </div>
@@ -239,7 +257,7 @@ export const columnPurcsa = [
     ),
   },
   { header: "Creer par ", accessorKey: "agent" },
-   {
+  {
     header: "Dernière modification",
     accessorKey: "updated_at",
     cell: ({ row }) => {
@@ -259,6 +277,7 @@ export const columnPurcsa = [
       const nom = row?.original.nom;
       const id = row?.original.id;
       const cin = row?.original.cin;
+      const telephone = row?.original.telephone;
       const description = row?.original.description;
       const information = row?.original.information;
       const updated_at = row?.original.updated_at;
@@ -267,10 +286,10 @@ export const columnPurcsa = [
           nom={nom}
           id={id}
           description={description}
-          information={information}          
-          updated_at={updated_at}          
-
+          information={information}
+          updated_at={updated_at}
           cin={cin}
+          telephone={telephone}
         />
       );
     },

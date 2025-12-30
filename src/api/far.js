@@ -37,13 +37,15 @@ export async function CreateFar(Donnee, id) {
     date: Donnee.date,
     nomReclamant: Donnee.nomReclamant,
     contact: Donnee.contact,
-    projet: Donnee.projet,
-    typePlainte: Donnee.typePlainte,
+    pointFocal: Donnee.pointFocal,
+    typePlainte: Donnee.type_plainte,
     langue: Donnee.langue,
     region: Donnee.region,
     details: Donnee.details,
     anonyme: Donnee.anonyme,
   };
+
+  console.log("Payload envoyé à l'API CreateFar :", payload);
   try {
     const res = await fetch(apiUrl, {
       method: "POST",

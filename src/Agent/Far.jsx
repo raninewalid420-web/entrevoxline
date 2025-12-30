@@ -10,8 +10,8 @@ export default function PlainteForm() {
     date: "",
     nomReclamant: "",
     contact: "",
-    projet: "",
-    typePlainte: "",
+    pointFocal: "",
+    type_plainte: "",
     langue: "",
     region: "",
     details: "",
@@ -22,21 +22,63 @@ export default function PlainteForm() {
   const [searchTerm, setSearchTerm] = useState("");
   const [counter, setCounter] = useState();
 
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setFormData({
-      ...formData,
-      [name]: type === "checkbox" ? checked : value,
-    });
-  };
-
   const { execute: NumExecute } = useAsync(ShowLastNumeroFar, []);
   const { loading: LoadingFar, execute: FarExecute } = useAsync(CreateFar, []);
   const { loading: ShowLoadingFar, execute: ShowFarExecute } = useAsync(
     ShowFar,
     []
   );
+
   const { user } = useAuth();
+
+  // Points focaux par région
+  const pointsFocauxParRegion = {
+    Tadjourah: [
+      "Point focal Tadjourah 1",
+      "Point focal Tadjourah 2",
+      "Point focal Tadjourah 3",
+    ],
+    Dikhil: [
+      "Point focal Dikhil 1",
+      "Point focal Dikhil 2",
+      "Point focal Dikhil 3",
+    ],
+    Arta: ["Point focal Arta 1", "Point focal Arta 2", "Point focal Arta 3"],
+    "Ali-sabieh": [
+      "Point focal Ali-sabieh 1",
+      "Point focal Ali-sabieh 2",
+      "Point focal Ali-sabieh 3",
+    ],
+    Obock: [
+      "Point focal Obock 1",
+      "Point focal Obock 2",
+      "Point focal Obock 3",
+    ],
+    "Djibouti ville": [
+      "Point focal Djibouti 1",
+      "Point focal Djibouti 2",
+      "Point focal Djibouti 3",
+      "Point focal Djibouti 4",
+    ],
+  };
+
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+
+    // Si on change de région, réinitialiser le point focal
+    if (name === "region") {
+      setFormData({
+        ...formData,
+        region: value,
+        pointFocal: "",
+      });
+    } else {
+      setFormData({
+        ...formData,
+        [name]: type === "checkbox" ? checked : value,
+      });
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -48,6 +90,8 @@ export default function PlainteForm() {
         id: Date.now(),
       };
 
+      console.log("Nouvelle plainte à enregistrer :", nouvellePlainte);
+
       const result = await FarExecute(nouvellePlainte, user?.id);
       if (result?.success) {
         toast.success(result?.message || "Enregistrée avec succès !");
@@ -57,8 +101,8 @@ export default function PlainteForm() {
           date: "",
           nomReclamant: "",
           contact: "",
-          projet: "",
-          typePlainte: "",
+          pointFocal: "",
+          type_plainte: "",
           langue: "",
           region: "",
           details: "",
@@ -207,9 +251,7 @@ export default function PlainteForm() {
 
             {/* Contact */}
             <div>
-              <label className="block font-medium">
-                Contact (adresse / téléphone)
-              </label>
+              <label className="block font-medium">Contact</label>
               <input
                 type="text"
                 name="contact"
@@ -224,15 +266,16 @@ export default function PlainteForm() {
             <div>
               <label className="block font-medium">Type de plainte</label>
               <select
-                name="typePlainte"
-                value={formData.typePlainte}
+                name="type_plainte"
+                value={formData.type_plainte}
                 onChange={handleChange}
                 className="w-full border p-2 rounded"
                 required
               >
                 <option value="">Sélectionner un type</option>
                 <option value="Doléance">Doléance</option>
-                <option value="Plainte">Plainte</option>
+                <option value="Plainte urgente">Plainte urgente</option>
+                <option value="Plainte normal">Plainte normal</option>
               </select>
             </div>
 
@@ -255,9 +298,9 @@ export default function PlainteForm() {
               </select>
             </div>
 
-            {/* Région */}
+            {/* Zone */}
             <div>
-              <label className="block font-medium">Région</label>
+              <label className="block font-medium">Zone</label>
               <select
                 name="region"
                 value={formData.region}
@@ -275,19 +318,31 @@ export default function PlainteForm() {
               </select>
             </div>
 
-            {/* Projet */}
+            {/* Point Focal - Dépend de la région */}
             <div>
-              <label className="block font-medium">
-                Type de projet et emplacement
-              </label>
-              <input
-                type="text"
-                name="projet"
-                value={formData.projet}
+              <label className="block font-medium">Point Focal</label>
+              <select
+                name="pointFocal"
+                value={formData.pointFocal}
                 onChange={handleChange}
                 className="w-full border p-2 rounded"
                 required
-              />
+                disabled={!formData.region}
+              >
+                <option value="">
+                  {formData.region
+                    ? "Sélectionner un point focal"
+                    : "Sélectionner d'abord une région"}
+                </option>
+                {formData.region &&
+                  pointsFocauxParRegion[formData.region]?.map(
+                    (point, index) => (
+                      <option key={index} value={point}>
+                        {point}
+                      </option>
+                    )
+                  )}
+              </select>
             </div>
 
             {/* Détails */}
@@ -379,7 +434,7 @@ export default function PlainteForm() {
                       </p>
                       <p className="break-words">
                         <span className="font-medium">Type:</span>{" "}
-                        {plainte.typePlainte}
+                        {plainte.type_plainte}
                       </p>
                       <p className="break-words">
                         <span className="font-medium">Langue:</span>{" "}
@@ -390,8 +445,8 @@ export default function PlainteForm() {
                         {plainte.region}
                       </p>
                       <p className="break-words">
-                        <span className="font-medium">Projet:</span>{" "}
-                        {plainte.projet}
+                        <span className="font-medium">Point focal:</span>{" "}
+                        {plainte.pointFocal}
                       </p>
                       <p className="break-words">
                         <span className="font-medium">Détails:</span>{" "}

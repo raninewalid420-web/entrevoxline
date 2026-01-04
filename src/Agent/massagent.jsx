@@ -814,24 +814,43 @@ export default function MassAgent() {
   const onSubmit = async (data) => {
     try {
       setIsSubmitting(true);
+      // 1️⃣ Réserver un nouveau numéro AVANT insertion
+      const reservedNumero = await NumExecute();
 
-      const result = await MassExecute(data, user?.id);
+      if (!reservedNumero) {
+        throw new Error("Impossible d'obtenir un numéro");
+      }
+
+      // 2️⃣ Utiliser le numéro réservé
+      const dataToSubmit = { ...data, numero: reservedNumero };
+
+      const result = await MassExecute(dataToSubmit, user?.id);
 
       if (result?.success) {
         toast.success("Enregistrée avec succès !");
 
+        // 1️⃣ RESET COMPLET
+        reset();
+
+        // 2️⃣ Recharger le numéro
         const newNumero = await NumExecute();
         setNumeroLive(newNumero);
 
-        reset({
-          ...data,
-          numero: newNumero,
-          date: new Date().toISOString().split("T")[0],
+        // 3️⃣ Réinjecter uniquement les champs système
+        setValue("numero", newNumero, {
+          shouldDirty: false,
+          shouldTouch: false,
         });
+
+        setValue(
+          "date",
+          new Date().toISOString().split("T")[0],
+          { shouldDirty: false }
+        );
       } else if (result?.error === "NUMERO_ALREADY_USED") {
         toast.error("Le numéro a déjà été utilisé, veuillez réessayer.");
       } else {
-        toast.error("Erreur lors de l'enregistrement.");
+        toast.error(result?.error || "Erreur lors de l'enregistrement.");
       }
     } catch (err) {
       toast.error("Erreur lors de l'enregistrement.");
@@ -841,6 +860,8 @@ export default function MassAgent() {
     }
   };
 
+
+  // ✅ FUSIONNER en un seul useEffect
   useEffect(() => {
     let mounted = true;
 
@@ -849,13 +870,16 @@ export default function MassAgent() {
         const numero = await NumExecute();
         if (mounted && numero) {
           setNumeroLive(numero);
+          if (!getValues("numero")) {
+            setValue("numero", numero, { shouldDirty: false });
+          }
         }
       } catch (e) {
         console.error(e);
       }
     };
 
-    refreshNumero(); // chargement initial
+    refreshNumero();
 
     const interval = setInterval(refreshNumero, 5000);
 
@@ -864,15 +888,6 @@ export default function MassAgent() {
       clearInterval(interval);
     };
   }, []);
-
-  useEffect(() => {
-    if (numeroLive && !getValues("numero")) {
-      setValue("numero", numeroLive, {
-        shouldDirty: false,
-        shouldTouch: false,
-      });
-    }
-  }, [numeroLive]);
 
   useEffect(() => {
     setValue("date", new Date().toISOString().split("T")[0], {

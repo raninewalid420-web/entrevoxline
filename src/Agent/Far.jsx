@@ -33,33 +33,12 @@ export default function PlainteForm() {
 
   // Points focaux par région
   const pointsFocauxParRegion = {
-    Tadjourah: [
-      "Point focal Tadjourah 1",
-      "Point focal Tadjourah 2",
-      "Point focal Tadjourah 3",
-    ],
-    Dikhil: [
-      "Point focal Dikhil 1",
-      "Point focal Dikhil 2",
-      "Point focal Dikhil 3",
-    ],
-    Arta: ["Point focal Arta 1", "Point focal Arta 2", "Point focal Arta 3"],
-    "Ali-sabieh": [
-      "Point focal Ali-sabieh 1",
-      "Point focal Ali-sabieh 2",
-      "Point focal Ali-sabieh 3",
-    ],
-    Obock: [
-      "Point focal Obock 1",
-      "Point focal Obock 2",
-      "Point focal Obock 3",
-    ],
-    "Djibouti ville": [
-      "Point focal Djibouti 1",
-      "Point focal Djibouti 2",
-      "Point focal Djibouti 3",
-      "Point focal Djibouti 4",
-    ],
+    Tadjourah: ["Omar Ahmed Houssein"],
+    Dikhil: ["Said Ibrahim Mohamed"],
+    Arta: ["Ifrah Osmane Arta"],
+    "Ali-sabieh": ["Hawa Ismil Ali"],
+    Obock: ["Houmed Ibrahim Mohamed"],
+    "Djibouti ville": ["Kafia Abdourahman Cheik"],
   };
 
   const handleChange = (e) => {
@@ -413,11 +392,10 @@ export default function PlainteForm() {
                       </div>
                       <button
                         onClick={() => toggleStatus(plainte.id)}
-                        className={`px-3 py-1 rounded text-sm font-semibold ${
-                          plainte.status === "En cours"
-                            ? "bg-yellow-100 text-yellow-800"
-                            : "bg-green-100 text-green-800"
-                        }`}
+                        className={`px-3 py-1 rounded text-sm font-semibold ${plainte.status === "En cours"
+                          ? "bg-yellow-100 text-yellow-800"
+                          : "bg-green-100 text-green-800"
+                          }`}
                       >
                         {plainte.status}
                       </button>

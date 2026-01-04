@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useForm, Controller } from "react-hook-form";
+import { useForm, Controller, useFormState } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import {
@@ -282,6 +282,7 @@ const quartiersBalbala = [
   " nagaadh",
   " guededa ariga",
   "balbala 11",
+  "balbala caadi Q9",
 ];
 const quartiersBoulaos = [
   "Quartier 1",
@@ -735,55 +736,63 @@ const projectFields = {
 // -------------------- Composant principal --------------------
 export default function MassAgent() {
   const { user } = useAuth();
+  const [numeroLive, setNumeroLive] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [numeroPlainte, setNumeroPlainte] = useState(1);
   const [selectedRegion, setSelectedRegion] = useState(null);
   const [selectedLocalite, setselectedLocaliten] = useState(null);
   const [selectedCommune, setSelectedCommune] = useState(null);
 
-  const { register, handleSubmit, control, watch, setValue, reset, formState } =
-    useForm({
-      resolver: zodResolver(FormSchema),
-      defaultValues: {
-        numero: "",
-        date: "",
-        nom: "",
-        conjointe: "",
-        telephone: "",
-        quartiers_impact: "",
-        date_naissance: "",
-        genre: "",
-        cin: "",
-        type_plainte: "",
-        projet: "",
-        information: "",
-        region: "",
-        region_aseri: "",
-        localite: "",
-        commune: "",
-        quartier: "",
-        description: "",
-        num_etudiant: "",
-        hr: "",
-        nomdeleguer: "",
-        categorie: "",
-        type_activite: "",
-        sous_type_ouvrage: "",
-        date_depot: "",
-        date_resolution: "",
-        resolution_comite: "",
-        satisfaction: "",
-        status_plainte: "",
-        type: "",
-        type_probleme_aseri: "",
-        type_probleme_fresh_food: "",
-        type_probleme_agr: "",
-        type_probleme_eaps: "",
-        type_probleme_crec: "",
-        type_probleme_pass: "",
-        type_probleme_pirb: "",
-      },
-    });
+  const {
+    register,
+    handleSubmit,
+    control,
+    watch,
+    setValue,
+    getValues,
+    reset,
+    formState,
+  } = useForm({
+    resolver: zodResolver(FormSchema),
+    defaultValues: {
+      numero: "",
+      date: "",
+      nom: "",
+      conjointe: "",
+      telephone: "",
+      quartiers_impact: "",
+      date_naissance: "",
+      genre: "",
+      cin: "",
+      type_plainte: "",
+      projet: "",
+      information: "",
+      region: "",
+      region_aseri: "",
+      localite: "",
+      commune: "",
+      quartier: "",
+      description: "",
+      num_etudiant: "",
+      hr: "",
+      nomdeleguer: "",
+      categorie: "",
+      type_activite: "",
+      sous_type_ouvrage: "",
+      date_depot: "",
+      date_resolution: "",
+      resolution_comite: "",
+      satisfaction: "",
+      status_plainte: "",
+      type: "",
+      type_probleme_aseri: "",
+      type_probleme_fresh_food: "",
+      type_probleme_agr: "",
+      type_probleme_eaps: "",
+      type_probleme_crec: "",
+      type_probleme_pass: "",
+      type_probleme_pirb: "",
+    },
+  });
 
   const { errors } = formState; // extraction après
 
@@ -791,9 +800,9 @@ export default function MassAgent() {
   const regionValue = watch("region_aseri");
   const communeValue = watch("commune");
   const values = watch();
+  // const { isDirty } = useFormState({ control });
 
   const { execute: NumExecute } = useAsync(Mass_LastNumero, []);
-
   const { loading: MassLoading, execute: MassExecute } = useAsync(
     Add_Mass_Project,
     []
@@ -801,55 +810,71 @@ export default function MassAgent() {
 
   const onSubmit = async (data) => {
     try {
+      setIsSubmitting(true);
+
       const result = await MassExecute(data, user?.id);
 
       if (result?.success) {
         toast.success("Enregistrée avec succès !");
 
-        reset();
-
-        // 🔥 Recharger le nouveau numéro après insertion
         const newNumero = await NumExecute();
-        if (newNumero) {
-          setValue("numero", newNumero);
-        }
+        setNumeroLive(newNumero);
+
+        reset({
+          ...data,
+          numero: newNumero,
+          date: new Date().toISOString().split("T")[0],
+        });
+      } else if (result?.error === "NUMERO_ALREADY_USED") {
+        toast.error("Le numéro a déjà été utilisé, veuillez réessayer.");
       } else {
         toast.error("Erreur lors de l'enregistrement.");
       }
     } catch (err) {
-      toast.error("Erreur lors de l'enregistrement de la Mass.");
+      toast.error("Erreur lors de l'enregistrement.");
       console.error(err);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   useEffect(() => {
-    let isMounted = true;
+    let mounted = true;
 
     const refreshNumero = async () => {
       try {
         const numero = await NumExecute();
-        if (isMounted && numero) {
-          setValue("numero", numero);
+        if (mounted && numero) {
+          setNumeroLive(numero);
         }
       } catch (e) {
         console.error(e);
       }
     };
 
-    // 🔥 Chargement initial
-    refreshNumero();
+    refreshNumero(); // chargement initial
 
-    // 🔁 Polling toutes les 5 secondes
-    const interval = setInterval(refreshNumero, 3000);
+    const interval = setInterval(refreshNumero, 5000);
 
     return () => {
-      isMounted = false;
+      mounted = false;
       clearInterval(interval);
     };
   }, []);
 
   useEffect(() => {
-    setValue("date", new Date().toISOString().split("T")[0]);
+    if (numeroLive && !getValues("numero")) {
+      setValue("numero", numeroLive, {
+        shouldDirty: false,
+        shouldTouch: false,
+      });
+    }
+  }, [numeroLive]);
+
+  useEffect(() => {
+    setValue("date", new Date().toISOString().split("T")[0], {
+      shouldDirty: false,
+    });
   }, []);
 
   return (
@@ -887,6 +912,7 @@ export default function MassAgent() {
                   type="number"
                   readOnly
                   {...register("numero", { valueAsNumber: true })}
+                  value={numeroLive ?? ""}
                   className="w-full border p-2 rounded-lg bg-gray-100 cursor-not-allowed"
                 />
               </div>
@@ -896,9 +922,9 @@ export default function MassAgent() {
                   type="date"
                   readOnly
                   {...register("date")}
-                  value={new Date().toISOString().split("T")[0] || ""} // <-- fallback
                   className="w-full border p-2 rounded-lg bg-gray-100 cursor-not-allowed"
                 />
+
                 {errors.date && (
                   <p className="text-red-500 text-sm">{errors.date.message}</p>
                 )}
@@ -1416,7 +1442,7 @@ export default function MassAgent() {
                 type="submit"
                 className="text-white flex-1 bg-slate-700 cursor-pointer hover:bg-slate-800 text-lg py-6 font-semibold flex items-center justify-center gap-2"
               >
-                {MassLoading ? (
+                {isSubmitting ? (
                   <>
                     <Loader2 className="w-5 h-5 animate-spin" />
                     Chargement...

@@ -140,6 +140,7 @@ export default function AgentsWrapper() {
           path="djibouti-tel"
           element={<h1>Djibouti Télécom</h1>}
         />,
+        <Route key="/Far" path="Far" element={<PlainteForm />} />,
       ];
       break;
 
@@ -171,6 +172,7 @@ export default function AgentsWrapper() {
         <Route key="recherche" path="recherche" element={<Recherche />} />,
         <Route key="arulos" path="arulos" element={<ArulosAgent />} />,
         <Route key="dpcr" path="dpcr" element={<FormDPCR />} />,
+        <Route key="/Far" path="Far" element={<PlainteForm />} />,
         <Route
           key="information"
           path="InformationData"
@@ -194,6 +196,7 @@ export default function AgentsWrapper() {
         <Route key="recherche" path="recherche" element={<Recherche />} />,
         <Route key="arulos" path="arulos" element={<ArulosAgent />} />,
         <Route key="dpcr" path="dpcr" element={<FormDPCR />} />,
+        <Route key="/Far" path="Far" element={<PlainteForm />} />,
         <Route
           key="information"
           path="InformationData"

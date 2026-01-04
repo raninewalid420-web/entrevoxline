@@ -913,7 +913,7 @@ export default function MassAgent() {
                 <label className="block font-medium">Numéro :</label>
                 <input
                   type="number"
-                  readOnly
+                  disabled
                   {...register("numero", { valueAsNumber: true })}
                   value={numeroLive ?? ""}
                   className="w-full border p-2 rounded-lg bg-gray-100 cursor-not-allowed"
@@ -923,7 +923,7 @@ export default function MassAgent() {
                 <label className="block font-medium">Date :</label>
                 <input
                   type="date"
-                  readOnly
+                  disabled
                   {...register("date")}
                   className="w-full border p-2 rounded-lg bg-gray-100 cursor-not-allowed"
                 />

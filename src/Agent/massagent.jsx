@@ -283,6 +283,7 @@ const quartiersBalbala = [
   " guededa ariga",
   "balbala 11",
   "balbala caadi Q9",
+  "Layabley",
 ];
 const quartiersBoulaos = [
   "Quartier 1",
@@ -300,6 +301,8 @@ const quartiersBoulaos = [
   "Zone industrielle",
   "Jamal",
   "Gabode 4",
+  "Haramous 1",
+  "Haramous 2",
 ];
 const quartiersRasdika = ["Plateau", "Marabout", "Héron", "Serpent", "Paid"];
 

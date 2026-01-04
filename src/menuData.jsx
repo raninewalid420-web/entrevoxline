@@ -420,6 +420,11 @@ export const menuAllLigne = [
         icon: <Database className="w-4 h-4 opacity-70" />,
       },
       {
+        path: "/Agents/Far",
+        label: "Far",
+        icon: <FileText className="w-4 h-4 opacity-70" />,
+      },
+      {
         path: "/Agents/commandeannulerData",
         label: "Annulation commande",
         icon: <ClipboardList className="w-4 h-4 opacity-70" />,
@@ -511,6 +516,11 @@ export const menuLigne2020Djibtel = [
         icon: <Database className="w-4 h-4 opacity-70" />,
       },
       {
+        path: "/Agents/Far",
+        label: "Far",
+        icon: <FileText className="w-4 h-4 opacity-70" />,
+      },
+      {
         path: "/Agents/commandeannulerData",
         label: "Annulation commande",
         icon: <ClipboardList className="w-4 h-4 opacity-70" />,
@@ -567,6 +577,11 @@ export const menuLigne2020Eab = [
         path: "/Agents/DPCR",
         label: "DPCR",
         icon: <Database className="w-4 h-4 opacity-70" />,
+      },
+      {
+        path: "/Agents/Far",
+        label: "Far",
+        icon: <FileText className="w-4 h-4 opacity-70" />,
       },
       {
         path: "/Agents/commandeannulerData",

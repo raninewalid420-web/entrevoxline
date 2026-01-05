@@ -282,7 +282,7 @@ const quartiersBalbala = [
   " nagaadh",
   " guededa ariga",
   "balbala 11",
-  "balbala caadi Q9",
+  "balbala caadi",
   "Layabley",
 ];
 const quartiersBoulaos = [

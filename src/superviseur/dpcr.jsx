@@ -46,7 +46,7 @@ export default function SupDpcr() {
             </div>
           ) : (
             <div className="p-6">
-              <DataTable columns={columnDPCR} data={safeData} TypeFilter="caller_name" />
+              <DataTable columns={columnDPCR} data={safeData} TypeFilter="caller_name"  DateFilter="date" />
             </div>
           )}
         </div>

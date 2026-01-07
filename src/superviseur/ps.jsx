@@ -74,7 +74,7 @@ export default function PsData() {
                 </p>
               </div>
             ) : (
-              <DataTable columns={columnsPs} data={safeData} TypeFilter="nom" />
+              <DataTable columns={columnsPs} data={safeData} TypeFilter="nom"  DateFilter="date" />
             )}
 
           </div>

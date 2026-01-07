@@ -44,7 +44,7 @@ export default function FreeshData() {
           </div>
 
           <div className="p-6">
-            <DataTable columns={columnsFreeFood} data={data || []} TypeFilter="nom" />
+            <DataTable columns={columnsFreeFood} data={data || []} TypeFilter="nom"  DateFilter="date"/>
           </div>
         </div>
       </div>

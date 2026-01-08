@@ -301,6 +301,10 @@ const quartiersBoulaos = [
   "Zone industrielle",
   "Jamal",
   "Gabode 4",
+  "Gabode 1",
+  "Gabode 2",
+  "Gabode 3",
+  "Gabode 5",
   "Haramous 1",
   "Haramous 2",
 ];

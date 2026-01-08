@@ -274,6 +274,7 @@ const quartiersBalbala = [
   "wahledaba",
   "warabaley",
   "Balbala T9",
+  "Balbala T10",
   "Chabeley",
   "PK14",
   "cité Moustakaire",

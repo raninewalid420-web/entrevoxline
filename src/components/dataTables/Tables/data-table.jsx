@@ -101,7 +101,7 @@ export function DataTable({ columns, data, TypeFilter, DateFilter }) {
           onChange={(event) =>
             table.getColumn("telephone")?.setFilterValue(event.target.value)
           }
-          className="max-w-sm mb-4"
+          className="max-w-sm"
         />
 
         {/* Filtrage par date */}

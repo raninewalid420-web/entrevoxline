@@ -94,6 +94,15 @@ export function DataTable({ columns, data, TypeFilter, DateFilter }) {
           }
           className="max-w-sm"
         />
+        {/* filtrage par telephone */}
+        <Input
+          placeholder="Filtrer par téléphone..."
+          value={table.getColumn("telephone")?.getFilterValue() ?? ""}
+          onChange={(event) =>
+            table.getColumn("telephone")?.setFilterValue(event.target.value)
+          }
+          className="max-w-sm mb-4"
+        />
 
         {/* Filtrage par date */}
 

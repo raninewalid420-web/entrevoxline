@@ -274,6 +274,7 @@ export default function PlainteForm() {
                 <option value="Arabe">Arabe</option>
                 <option value="Amharique">Amharique</option>
                 <option value="Anglais">Anglais</option>
+                <option value="Français">Français</option>
               </select>
             </div>
 

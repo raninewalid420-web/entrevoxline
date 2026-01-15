@@ -308,6 +308,7 @@ const quartiersBoulaos = [
   "Gabode 5",
   "Haramous 1",
   "Haramous 2",
+  "Cité Saoudi",
 ];
 const quartiersRasdika = ["Plateau", "Marabout", "Héron", "Serpent", "Paid"];
 

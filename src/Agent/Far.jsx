@@ -405,7 +405,7 @@ export default function PlainteForm() {
                     <div className="text-sm space-y-1">
                       <p className="break-words">
                         <span className="font-medium">Réclamant:</span>{" "}
-                        {plainte.anonyme ? "Anonyme" : plainte.nomReclamant}
+                        {plainte.anonyme ? "Anonyme" : plainte.nom_reclamant}
                       </p>
                       <p className="break-words">
                         <span className="font-medium">Contact:</span>{" "}

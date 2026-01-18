@@ -42,6 +42,7 @@ const FarSup = () => {
               columns={Farcolumns}
               data={data || []}
               TypeFilter="nom"
+              DateFilter="created_at"
             />
           </div>
         </div>

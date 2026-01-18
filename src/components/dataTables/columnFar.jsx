@@ -34,6 +34,7 @@ export const Farcolumns = [
   { accessorKey: "type_plainte", header: "Type de plainte" },
   { accessorKey: "langue", header: "Langue" },
   { accessorKey: "region", header: "Région" },
+  { accessorKey: "pointFocal", header: "Point focal" },
 
   {
     accessorKey: "details",

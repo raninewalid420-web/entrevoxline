@@ -670,17 +670,24 @@ const projectFields = {
   ],
   pass: [
     {
-      name: "region",
+      name: "region_aseri",
       type: "custom",
-      component: "regionSelect",
+      component: "aseriRegionSelect",
       label: "Région",
     },
     {
-      name: "localite",
+      name: "commune",
       type: "custom",
-      component: "localiteSelect",
-      label: "Localité",
-      dependsOn: "region",
+      component: "aseriCommuneSelect",
+      label: "Commune",
+      dependsOn: "region_aseri",
+    },
+    {
+      name: "quartier",
+      type: "custom",
+      component: "aseriQuartierSelect",
+      label: "Quartier",
+      dependsOn: "commune",
     },
     { name: "description", type: "textarea", label: "Description" },
     {
@@ -814,7 +821,7 @@ export default function MassAgent() {
   const { execute: NumExecute } = useAsync(Mass_LastNumero, []);
   const { loading: MassLoading, execute: MassExecute } = useAsync(
     Add_Mass_Project,
-    []
+    [],
   );
 
   const onSubmit = async (data) => {
@@ -848,11 +855,9 @@ export default function MassAgent() {
           shouldTouch: false,
         });
 
-        setValue(
-          "date",
-          new Date().toISOString().split("T")[0],
-          { shouldDirty: false }
-        );
+        setValue("date", new Date().toISOString().split("T")[0], {
+          shouldDirty: false,
+        });
       } else if (result?.error === "NUMERO_ALREADY_USED") {
         toast.error("Le numéro a déjà été utilisé, veuillez réessayer.");
       } else {
@@ -865,7 +870,6 @@ export default function MassAgent() {
       setIsSubmitting(false);
     }
   };
-
 
   // ✅ FUSIONNER en un seul useEffect
   useEffect(() => {

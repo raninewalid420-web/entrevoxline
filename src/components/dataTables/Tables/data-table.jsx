@@ -24,10 +24,9 @@ import { Button } from "../../ui/button";
 import { FileUp } from "lucide-react";
 import * as XLSX from "xlsx"; // Importer la librairie SheetJS
 
-export function DataTable({ columns, data, TypeFilter }) {
+export function DataTable({ columns, data, TypeFilter, DateFilter }) {
   const [columnFilters, setColumnFilters] = React.useState([]);
 
-  // 🔥 Pagination states FIXÉS
   const [pageIndex, setPageIndex] = React.useState(0);
   const [pageSize, setPageSize] = React.useState(10);
 
@@ -48,7 +47,6 @@ export function DataTable({ columns, data, TypeFilter }) {
     XLSX.writeFile(wb, "Rapports.xlsx");
   };
 
-  // 🔥 Table config avec pagination
   const table = useReactTable({
     data,
     columns,
@@ -96,6 +94,37 @@ export function DataTable({ columns, data, TypeFilter }) {
           }
           className="max-w-sm"
         />
+        {/* filtrage par telephone */}
+        <Input
+          placeholder="Filtrer par téléphone..."
+          value={table.getColumn("telephone")?.getFilterValue() ?? ""}
+          onChange={(event) =>
+            table.getColumn("telephone")?.setFilterValue(event.target.value)
+          }
+          className="max-w-sm"
+        />
+
+        {/* Filtrage par date */}
+
+        {path &&
+          (path === "/masse/AGR" ||
+            path === "/masse/Aseri" ||
+            path === "/masse/purcsa" ||
+            path === "/masse/Crec" ||
+            path === "/masse/eab" ||
+            path === "/masse/freesh" ||
+            path === "/masse/pass" ||
+            path === "/masse/ps" ||
+            path === "/masse/hs") && (
+            <Input
+              placeholder="Filtrer par date..."
+              value={table.getColumn(DateFilter)?.getFilterValue() ?? ""}
+              onChange={(event) =>
+                table.getColumn(DateFilter)?.setFilterValue(event.target.value)
+              }
+              className="max-w-sm"
+            />
+          )}
 
         {path && path === "/recherche" && (
           <Input

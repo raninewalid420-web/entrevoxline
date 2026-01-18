@@ -158,7 +158,8 @@ export const columnsPass = [
     ),
   },
   { header: "Région", accessorKey: "region" },
-  { header: "localité", accessorKey: "localite" },
+  { header: "commune", accessorKey: "commune" },
+  { header: "Quartier", accessorKey: "quartier" },
   {
     header: "Description plainte",
     accessorKey: "description",

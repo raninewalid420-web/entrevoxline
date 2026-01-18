@@ -370,7 +370,7 @@ export default function PlainteForm() {
           </div>
 
           {/* Tableau */}
-          <div className="overflow-auto max-h-[600px]">
+          <div className="overflow-auto max-h-[900px]">
             {plaintesFiltrees.length === 0 ? (
               <p className="text-gray-500 text-center py-8">
                 Aucune plainte enregistrée

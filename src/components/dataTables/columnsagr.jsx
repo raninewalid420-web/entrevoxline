@@ -25,12 +25,14 @@ const CellAction = ({
   cin,
   updated_at,
   telephone,
+  Date_naissance,
 }) => {
   const [newDescription, setNewDescription] = useState(description);
   const [newInformation, setNewInformation] = useState(information);
   const [newQuartier, setNewQuartier] = useState(quartier);
   const [newCin, setNewCin] = useState(cin);
   const [newTelephone, setNewTelephone] = useState(telephone);
+  const [newDateNaissance, setNewDateNaissance] = useState(Date_naissance);
   const { user } = useAuth();
 
   if (user?.role != "chefCentre") {
@@ -41,12 +43,15 @@ const CellAction = ({
     const Donnee = {
       cin: newCin,
       telephone: newTelephone,
+      Date_naissance: newDateNaissance,
       description: newDescription,
       quartier: newQuartier,
       information: newInformation,
       updated_by: user?.id,
       updated_at: new Date().toISOString(),
     };
+    console.log("DONNEE ENVOYÉE :", Donnee);
+
     try {
       const response = await PartialUpdateMass(Donnee, id);
       if (response.success) {
@@ -58,6 +63,7 @@ const CellAction = ({
       console.error("Erreur lors de la mise à jour partielle :", error);
     }
   };
+
 
   return (
     <Dialog>
@@ -108,6 +114,16 @@ const CellAction = ({
               className="mt-1 w-full border rounded-md px-3 py-2"
             />
           </div>
+          {/* ✅ Date de Naissance */}
+          <div>
+            <label className="text-sm font-semibold">Date de Naissance</label>
+            <input
+              type="date"
+              value={newDateNaissance}
+              onChange={(e) => setNewDateNaissance(e.target.value)}
+              className="mt-1 w-full border rounded-md px-3 py-2"
+            />
+          </div>
           {/* Quartier */}
           <div>
             <label className="text-sm font-semibold">Quartier</label>
@@ -148,7 +164,6 @@ const CellAction = ({
   );
 };
 
-// ✅ columns/columnsagr.jsx
 export const columnsagr = [
   { header: "Numéro plainte", accessorKey: "numero" },
   { header: "Date saisi", accessorKey: "date" },
@@ -233,12 +248,14 @@ export const columnsagr = [
       const description = row?.original.description;
       const information = row?.original.information;
       const updated_at = row?.original.updated_at;
+      const Date_naissance = row?.original.Date_naissance;
       return (
         <CellAction
           nom={nom}
           id={id}
           cin={cin}
           telephone={telephone}
+          Date_naissance={Date_naissance}
           description={description}
           information={information}
           quartier={quartier}

@@ -177,11 +177,10 @@ export const columnsagr = [
     accessorKey: "genre",
     cell: ({ row }) => (
       <span
-        className={`px-2 py-1 rounded-full text-xs font-semibold ${
-          row.original.genre === "Femme"
+        className={`px-2 py-1 rounded-full text-xs font-semibold ${row.original.genre === "Femme"
             ? "bg-blue-100 text-blue-700"
             : "bg-red-100 text-red-700"
-        }`}
+          }`}
       >
         {row.original.genre}
       </span>
@@ -192,6 +191,7 @@ export const columnsagr = [
   { header: "Quartier", accessorKey: "quartier" },
   {
     header: "Description plainte",
+    accessorKey: "description",
     cell: ({ row }) => (
       <div className="min-w-[500px] max-w-[700px] whitespace-pre-wrap">
         {row.original.description}
@@ -212,11 +212,10 @@ export const columnsagr = [
     accessorKey: "category_plainte",
     cell: ({ row }) => (
       <span
-        className={`px-2 py-1 rounded-full text-xs font-semibold ${
-          row.original.category_plainte === "doleance"
+        className={`px-2 py-1 rounded-full text-xs font-semibold ${row.original.category_plainte === "doleance"
             ? "bg-purple-100 text-purple-700"
             : "bg-orange-100 text-orange-700"
-        }`}
+          }`}
       >
         {row.original.category_plainte}
       </span>

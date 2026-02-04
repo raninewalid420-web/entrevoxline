@@ -1,4 +1,5 @@
 import {
+  ClipboardCheck,
   ClipboardList,
   Database,
   FileText,
@@ -132,6 +133,11 @@ export const menuDataEquipe_Qualiter = [
         path: "/Equipe_Qualiter/agents",
         label: "Liste des agents",
         icon: <Users className="w-4 h-4" />,
+      },
+      {
+        path: "/Equipe_Qualiter/grille-evaluation",
+        label: "Grille d'Évaluation",
+        icon: <ClipboardCheck />,
       },
     ],
   },

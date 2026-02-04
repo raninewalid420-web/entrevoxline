@@ -18,11 +18,11 @@ const Arulos = lazy(() => import("./superviseur/arulos"));
 const EAB = lazy(() => import("./superviseur/EAB"));
 const InformationData = lazy(() => import("./superviseur/information"));
 const AffectationLigne = lazy(() => import("./superviseur/affectation_ligne"));
-const CommandeannulerData = lazy(() =>
-  import("./superviseur/annulationcommande")
+const CommandeannulerData = lazy(
+  () => import("./superviseur/annulationcommande"),
 );
-const ColisNontrouverData = lazy(() =>
-  import("./superviseur/colis-nontrouver")
+const ColisNontrouverData = lazy(
+  () => import("./superviseur/colis-nontrouver"),
 );
 
 // Masse
@@ -50,6 +50,7 @@ const Aseris = lazy(() => import("./ClientMass/Aseri"));
 const Rapport = lazy(() => import("./ClientMass/Rapport"));
 const SupDpcr = lazy(() => import("./superviseur/dpcr"));
 
+
 // Menu
 import {
   menuData,
@@ -63,6 +64,7 @@ import { DashboardClient } from "./components/Dashboard/DashboardClient";
 import AgentsWrapper from "./components/AgentsWrapper";
 import PlainteForm from "./Agent/Far";
 import FarSup from "./superviseur/FarSup";
+import GrilleEvaluation from "./components/Grille_d'evaluation/grille_evaluation";
 
 export default function App() {
   return (
@@ -135,6 +137,10 @@ export default function App() {
                 />
                 <Route path="/Equipe_Qualiter/adr" element={<Adr />} />
                 <Route path="/Equipe_Qualiter/agents" element={<Agents />} />
+                <Route
+                  path="/Equipe_Qualiter/grille-evaluation"
+                  element={<GrilleEvaluation />}
+                />
                 <Route
                   path="/Equipe_Qualiter/cartin"
                   element={<CartinData />}

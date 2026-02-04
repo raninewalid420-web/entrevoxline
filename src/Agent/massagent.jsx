@@ -253,7 +253,7 @@ const quartiersBalbala = [
   "PK20",
   "Balbala 04",
   "PK12",
-  "Balbala 05",
+  "Balbala Q5",
   "Hablayeh",
   "T3",
   "Doraleh",

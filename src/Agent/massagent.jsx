@@ -257,6 +257,7 @@ const quartiersBalbala = [
   "Balbala Q5",
   "Hablayeh",
   "T3",
+  "Hamdani",
   "Doraleh",
   "Cheikh moussa",
   "Cité Cheikh osman",

@@ -252,6 +252,7 @@ const communesDjibouti = ["Balbala", "Boulaos", "Ras-Dika"];
 const quartiersBalbala = [
   "PK20",
   "Balbala 04",
+  "Balbala 06",
   "PK12",
   "Balbala Q5",
   "Hablayeh",

@@ -288,6 +288,8 @@ const quartiersBalbala = [
   "balbala caadi",
   "Layabley",
   "Bahach",
+  "Gachamaleh",
+  "Nassib wanag",
 ];
 const quartiersBoulaos = [
   "Quartier 1",

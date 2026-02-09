@@ -135,6 +135,12 @@ export default function InformationAgent() {
                           Info la poste
                         </SelectItem>
                         <SelectItem
+                          value="Far"
+                          className="cursor-pointer hover:bg-blue-950 hover:text-white"
+                        >
+                          Info Far
+                        </SelectItem>
+                        <SelectItem
                           value="Ligne 2020"
                           className="cursor-pointer hover:bg-blue-950 hover:text-white"
                         >

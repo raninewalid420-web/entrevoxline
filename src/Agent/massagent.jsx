@@ -300,7 +300,7 @@ const quartiersBoulaos = [
   "Quartier 7",
   "Quartier 7 bis",
   "Arhiba",
-  "Stade",
+  "cite Stade (leer)",
   "Ambouli",
   "Einguela",
   "Zone industrielle",

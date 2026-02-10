@@ -104,6 +104,18 @@ export function DataTable({ columns, data, TypeFilter, DateFilter }) {
           className="max-w-sm"
         />
 
+        {path && path === "/InformationData" && (
+          /* filtrage par telephone */
+          < Input
+            placeholder="Filtrer par Copmagne..."
+            value={table.getColumn("type")?.getFilterValue() ?? ""}
+            onChange={(event) =>
+              table.getColumn("type")?.setFilterValue(event.target.value)
+            }
+            className="max-w-sm"
+          />
+        )}
+
         {/* Filtrage par date */}
 
         {path &&
@@ -183,9 +195,9 @@ export function DataTable({ columns, data, TypeFilter, DateFilter }) {
                     {header.isPlaceholder
                       ? null
                       : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
+                        header.column.columnDef.header,
+                        header.getContext()
+                      )}
                   </TableHead>
                 ))}
               </TableRow>

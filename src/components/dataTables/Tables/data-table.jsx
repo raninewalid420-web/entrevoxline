@@ -104,7 +104,7 @@ export function DataTable({ columns, data, TypeFilter, DateFilter }) {
           className="max-w-sm"
         />
 
-        {path && path === "/InformationData" && (
+        {path && path === "/Equipe_Qualiter/InformationData" && (
           /* filtrage par telephone */
           < Input
             placeholder="Filtrer par Copmagne..."

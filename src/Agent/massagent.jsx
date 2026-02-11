@@ -289,6 +289,8 @@ const quartiersBalbala = [
   "Layabley",
   "Bahach",
   "Nassib wanag",
+  "Karawil",
+  "Balbala 13 citoyen",
 ];
 const quartiersBoulaos = [
   "Quartier 1",

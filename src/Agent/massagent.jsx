@@ -251,7 +251,7 @@ const Deleguerpurcas = {
 const communesDjibouti = ["Balbala", "Boulaos", "Ras-Dika"];
 const quartiersBalbala = [
   "PK20",
-  "Balbala 04",
+  "Arrondissement 4",
   "Balbala 06",
   "PK12",
   "Balbala Q5",
@@ -291,6 +291,7 @@ const quartiersBalbala = [
   "Nassib wanag",
   "Karawil",
   "Balbala 13 citoyen",
+  "Cité gendarme",
 ];
 const quartiersBoulaos = [
   "Quartier 1",

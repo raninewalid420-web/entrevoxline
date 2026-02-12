@@ -292,6 +292,7 @@ const quartiersBalbala = [
   "Karawil",
   "Balbala 13 citoyen",
   "Cité gendarme",
+  "oumou salama",
 ];
 const quartiersBoulaos = [
   "Quartier 1",

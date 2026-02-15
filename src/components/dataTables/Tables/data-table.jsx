@@ -39,7 +39,7 @@ export function DataTable({ columns, data, TypeFilter, DateFilter }) {
       row.getVisibleCells().reduce((acc, cell) => {
         acc[cell.column.id] = cell.getContext().getValue();
         return acc;
-      }, {})
+      }, {}),
     );
     const wb = XLSX.utils.book_new();
     const ws = XLSX.utils.json_to_sheet(exportData);
@@ -106,7 +106,7 @@ export function DataTable({ columns, data, TypeFilter, DateFilter }) {
 
         {path && path === "/Equipe_Qualiter/InformationData" && (
           /* filtrage par telephone */
-          < Input
+          <Input
             placeholder="Filtrer par Copmagne..."
             value={table.getColumn("type")?.getFilterValue() ?? ""}
             onChange={(event) =>
@@ -128,6 +128,7 @@ export function DataTable({ columns, data, TypeFilter, DateFilter }) {
             path === "/masse/pass" ||
             path === "/masse/ps" ||
             path === "/masse/ps" ||
+            path === "/masse/freesh" ||
             path === "/Far") && (
             <Input
               placeholder="Filtrer par date..."
@@ -195,9 +196,9 @@ export function DataTable({ columns, data, TypeFilter, DateFilter }) {
                     {header.isPlaceholder
                       ? null
                       : flexRender(
-                        header.column.columnDef.header,
-                        header.getContext()
-                      )}
+                          header.column.columnDef.header,
+                          header.getContext(),
+                        )}
                   </TableHead>
                 ))}
               </TableRow>
@@ -215,7 +216,7 @@ export function DataTable({ columns, data, TypeFilter, DateFilter }) {
                     >
                       {flexRender(
                         cell.column.columnDef.cell,
-                        cell.getContext()
+                        cell.getContext(),
                       )}
                     </TableCell>
                   ))}

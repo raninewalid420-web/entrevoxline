@@ -24,12 +24,14 @@ const CellAction = ({
   cin,
   updated_at,
   telephone,
+  Date_naissance,
 }) => {
   const [newDescription, setNewDescription] = useState(description);
   const [newInformation, setNewInformation] = useState(information);
   const [newQuartier, setNewQuartier] = useState(quartier);
   const [newCin, setNewCin] = useState(cin);
   const [newTelephone, setNewTelephone] = useState(telephone);
+  const [newDateNaissance, setNewDateNaissance] = useState(Date_naissance);
   const { user } = useAuth();
 
   if (user?.role != "chefCentre") {
@@ -43,6 +45,7 @@ const CellAction = ({
       information: newInformation,
       cin: newCin,
       telephone: newTelephone,
+      Date_naissance: newDateNaissance,
       updated_by: user?.id,
       updated_at: new Date().toISOString(),
     };
@@ -104,6 +107,16 @@ const CellAction = ({
               type="text"
               value={newTelephone}
               onChange={(e) => setNewTelephone(e.target.value)}
+              className="mt-1 w-full border rounded-md px-3 py-2"
+            />
+          </div>
+          {/* ✅ Date de Naissance */}
+          <div>
+            <label className="text-sm font-semibold">Date de Naissance</label>
+            <input
+              type="date"
+              value={newDateNaissance}
+              onChange={(e) => setNewDateNaissance(e.target.value)}
               className="mt-1 w-full border rounded-md px-3 py-2"
             />
           </div>
@@ -229,7 +242,8 @@ export const columnsFreeFood = [
       const description = row?.original.description;
       const information = row?.original.information;
       const cin = row?.original.cin;
-      const telephone =row?.original.telephone;
+      const telephone = row?.original.telephone;
+      const Date_naissance = row?.original.Date_naissance;
       const updated_at = row?.original.updated_at;
       return (
         <CellAction
@@ -240,6 +254,7 @@ export const columnsFreeFood = [
           quartier={quartier}
           cin={cin}
           telephone={telephone}
+          Date_naissance={Date_naissance}
           updated_at={updated_at}
         />
       );

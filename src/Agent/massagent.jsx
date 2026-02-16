@@ -293,6 +293,8 @@ const quartiersBalbala = [
   "Balbala 13 citoyen",
   "Cité gendarme",
   "oumou salama",
+  "vietname",
+  "balbala 10",
 ];
 const quartiersBoulaos = [
   "Quartier 1",

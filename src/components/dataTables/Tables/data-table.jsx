@@ -22,18 +22,35 @@ import { Input } from "../../ui/input";
 import { useLocation } from "react-router-dom";
 import { Button } from "../../ui/button";
 import { FileUp } from "lucide-react";
-import * as XLSX from "xlsx"; // Importer la librairie SheetJS
+import * as XLSX from "xlsx";
+
+// Variantes possibles pour agent et telephone selon les APIs
+const AGENT_VARIANTS = ["agent", "Agent", "AGENT", "createdBy", "created_by"];
+const TELEPHONE_VARIANTS = [
+  "telephone",
+  "Telephone",
+  "TELEPHONE",
+  "phone",
+  "numero_telephone",
+  "contact",
+];
+
+function findColumn(table, variants) {
+  for (const key of variants) {
+    const col = table.getColumn(key);
+    if (col) return col;
+  }
+  return null;
+}
 
 export function DataTable({ columns, data, TypeFilter, DateFilter }) {
   const [columnFilters, setColumnFilters] = React.useState([]);
-
   const [pageIndex, setPageIndex] = React.useState(0);
   const [pageSize, setPageSize] = React.useState(10);
 
   const location = useLocation();
   const path = location.pathname;
 
-  // Fonction d'exportation des données en Excel
   const exportToExcel = () => {
     const exportData = table.getRowModel().rows.map((row) =>
       row.getVisibleCells().reduce((acc, cell) => {
@@ -52,10 +69,7 @@ export function DataTable({ columns, data, TypeFilter, DateFilter }) {
     columns,
     state: {
       columnFilters,
-      pagination: {
-        pageIndex,
-        pageSize,
-      },
+      pagination: { pageIndex, pageSize },
     },
     onColumnFiltersChange: setColumnFilters,
     onPaginationChange: (updater) => {
@@ -63,7 +77,6 @@ export function DataTable({ columns, data, TypeFilter, DateFilter }) {
         typeof updater === "function"
           ? updater({ pageIndex, pageSize })
           : updater;
-
       setPageIndex(newState.pageIndex);
       setPageSize(newState.pageSize);
     },
@@ -72,9 +85,12 @@ export function DataTable({ columns, data, TypeFilter, DateFilter }) {
     getPaginationRowModel: getPaginationRowModel(),
   });
 
+  // Auto-détection agent et telephone uniquement
+  const colAgent = findColumn(table, AGENT_VARIANTS);
+  const colTelephone = findColumn(table, TELEPHONE_VARIANTS);
+
   return (
     <div className="space-y-4">
-      {/* Zone de filtres */}
       <div className="flex items-center gap-4">
         {TypeFilter && (
           <Input
@@ -86,26 +102,30 @@ export function DataTable({ columns, data, TypeFilter, DateFilter }) {
             className="max-w-sm"
           />
         )}
-        <Input
-          placeholder="Filtrer par agent..."
-          value={table.getColumn("agent")?.getFilterValue() ?? ""}
-          onChange={(event) =>
-            table.getColumn("agent")?.setFilterValue(event.target.value)
-          }
-          className="max-w-sm"
-        />
-        {/* filtrage par telephone */}
-        <Input
-          placeholder="Filtrer par téléphone..."
-          value={table.getColumn("telephone")?.getFilterValue() ?? ""}
-          onChange={(event) =>
-            table.getColumn("telephone")?.setFilterValue(event.target.value)
-          }
-          className="max-w-sm"
-        />
+
+        {/* Auto-détecté : fonctionne avec "agent", "Agent", etc. */}
+        {colAgent && (
+          <Input
+            placeholder="Filtrer par agent..."
+            value={colAgent.getFilterValue() ?? ""}
+            onChange={(e) => colAgent.setFilterValue(e.target.value)}
+            className="max-w-sm"
+          />
+        )}
+
+        {/* Auto-détecté : fonctionne avec "telephone", "Telephone", etc. */}
+        {colTelephone && (
+          <Input
+            placeholder="Filtrer par téléphone..."
+            value={colTelephone.getFilterValue() ?? ""}
+            onChange={(e) => colTelephone.setFilterValue(e.target.value)}
+            className="max-w-sm"
+          />
+        )}
+
+        {/* ===== TOUT CE QUI SUIT EST INCHANGÉ ===== */}
 
         {path && path === "/Equipe_Qualiter/InformationData" && (
-          /* filtrage par telephone */
           <Input
             placeholder="Filtrer par Copmagne..."
             value={table.getColumn("type")?.getFilterValue() ?? ""}
@@ -115,8 +135,6 @@ export function DataTable({ columns, data, TypeFilter, DateFilter }) {
             className="max-w-sm"
           />
         )}
-
-        {/* Filtrage par date */}
 
         {path &&
           (path === "/masse/AGR" ||
@@ -150,6 +168,7 @@ export function DataTable({ columns, data, TypeFilter, DateFilter }) {
             className="max-w-sm"
           />
         )}
+
         {path && path === "/cartin" && (
           <Input
             placeholder="Filtrer par commande..."
@@ -162,6 +181,7 @@ export function DataTable({ columns, data, TypeFilter, DateFilter }) {
             className="max-w-sm"
           />
         )}
+
         {path && path === "/commandeannulerData" && (
           <Input
             placeholder="Filtrer par commande..."
@@ -237,7 +257,6 @@ export function DataTable({ columns, data, TypeFilter, DateFilter }) {
 
         {/* PAGINATION FIXÉE */}
         <div className="flex items-center justify-end space-x-2 py-4 px-2">
-          {/* Rows per page selector */}
           <div className="flex items-center space-x-2">
             <label htmlFor="rows-per-page" className="text-sm">
               Rows per page:
@@ -259,8 +278,6 @@ export function DataTable({ columns, data, TypeFilter, DateFilter }) {
             {table.getFilteredSelectedRowModel().rows.length} of{" "}
             {table.getFilteredRowModel().rows.length} row(s) selected.
           </div>
-
-          {/* Pagination buttons */}
           <Button
             variant="outline"
             size="sm"

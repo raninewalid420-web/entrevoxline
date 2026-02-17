@@ -38,6 +38,7 @@ export default function Adr() {
   }, [NormalExecute]);
   // Sécurise les données (évite les erreurs TanStack)
   const safeDataNormale = Array.isArray(NormalCase) ? NormalCase : [];
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 p-6 w-full">
       <Tabs defaultValue="sensibles" className="w-full max-w-7xl mx-auto">
@@ -226,7 +227,11 @@ export default function Adr() {
               </h2>
             </div>
             <div className="bg-gradient-to-br from-red-50 to-orange-50 p-6 rounded-xl">
-              <DataTable columns={columnsSensibles} data={safeDataSensible} TypeFilter="Nom" />
+              <DataTable
+                columns={columnsSensibles}
+                data={safeDataSensible}
+                TypeFilter="Nom"
+              />
             </div>
           </div>
         </TabsContent>
@@ -241,7 +246,11 @@ export default function Adr() {
               </h2>
             </div>
             <div className="bg-gradient-to-br from-blue-50 to-slate-50 p-6 rounded-xl">
-              <DataTable columns={columnormaux} data={safeDataNormale} TypeFilter="Nom" />
+              <DataTable
+                columns={columnormaux}
+                data={safeDataNormale}
+                TypeFilter="Nom"
+              />
             </div>
           </div>
         </TabsContent>

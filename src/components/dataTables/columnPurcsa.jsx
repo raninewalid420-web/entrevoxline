@@ -32,6 +32,8 @@ const CellAction = ({
   const [newInformation, setNewInformation] = useState(information);
   const [newCin, setNewCin] = useState(cin);
   const [newTelephone, setNewTelephone] = useState(telephone);
+  const [newNom, setNewNom] = useState(nom);
+
 
   if (user?.role != "chefCentre") {
     return null;
@@ -39,6 +41,7 @@ const CellAction = ({
 
   const handleSave = async () => {
     const Donnee = {
+      nom: newNom,
       cin: newCin,
       description: newDescription,
       information: newInformation,
@@ -86,6 +89,16 @@ const CellAction = ({
             </p>
           )}
         </DialogHeader>
+        {/* Nom */}
+        <div>
+          <label className="text-sm font-semibold">Nom</label>
+          <input
+            type="text"
+            value={newNom}
+            onChange={(e) => setNewNom(e.target.value)}
+            className="mt-1 w-full border rounded-md px-3 py-2"
+          />
+        </div>
         {/* ✅ CIN */}
         <div>
           <label className="text-sm font-semibold">CIN</label>

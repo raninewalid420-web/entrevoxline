@@ -30,6 +30,7 @@ const CellAction = ({
   const [newInformation, setNewInformation] = useState(information);
   const [newQuartier, setNewQuartier] = useState(quartier);
   const [newCin, setNewCin] = useState(cin);
+  const [newNom, setNewNom] = useState(nom);
   const [newTelephone, setNewTelephone] = useState(telephone);
   const [newDateNaissance, setNewDateNaissance] = useState(Date_naissance);
   const { user } = useAuth();
@@ -44,6 +45,7 @@ const CellAction = ({
       quartier: newQuartier,
       information: newInformation,
       cin: newCin,
+      nom: newNom,
       telephone: newTelephone,
       Date_naissance: newDateNaissance,
       updated_by: user?.id,
@@ -90,6 +92,17 @@ const CellAction = ({
         </DialogHeader>
 
         <div className="space-y-4">
+          {/* Nom */}
+          <div>
+            <label className="text-sm font-semibold">Nom</label>
+            <input
+              type="text"
+              value={newNom}
+              onChange={(e) => setNewNom(e.target.value)}
+              className="mt-1 w-full border rounded-md px-3 py-2"
+            />
+          </div>
+
           {/* CIN */}
           <div>
             <label className="text-sm font-semibold">CIN</label>

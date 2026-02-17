@@ -33,6 +33,7 @@ const CellAction = ({
   const [newCin, setNewCin] = useState(cin);
   const [newTelephone, setNewTelephone] = useState(telephone);
   const [newDateNaissance, setNewDateNaissance] = useState(Date_naissance);
+  const [newNom, setNewNom] = useState(nom);
   const { user } = useAuth();
 
   if (user?.role != "chefCentre") {
@@ -42,6 +43,7 @@ const CellAction = ({
   const handleSave = async () => {
     const Donnee = {
       cin: newCin,
+      nom: newNom,
       telephone: newTelephone,
       Date_naissance: newDateNaissance,
       description: newDescription,
@@ -63,7 +65,6 @@ const CellAction = ({
       console.error("Erreur lors de la mise à jour partielle :", error);
     }
   };
-
 
   return (
     <Dialog>
@@ -94,6 +95,17 @@ const CellAction = ({
         </DialogHeader>
 
         <div className="space-y-4">
+          {/* Nom */}
+          <div>
+            <label className="text-sm font-semibold">Nom</label>
+            <input
+              type="text"
+              value={newNom}
+              onChange={(e) => setNewNom(e.target.value)}
+              className="mt-1 w-full border rounded-md px-3 py-2"
+            />
+          </div>
+
           {/* ✅ CIN */}
           <div>
             <label className="text-sm font-semibold">CIN</label>
@@ -177,10 +189,11 @@ export const columnsagr = [
     accessorKey: "genre",
     cell: ({ row }) => (
       <span
-        className={`px-2 py-1 rounded-full text-xs font-semibold ${row.original.genre === "Femme"
+        className={`px-2 py-1 rounded-full text-xs font-semibold ${
+          row.original.genre === "Femme"
             ? "bg-blue-100 text-blue-700"
             : "bg-red-100 text-red-700"
-          }`}
+        }`}
       >
         {row.original.genre}
       </span>
@@ -212,10 +225,11 @@ export const columnsagr = [
     accessorKey: "category_plainte",
     cell: ({ row }) => (
       <span
-        className={`px-2 py-1 rounded-full text-xs font-semibold ${row.original.category_plainte === "doleance"
+        className={`px-2 py-1 rounded-full text-xs font-semibold ${
+          row.original.category_plainte === "doleance"
             ? "bg-purple-100 text-purple-700"
             : "bg-orange-100 text-orange-700"
-          }`}
+        }`}
       >
         {row.original.category_plainte}
       </span>

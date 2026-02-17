@@ -422,6 +422,7 @@ export async function PartialUpdateMass(Donnee, id) {
   const apiUrl = `${API_BASE_URL}?method=PartialUpdateMass&id=${id}`;
 
   const payload = {
+    nom: Donnee.nom,
     description: Donnee.description,
     quartier: Donnee.quartier,
     information: Donnee.information,

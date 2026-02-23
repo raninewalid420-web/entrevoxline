@@ -293,8 +293,9 @@ const quartiersBalbala = [
   "Balbala 13 citoyen",
   "Cité gendarme",
   "oumou salama",
-  "vietname",
+  "vietnam",
   "balbala 10",
+  "Cité millitaire"
 ];
 const quartiersBoulaos = [
   "Quartier 1",
@@ -321,7 +322,7 @@ const quartiersBoulaos = [
   "Cité Saoudi",
   " Makamoukarama",
   "Gachamaleh",
-  "cité Aviation",
+  "Cité Aviation",
 ];
 const quartiersRasdika = ["Plateau", "Marabout", "Héron", "Serpent", "Paid"];
 

@@ -295,6 +295,7 @@ const quartiersBalbala = [
   "oumou salama",
   "vietnam",
   "balbala 10",
+  "Balbala 7",
   "Cité millitaire"
 ];
 const quartiersBoulaos = [

@@ -296,10 +296,12 @@ const quartiersBalbala = [
   "vietnam",
   "balbala 10",
   "Balbala 7",
-  "Cité millitaire"
+  "Cité millitaire",
+  "Balbala jajab",
 ];
 const quartiersBoulaos = [
   "Quartier 1",
+  "Boulaos",
   "Quartier 2",
   "Quartier 3",
   "Quartier 4",
@@ -321,11 +323,12 @@ const quartiersBoulaos = [
   "Haramous 1",
   "Haramous 2",
   "Cité Saoudi",
+  "Cité Progrès",
   " Makamoukarama",
   "Gachamaleh",
   "Cité Aviation",
 ];
-const quartiersRasdika = ["Plateau", "Marabout", "Héron", "Serpent", "Paid"];
+const quartiersRasdika = ["Plateau", "Marabout", "Héron", "Serpent", "Paid", "Camp-Lelong"];
 
 // -------------------- Schéma Zod --------------------
 const FormSchema = z.object({

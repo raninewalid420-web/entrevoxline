@@ -1,5 +1,5 @@
 // columns/columnsSensibles.jsx
-import { X } from "lucide-react"
+import { X } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -7,7 +7,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
+} from "@/components/ui/dialog";
 
 const CellAction = ({ nom }) => (
   <Dialog>
@@ -18,12 +18,13 @@ const CellAction = ({ nom }) => (
       <DialogHeader>
         <DialogTitle>Supprimer {nom} ?</DialogTitle>
         <DialogDescription>
-          Cette action est irréversible. Êtes-vous sûr de vouloir supprimer ce cas sensible ?
+          Cette action est irréversible. Êtes-vous sûr de vouloir supprimer ce
+          cas sensible ?
         </DialogDescription>
       </DialogHeader>
     </DialogContent>
   </Dialog>
-)
+);
 
 export const columnsSensibles = [
   { header: "Nom", accessorKey: "Nom" },
@@ -36,13 +37,14 @@ export const columnsSensibles = [
     header: "Description",
     accessorKey: "Description",
     cell: ({ row }) => (
-      <p
-        className="max-w-[250px] h-20 resize-none border rounded-md p-2 text-sm bg-white text-wrap"
-      >{row.original.Description} </p>
+      <p className="max-w-[250px] h-20 resize-none border rounded-md p-2 text-sm bg-white text-wrap">
+        {row.original.Description}{" "}
+      </p>
     ),
   },
+  { header: "Agent", accessorKey: "Agent" },
   // {
   //   header: "Actions",
   //   cell: ({ row }) => <CellAction nom={row.original.nom} />,
   // },
-]
+];

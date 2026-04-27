@@ -155,7 +155,7 @@ export const columnscrec = [
   { header: "Nom", accessorKey: "nom" },
   { header: "Nom conjointe (e)", accessorKey: "Nomconjoint" },
   { header: "Téléphone", accessorKey: "telephone" },
-  { header: "Date Naissance", accessorKey: "dateNaissance" },
+  { header: "Date Naissance", accessorKey: "Date_naissance" },
   { header: "CIN", accessorKey: "cin" },
   {
     header: "Genre",

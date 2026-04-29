@@ -37,7 +37,7 @@ export const columnsSensibles = [
     header: "Description",
     accessorKey: "Description",
     cell: ({ row }) => (
-      <p className="max-w-[250px] h-20 resize-none border rounded-md p-2 text-sm bg-white text-wrap">
+      <p className="min-w-[500px] max-w-[700px] whitespace-pre-wrap">
         {row.original.Description}{" "}
       </p>
     ),

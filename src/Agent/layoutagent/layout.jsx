@@ -1,6 +1,6 @@
-import React from "react"
-import { NavLink, useNavigate } from "react-router-dom"
-import { LogOut } from "lucide-react"
+import React from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+import { LogOut } from "lucide-react";
 
 const menuItems = [
   { name: "La Poste", path: "/agent/dashboard/poste" },
@@ -11,19 +11,20 @@ const menuItems = [
   { name: "Arulos", path: "/agent/dashboard/arulos" },
   { name: "CartIn", path: "/agent/dashboard/cartin" },
   { name: "Mass", path: "/agent/dashboard/mass" },
+  { name: "Signalement", path: "/agent/dashboard/signalement" },
   { name: "Information", path: "/agent/dashboard/info" },
   { name: "Annulation commande", path: "/agent/dashboard/annulation" },
   { name: "Rechercher", path: "/agent/dashboard/recherche" },
-]
+];
 
 export default function AgentLayout({ children }) {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleLogout = () => {
-    localStorage.removeItem("userEmail")
-    localStorage.removeItem("userRole")
-    navigate("/") // Retour à la page de connexion
-  }
+    localStorage.removeItem("userEmail");
+    localStorage.removeItem("userRole");
+    navigate("/"); // Retour à la page de connexion
+  };
 
   return (
     <div className="flex min-h-screen bg-slate-100">
@@ -65,5 +66,5 @@ export default function AgentLayout({ children }) {
       {/* Contenu principal */}
       <main className="flex-1 p-8 overflow-y-auto">{children}</main>
     </div>
-  )
+  );
 }

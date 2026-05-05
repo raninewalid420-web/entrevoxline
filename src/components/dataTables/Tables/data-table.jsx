@@ -147,7 +147,8 @@ export function DataTable({ columns, data, TypeFilter, DateFilter }) {
             path === "/masse/ps" ||
             path === "/masse/ps" ||
             path === "/masse/freesh" ||
-            path === "/Far") && (
+            path === "/Far" ||
+            path === "/Signalement") && (
             <Input
               placeholder="Filtrer par date..."
               value={table.getColumn(DateFilter)?.getFilterValue() ?? ""}

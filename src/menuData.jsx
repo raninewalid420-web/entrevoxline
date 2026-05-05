@@ -51,6 +51,11 @@ export const menuData = [
         ],
       },
       {
+        path: "/signalement",
+        label: "CallCenterForm",
+        icon: <ClipboardList className="w-4 h-4" />,
+      },
+      {
         path: "/adr",
         label: "ADR",
         icon: <FolderKanban className="w-4 h-4 opacity-70" />,
@@ -162,6 +167,11 @@ export const menuDataEquipe_Qualiter = [
         ],
       },
       {
+        path: "/Equipe_Qualiter/signalement",
+        label: "CallCenterForm",
+        icon: <ClipboardList className="w-4 h-4" />,
+      },
+      {
         path: "/Equipe_Qualiter/adr",
         label: "ADR",
         icon: <FolderKanban className="w-4 h-4 opacity-70" />,
@@ -206,6 +216,11 @@ export const menuDataEquipe_Qualiter = [
         path: "/Equipe_Qualiter/InformationData",
         label: "Information",
         icon: <FileText className="w-4 h-4 opacity-70" />,
+      },
+      {
+        path: "/Equipe_Qualiter/signalement",
+        label: "CallCenterForm",
+        icon: <ClipboardList className="w-4 h-4" />,
       },
     ],
   },
@@ -254,6 +269,11 @@ export const menuDataLigne2020 = [
         icon: <FolderKanban className="w-4 h-4 opacity-70" />,
       },
       {
+        path: "/Agents/signalement",
+        label: "CallCenterForm",
+        icon: <FolderKanban className="w-4 h-4 opacity-70" />,
+      },
+      {
         path: "/Agents/adr",
         label: "ADR",
         icon: <FolderKanban className="w-4 h-4 opacity-70" />,
@@ -292,6 +312,11 @@ export const menuDataLigne2020 = [
         path: "/Agents/InformationData",
         label: "Information",
         icon: <FileText className="w-4 h-4 opacity-70" />,
+      },
+      {
+        path: "/signalement",
+        label: "CallCenterForm",
+        icon: <ClipboardList className="w-4 h-4" />,
       },
     ],
   },
@@ -401,6 +426,12 @@ export const menuAllLigne = [
         icon: <FolderKanban className="w-4 h-4 opacity-70" />,
       },
       {
+        path: "/Agents/signalement",
+        label: "CallCenterForm",
+        icon: <FolderKanban className="w-4 h-4 opacity-70" />,
+      },
+
+      {
         path: "/Agents/adr",
         label: "ADR",
         icon: <FolderKanban className="w-4 h-4 opacity-70" />,
@@ -439,6 +470,11 @@ export const menuAllLigne = [
         path: "/Agents/InformationData",
         label: "Information",
         icon: <FileText className="w-4 h-4 opacity-70" />,
+      },
+      {
+        path: "/signalement",
+        label: "CallCenterForm",
+        icon: <ClipboardList className="w-4 h-4" />,
       },
     ],
   },
@@ -497,6 +533,11 @@ export const menuLigne2020Djibtel = [
         icon: <FolderKanban className="w-4 h-4 opacity-70" />,
       },
       {
+        path: "/Agents/signalement",
+        label: "CallCenterForm",
+        icon:<FolderKanban className="w-4 h-4 opacity-70" />,
+      },
+      {
         path: "/Agents/adr",
         label: "ADR",
         icon: <FolderKanban className="w-4 h-4 opacity-70" />,
@@ -546,6 +587,11 @@ export const menuLigne2020Djibtel = [
         label: "Djibouti Telecom",
         icon: <Database className="w-4 h-4 opacity-70" />,
       },
+      {
+        path: "/signalement",
+        label: "CallCenterForm",
+        icon: <ClipboardList className="w-4 h-4" />,
+      },
     ],
   },
 ];
@@ -557,6 +603,11 @@ export const menuLigne2020Eab = [
       {
         path: "/Agents/mass",
         label: "Mass",
+        icon: <FolderKanban className="w-4 h-4 opacity-70" />,
+      },
+      {
+        path: "/Agents/signalement",
+        label: "CallCenterForm",
         icon: <FolderKanban className="w-4 h-4 opacity-70" />,
       },
       {
@@ -598,6 +649,11 @@ export const menuLigne2020Eab = [
         path: "/Agents/InformationData",
         label: "Information",
         icon: <FileText className="w-4 h-4 opacity-70" />,
+      },
+      {
+        path: "/signalement",
+        label: "CallCenterForm",
+        icon: <ClipboardList className="w-4 h-4" />,
       },
     ],
   },

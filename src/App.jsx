@@ -50,7 +50,6 @@ const Aseris = lazy(() => import("./ClientMass/Aseri"));
 const Rapport = lazy(() => import("./ClientMass/Rapport"));
 const SupDpcr = lazy(() => import("./superviseur/dpcr"));
 
-
 // Menu
 import {
   menuData,
@@ -65,6 +64,7 @@ import AgentsWrapper from "./components/AgentsWrapper";
 import PlainteForm from "./Agent/Far";
 import FarSup from "./superviseur/FarSup";
 import GrilleEvaluation from "./components/Grille_d'evaluation/grille_evaluation";
+import SignalementSup from "./superviseur/signalement";
 
 export default function App() {
   return (
@@ -123,6 +123,7 @@ export default function App() {
                 <Route path="/masse/ps" element={<PsData />} />
                 <Route path="/masse/hs" element={<HsData />} />
                 <Route path="/Djib-tel" element={<h1>Djibouti Télécom</h1>} />
+                <Route path="/Signalement" element={<SignalementSup />} />{" "}
               </Route>
             </Route>
 
@@ -153,6 +154,10 @@ export default function App() {
                 <Route path="/Equipe_Qualiter/eab" element={<EAB />} />
                 <Route path="/Equipe_Qualiter/dpcr" element={<SupDpcr />} />
                 <Route path="/Equipe_Qualiter/Far" element={<FarSup />} />
+                <Route
+                  path="/Equipe_Qualiter/signalement"
+                  element={<SignalementSup />}
+                />
                 <Route
                   path="/Equipe_Qualiter/InformationData"
                   element={<InformationData />}

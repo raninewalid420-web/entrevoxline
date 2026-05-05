@@ -37,7 +37,11 @@ export const columnsSensibles = [
     header: "Description",
     accessorKey: "Description",
     cell: ({ row }) => (
+<<<<<<< HEAD
       <p  className="min-w-[500px] max-w-[700px] whitespace-pre-wrap">
+=======
+      <p className="min-w-[500px] max-w-[700px] whitespace-pre-wrap">
+>>>>>>> fd8f1f0acc28e4b23af1dd22c210801937d5dcd8
         {row.original.Description}{" "}
       </p>
     ),

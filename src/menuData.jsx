@@ -313,11 +313,7 @@ export const menuDataLigne2020 = [
         label: "Information",
         icon: <FileText className="w-4 h-4 opacity-70" />,
       },
-      {
-        path: "/signalement",
-        label: "CallCenterForm",
-        icon: <ClipboardList className="w-4 h-4" />,
-      },
+      
     ],
   },
 ];

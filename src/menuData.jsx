@@ -52,7 +52,7 @@ export const menuData = [
       },
       {
         path: "/signalement",
-        label: "CallCenterForm",
+        label: "Commerce",
         icon: <ClipboardList className="w-4 h-4" />,
       },
       {
@@ -219,7 +219,7 @@ export const menuDataEquipe_Qualiter = [
       },
       {
         path: "/Equipe_Qualiter/signalement",
-        label: "CallCenterForm",
+        label: "Commerce",
         icon: <ClipboardList className="w-4 h-4" />,
       },
     ],
@@ -270,7 +270,7 @@ export const menuDataLigne2020 = [
       },
       {
         path: "/Agents/signalement",
-        label: "CallCenterForm",
+        label: "Commerce",
         icon: <FolderKanban className="w-4 h-4 opacity-70" />,
       },
       {
@@ -423,7 +423,7 @@ export const menuAllLigne = [
       },
       {
         path: "/Agents/signalement",
-        label: "CallCenterForm",
+        label: "Commerce",
         icon: <FolderKanban className="w-4 h-4 opacity-70" />,
       },
 
@@ -530,7 +530,7 @@ export const menuLigne2020Djibtel = [
       },
       {
         path: "/Agents/signalement",
-        label: "CallCenterForm",
+        label: "Commerce",
         icon:<FolderKanban className="w-4 h-4 opacity-70" />,
       },
       {
@@ -603,7 +603,7 @@ export const menuLigne2020Eab = [
       },
       {
         path: "/Agents/signalement",
-        label: "CallCenterForm",
+        label: "Commerce",
         icon: <FolderKanban className="w-4 h-4 opacity-70" />,
       },
       {

@@ -13,6 +13,95 @@ import {
 // import useAsync from "../hooks/useAsync";
 // import { useAuth } from "../context/AuthContext";
 
+const QUARTIERS_PAR_COMMUNE = {
+  Balbala: [
+    "PK20",
+    "Arrondissement 4",
+    "Balbala 06",
+    "PK12",
+    "Balbala Q5",
+    "Hablayeh",
+    "T3",
+    "Hamdani",
+    "Doraleh",
+    "Cheikh moussa",
+    "Cité Cheikh osman",
+    "cité Hodan",
+    "cité Hodan 2",
+    "Barwago 1",
+    "Barwago 2",
+    "cité nassib",
+    "Torabora",
+    "cite doumeira",
+    "cite gargar",
+    "pk13",
+    "Balbala 2,Agadalise",
+    "bulduqo",
+    "Bioked",
+    "wahledaba",
+    "warabaley",
+    "Balbala T9",
+    "Balbala T10",
+    "Chabeley",
+    "PK14",
+    "cité Moustakaire",
+    "8 mètres",
+    "4 mètres",
+    "nagaadh",
+    "guededa ariga",
+    "balbala 11",
+    "balbala caadi",
+    "Layabley",
+    "Bahach",
+    "Nassib wanag",
+    "Karawil",
+    "Balbala 13 citoyen",
+    "Cité gendarme",
+    "oumou salama",
+    "vietnam",
+    "balbala 10",
+    "Balbala 7",
+    "Cité millitaire",
+    "Balbala jajab",
+  ],
+  Boulaos: [
+    "Quartier 1",
+    "Boulaos",
+    "Quartier 2",
+    "Quartier 3",
+    "Quartier 4",
+    "Quartier 5",
+    "Quartier 6",
+    "Quartier 7",
+    "Quartier 7 bis",
+    "Arhiba",
+    "cite Stade (leer)",
+    "Ambouli",
+    "Einguela",
+    "Zone industrielle",
+    "Jamal",
+    "Gabode 4",
+    "Gabode 1",
+    "Gabode 2",
+    "Gabode 3",
+    "Gabode 5",
+    "Haramous 1",
+    "Haramous 2",
+    "Cité Saoudi",
+    "Cité Progrès",
+    "Makamoukarama",
+    "Gachamaleh",
+    "Cité Aviation",
+  ],
+  "Ras-Dika": [
+    "Plateau",
+    "Marabout",
+    "Héron",
+    "Serpent",
+    "Paid",
+    "Camp-Lelong",
+  ],
+};
 // ─── Mock temporaire (à supprimer quand l'API est prête) ─────────────────────
 function useAsync(fn) {
   return { loading: false, execute: fn || (async () => {}) };
@@ -64,13 +153,17 @@ const CAS_TYPES = [
 
 export default function Signalement() {
   const { user } = useAuth();
+
   const [formData, setFormData] = useState({
     date: "",
     nature: "",
+    commune: "", // ← nouveau
     zone: "",
     commerce: "",
+    nom_commerce: "", // ← nouveau
     produit: "",
-    prix: "",
+    prix_depart: "", // ← remplace prix
+    prix_actuel: "", // ← nouveau
     comparaison: "",
     details: "",
     nom: "",
@@ -87,21 +180,25 @@ export default function Signalement() {
   const { loading: LoadingCreate, execute: CreateExecute } =
     useAsync(CreateSignalement);
   const { execute: ShowExecute } = useAsync(ShowSignalement);
-  
 
   // Quand la nature change, on met à jour le cas actif
   const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    const newValue = type === "checkbox" ? checked : value;
+  const { name, value, type, checked } = e.target;
+  const newValue = type === "checkbox" ? checked : value;
 
-    setFormData((prev) => ({ ...prev, [name]: newValue }));
+  // Si on change la commune, reset le quartier
+  if (name === "commune") {
+    setFormData((prev) => ({ ...prev, commune: value, zone: "" }));
+    return;
+  }
 
-    // Synchroniser le cas type affiché avec la nature sélectionnée
-    if (name === "nature") {
-      const cas = CAS_TYPES.find((c) => c.key === value);
-      setCasActif(cas || null);
-    }
-  };
+  setFormData((prev) => ({ ...prev, [name]: newValue }));
+
+  if (name === "nature") {
+    const cas = CAS_TYPES.find((c) => c.key === value);
+    setCasActif(cas || null);
+  }
+};
 
   // Clic sur un bouton cas type → remplit la nature ET affiche le message
   const handleCasType = (cas) => {
@@ -132,10 +229,13 @@ export default function Signalement() {
         setFormData({
           date: "",
           nature: "",
+          commune: "",
           zone: "",
           commerce: "",
+          nom_commerce: "",
           produit: "",
-          prix: "",
+          prix_depart: "",
+          prix_actuel: "",
           comparaison: "",
           details: "",
           nom: "",
@@ -201,9 +301,7 @@ export default function Signalement() {
     load();
   }, []);
 
-  const signalementsFiltres = signalements.filter((s) =>
-    (s.reference || "").toLowerCase().includes(searchTerm.toLowerCase()),
-  );
+  const signalementsFiltres = signalements.filter((s) =>(s.reference || "").toLowerCase().includes(searchTerm.toLowerCase()),);
 
   return (
     <div className="min-h-screen bg-slate-100 p-8">
@@ -357,21 +455,43 @@ export default function Signalement() {
               </div>
             </div>
 
-            {/* Zone */}
+            {/* Commune */}
             <div>
-              <label className="block font-medium">
-                Localisation (Quartier / Zone)
-              </label>
-              <input
-                type="text"
-                name="zone"
-                value={formData.zone}
+              <label className="block font-medium">Commune</label>
+              <select
+                name="commune"
+                value={formData.commune}
                 onChange={handleChange}
-                placeholder="Ex: Plateau du Serpent…"
                 className="w-full border p-2 rounded"
                 required
-              />
+              >
+                <option value="">— Sélectionner une commune —</option>
+                <option value="Balbala">Balbala</option>
+                <option value="Boulaos">Boulaos</option>
+                <option value="Ras-Dika">Ras-Dika</option>
+              </select>
             </div>
+
+            {/* Quartier dynamique selon commune */}
+            {formData.commune && (
+              <div>
+                <label className="block font-medium">Quartier</label>
+                <select
+                  name="zone"
+                  value={formData.zone}
+                  onChange={handleChange}
+                  className="w-full border p-2 rounded"
+                  required
+                >
+                  <option value="">— Sélectionner un quartier —</option>
+                  {QUARTIERS_PAR_COMMUNE[formData.commune]?.map((q) => (
+                    <option key={q} value={q}>
+                      {q}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
 
             {/* Type de commerce */}
             <div>
@@ -389,6 +509,18 @@ export default function Signalement() {
                 <option value="autre">Autre</option>
               </select>
             </div>
+            {/* Nom du commerce */}
+            <div>
+              <label className="block font-medium">Nom du commerce</label>
+              <input
+                type="text"
+                name="nom_commerce"
+                value={formData.nom_commerce}
+                onChange={handleChange}
+                placeholder="Ex: Supermarché Al Nour..."
+                className="w-full border p-2 rounded"
+              />
+            </div>
 
             {/* Produit */}
             <div>
@@ -403,13 +535,26 @@ export default function Signalement() {
               />
             </div>
 
-            {/* Prix */}
+            {/* Prix départ */}
             <div>
-              <label className="block font-medium">Prix constaté (FDJ)</label>
+              <label className="block font-medium">Prix de départ (FDJ)</label>
               <input
                 type="text"
-                name="prix"
-                value={formData.prix}
+                name="prix_depart"
+                value={formData.prix_depart}
+                onChange={handleChange}
+                placeholder="Ex: 300"
+                className="w-full border p-2 rounded"
+              />
+            </div>
+
+            {/* Prix actuel */}
+            <div>
+              <label className="block font-medium">Prix actuel (FDJ)</label>
+              <input
+                type="text"
+                name="prix_actuel"
+                value={formData.prix_actuel}
                 onChange={handleChange}
                 placeholder="Ex: 500"
                 className="w-full border p-2 rounded"

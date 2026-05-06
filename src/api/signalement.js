@@ -26,10 +26,20 @@ export async function ShowSignalement() {
     const res = await fetch(apiUrl, {
       method: "GET",
     });
+
     const data = await res.json();
-    return data;
+
+    // ✅ Cas où il n'y a pas de données
+    if (data?.error) {
+      return []; // ← toujours retourner un tableau
+    }
+
+    // ✅ Cas normal (adapter selon ton API)
+    return Array.isArray(data) ? data : data.data || [];
+
   } catch (error) {
     console.error("Error fetching signalement:", error);
+    return []; // sécurité
   }
 }
 

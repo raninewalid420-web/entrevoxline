@@ -1,34 +1,32 @@
 import React from "react";
 
 export const Signalementcolumns = [
-
   { accessorKey: "date", header: "Date" },
+  { accessorKey: "nom", header: "Nom" },
+  { accessorKey: "tel", header: "Téléphone" },
 
   { accessorKey: "nature", header: "Nature" },
+  { accessorKey: "commune", header: "Commune" }, // ← nouveau
 
-  { accessorKey: "zone", header: "Zone" },
+  { accessorKey: "zone", header: "Quartier" },
 
-  { accessorKey: "commerce", header: "Commerce" },
+  { accessorKey: "commerce", header: "Type Commerce" },
+  { accessorKey: "nom_commerce", header: "Nom commerce" }, // ← nouveau
 
-  { accessorKey: "produit", header: "Produit" },
-
-  { accessorKey: "prix", header: "Prix" },
+  { accessorKey: "prix_depart", header: "Prix départ" }, // nouveau
+  { accessorKey: "prix_actuel", header: "Prix actuel" }, // ← nouveau
 
   { accessorKey: "comparaison", header: "Comparaison" },
 
   {
     accessorKey: "details",
-    header: "Détails",
+    header: "Commentaire",
     cell: ({ row }) => (
       <div className="min-w-[500px] max-w-[700px] whitespace-pre-wrap">
         {row.original.details}
       </div>
     ),
   },
-
-  { accessorKey: "nom", header: "Nom" },
-
-  { accessorKey: "tel", header: "Téléphone" },
 
   {
     accessorKey: "anonyme",

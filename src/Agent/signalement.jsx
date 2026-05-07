@@ -8,6 +8,11 @@ import {
   ShowSignalement,
 } from "../api/signalement";
 
+// ─── Remplace ces imports par tes vraies fonctions API ───────────────────────
+// import { CreateSignalement, ShowSignalement, ShowLastNumeroSignalement } from "../api/signalement";
+// import useAsync from "../hooks/useAsync";
+// import { useAuth } from "../context/AuthContext";
+
 const REGIONS_QUARTIERS = {
   "Ali-Sabieh": [
     "Holl-Holl",
@@ -259,7 +264,6 @@ export default function Signalement() {
   const [formData, setFormData] = useState({
     date: "",
     nature: "",
-    region: "",
     commune: "", // ← nouveau
     zone: "",
     commerce: "",
@@ -289,18 +293,7 @@ export default function Signalement() {
     const { name, value, type, checked } = e.target;
     const newValue = type === "checkbox" ? checked : value;
 
-    // Reset commune et zone quand on change la région
-    if (name === "region") {
-      setFormData((prev) => ({
-        ...prev,
-        region: value,
-        commune: "",
-        zone: "",
-      }));
-      return;
-    }
-
-    // Reset zone quand on change la commune
+    // Si on change la commune, reset le quartier
     if (name === "commune") {
       setFormData((prev) => ({ ...prev, commune: value, zone: "" }));
       return;
@@ -343,7 +336,6 @@ export default function Signalement() {
         setFormData({
           date: "",
           nature: "",
-          region: "",
           commune: "",
           zone: "",
           commerce: "",
@@ -572,48 +564,25 @@ export default function Signalement() {
               </div>
             </div>
 
-            {/* Région */}
+            {/* Commune */}
             <div>
-              <label className="block font-medium">Région</label>
+              <label className="block font-medium">Commune</label>
               <select
-                name="region"
-                value={formData.region}
+                name="commune"
+                value={formData.commune}
                 onChange={handleChange}
                 className="w-full border p-2 rounded"
                 required
               >
-                <option value="">— Sélectionner une région —</option>
-                <option value="Ali-Sabieh">Ali-Sabieh</option>
-                <option value="Dikhil">Dikhil</option>
-                <option value="Obock">Obock</option>
-                <option value="ARTA">ARTA</option>
-                <option value="Tadjourah">Tadjourah</option>
-                <option value="Djibouti-ville">Djibouti-ville</option>
+                <option value="">— Sélectionner une commune —</option>
+                <option value="Balbala">Balbala</option>
+                <option value="Boulaos">Boulaos</option>
+                <option value="Ras-Dika">Ras-Dika</option>
               </select>
             </div>
 
-            {/* Commune — uniquement si Djibouti-ville */}
-            {formData.region === "Djibouti-ville" && (
-              <div>
-                <label className="block font-medium">Commune</label>
-                <select
-                  name="commune"
-                  value={formData.commune}
-                  onChange={handleChange}
-                  className="w-full border p-2 rounded"
-                  required
-                >
-                  <option value="">— Sélectionner une commune —</option>
-                  <option value="Balbala">Balbala</option>
-                  <option value="Boulaos">Boulaos</option>
-                  <option value="Ras-Dika">Ras-Dika</option>
-                </select>
-              </div>
-            )}
-
-            {/* Quartier — selon région ou commune */}
-            {((formData.region && formData.region !== "Djibouti-ville") ||
-              (formData.region === "Djibouti-ville" && formData.commune)) && (
+            {/* Quartier dynamique selon commune */}
+            {formData.commune && (
               <div>
                 <label className="block font-medium">Quartier</label>
                 <select
@@ -624,10 +593,7 @@ export default function Signalement() {
                   required
                 >
                   <option value="">— Sélectionner un quartier —</option>
-                  {(formData.region === "Djibouti-ville"
-                    ? QUARTIERS_PAR_COMMUNE[formData.commune]
-                    : REGIONS_QUARTIERS[formData.region]
-                  )?.map((q) => (
+                  {QUARTIERS_PAR_COMMUNE[formData.commune]?.map((q) => (
                     <option key={q} value={q}>
                       {q}
                     </option>

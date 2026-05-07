@@ -97,7 +97,6 @@ export default function AgentsWrapper() {
       defaultRedirect = "mass"; // redirect relatif -> /Agents/mass
       childRoutes = [
         <Route key="mass" path="mass" element={<MassAgent />} />,
-         <Route key="signalement" path="signalement" element={<CallCenterForm />} />,
         <Route key="adr" path="adr" element={<AdrAgent />} />,
         <Route key="cartin" path="cartin" element={<Cartinagent />} />,
         <Route key="recherche" path="recherche" element={<Recherche />} />,
@@ -113,6 +112,7 @@ export default function AgentsWrapper() {
           path="commandeannulerData"
           element={<AnnulationCommande />}
         />,
+        <Route key="signalement" path="signalement" element={<CallCenterForm />} />,
         <Route key="/Far" path="Far" element={<PlainteForm />} />,
       ];
       break;
@@ -136,6 +136,7 @@ export default function AgentsWrapper() {
           path="commandeannulerData"
           element={<AnnulationCommande />}
         />,
+        <Route key="signalement" path="signalement" element={<CallCenterForm />} />,
         <Route key="EAB" path="EAB" element={<EABAgent />} />,
         <Route
           key="djibouti-tel"
@@ -185,6 +186,7 @@ export default function AgentsWrapper() {
           path="commandeannulerData"
           element={<AnnulationCommande />}
         />,
+        <Route key="signalement" path="signalement" element={<CallCenterForm />} />,
         <Route key="EAB" path="EAB" element={<EABAgent />} />,
       ];
       break;
@@ -204,11 +206,13 @@ export default function AgentsWrapper() {
           path="InformationData"
           element={<InformationAgent />}
         />,
+        <Route key="signalement" path="signalement" element={<CallCenterForm />} />,
         <Route
           key="commande-annulee"
           path="commandeannulerData"
           element={<AnnulationCommande />}
         />,
+        <Route key="signalement" path="signalement" element={<CallCenterForm />} />,
         <Route
           key="djibouti-tel"
           path="djibouti-tel"

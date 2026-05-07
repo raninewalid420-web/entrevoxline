@@ -36,13 +36,17 @@ export const Signalementcolumns = [
       const isAnonyme = value === true || value === 1 || value === "1";
       return (
         <span
-          className={`font-semibold ${
-            isAnonyme ? "text-green-600" : "text-red-600"
-          }`}
+          className={`font-semibold ${isAnonyme ? "text-green-600" : "text-red-600"
+            }`}
         >
           {isAnonyme ? "Oui" : "Non"}
         </span>
       );
     },
+  },
+
+  {
+    accessorKey: "Agent",
+    header: "Creer par",
   },
 ];

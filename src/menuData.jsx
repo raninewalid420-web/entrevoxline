@@ -168,7 +168,7 @@ export const menuDataEquipe_Qualiter = [
       },
       {
         path: "/Equipe_Qualiter/signalement",
-        label: "CallCenterForm",
+        label: "Commerce",
         icon: <ClipboardList className="w-4 h-4" />,
       },
       {

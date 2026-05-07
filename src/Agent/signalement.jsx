@@ -13,113 +13,6 @@ import {
 // import useAsync from "../hooks/useAsync";
 // import { useAuth } from "../context/AuthContext";
 
-const REGIONS_QUARTIERS = {
-  "Ali-Sabieh": [
-    "Holl-Holl",
-    "Hamboucto",
-    "Assamo",
-    "Ali-Addeh",
-    "Ara-Madowleh",
-    "Goubetto",
-    "Daasbiyo",
-  ],
-  Dikhil: [
-    "Gami",
-    "Gobaad",
-    "Hanle",
-    "Harou",
-    "Mouloud",
-    "Sheikhatou",
-    "Koutabouya",
-    "Biida",
-    "Seik-sabir",
-    "Harougo",
-    "Galamo",
-    "Bondara",
-    "Yoboki",
-    "Dakka",
-    "Moutrous",
-  ],
-  Obock: [
-    "Oulma",
-    "Wadii",
-    "Assasan",
-    "Soublaley",
-    "Ilisola",
-    "Oued-obocki",
-    "Bissidirou",
-    "Khor-angar",
-    "Alaylou",
-    "Obocki",
-    "Geuherlé",
-    "Bossali",
-    "Fididis",
-    "Ado-Daaba",
-    "Qaga",
-    "Amassa",
-    "Arafa",
-  ],
-  ARTA: ["Omar Jagac", "PK50", "PK20", "Atar/Dmarjog", "Wea", "Ali-oune"],
-  Tadjourah: [
-    "Andabba",
-    "Dorra",
-    "Ardo",
-    "Bankoualeh",
-    "PK9",
-    "Dafenatou",
-    "Guirori",
-    "Kalaf",
-    "Sagalou",
-    "Douloul",
-    "Hambokka",
-    "Toha",
-    "Randa",
-    "Ibna-Radi",
-    "Loublakleh",
-    "Garassou",
-    "Magaleh",
-    "Halou",
-    "Mabla",
-    "Hoboy-harak",
-    "Day",
-    "Debné",
-    "Ambabo",
-    "Daymoli",
-    "Galaqto",
-    "Lagalene",
-    "Balho",
-    "Dooda",
-    "Menguela",
-    "Bouyya",
-    "Ilayasa",
-    "Koulayou",
-    "Gilagibleh",
-    "Adoyla",
-    "Madgoul",
-    "Adaillou",
-    "Assa-Gayla",
-    "Garabtisan",
-    "Ripta",
-    "Wakir",
-    "Wabeyta",
-    "Mounkour",
-    "Waydarim",
-    "Otoy",
-    "Aylaadou",
-    "Boli",
-    "Ougoulfoum",
-    "Gablablou",
-    "Kalou",
-    "Dar'Dara",
-    "Hedargabo",
-    "Alaf'af",
-    "Malaho",
-    "Saboub",
-    "Dok'af",
-  ],
-  "Djibouti-ville": [], // communes gérées séparément
-};
-
 const QUARTIERS_PAR_COMMUNE = {
   Balbala: [
     "PK20",
@@ -290,22 +183,22 @@ export default function Signalement() {
 
   // Quand la nature change, on met à jour le cas actif
   const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    const newValue = type === "checkbox" ? checked : value;
+  const { name, value, type, checked } = e.target;
+  const newValue = type === "checkbox" ? checked : value;
 
-    // Si on change la commune, reset le quartier
-    if (name === "commune") {
-      setFormData((prev) => ({ ...prev, commune: value, zone: "" }));
-      return;
-    }
+  // Si on change la commune, reset le quartier
+  if (name === "commune") {
+    setFormData((prev) => ({ ...prev, commune: value, zone: "" }));
+    return;
+  }
 
-    setFormData((prev) => ({ ...prev, [name]: newValue }));
+  setFormData((prev) => ({ ...prev, [name]: newValue }));
 
-    if (name === "nature") {
-      const cas = CAS_TYPES.find((c) => c.key === value);
-      setCasActif(cas || null);
-    }
-  };
+  if (name === "nature") {
+    const cas = CAS_TYPES.find((c) => c.key === value);
+    setCasActif(cas || null);
+  }
+};
 
   // Clic sur un bouton cas type → remplit la nature ET affiche le message
   const handleCasType = (cas) => {
@@ -408,9 +301,7 @@ export default function Signalement() {
     load();
   }, []);
 
-  const signalementsFiltres = signalements.filter((s) =>
-    (s.reference || "").toLowerCase().includes(searchTerm.toLowerCase()),
-  );
+  const signalementsFiltres = signalements.filter((s) =>(s.reference || "").toLowerCase().includes(searchTerm.toLowerCase()),);
 
   return (
     <div className="min-h-screen bg-slate-100 p-8">

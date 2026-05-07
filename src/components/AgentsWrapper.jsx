@@ -69,7 +69,7 @@ export default function AgentsWrapper() {
 
   // trouver l'affectation de l'utilisateur connecté (sécurisé)
   const myAffectation = affectations.find(
-    (a) => Number(a.id_user) === Number(user?.id)
+    (a) => Number(a.id_user) === Number(user?.id),
   );
 
   // console.log("[AgentsWrapper] myAffectation:", myAffectation);
@@ -97,7 +97,11 @@ export default function AgentsWrapper() {
       defaultRedirect = "mass"; // redirect relatif -> /Agents/mass
       childRoutes = [
         <Route key="mass" path="mass" element={<MassAgent />} />,
-         <Route key="signalement" path="signalement" element={<CallCenterForm />} />,
+        <Route
+          key="signalement"
+          path="signalement"
+          element={<CallCenterForm />}
+        />,
         <Route key="adr" path="adr" element={<AdrAgent />} />,
         <Route key="cartin" path="cartin" element={<Cartinagent />} />,
         <Route key="recherche" path="recherche" element={<Recherche />} />,
@@ -185,6 +189,11 @@ export default function AgentsWrapper() {
           path="commandeannulerData"
           element={<AnnulationCommande />}
         />,
+        <Route
+          key="signalement"
+          path="signalement"
+          element={<CallCenterForm />}
+        />,
         <Route key="EAB" path="EAB" element={<EABAgent />} />,
       ];
       break;
@@ -199,6 +208,11 @@ export default function AgentsWrapper() {
         <Route key="arulos" path="arulos" element={<ArulosAgent />} />,
         <Route key="dpcr" path="dpcr" element={<FormDPCR />} />,
         <Route key="/Far" path="Far" element={<PlainteForm />} />,
+        <Route
+          key="signalement"
+          path="signalement"
+          element={<CallCenterForm />}
+        />,
         <Route
           key="information"
           path="InformationData"

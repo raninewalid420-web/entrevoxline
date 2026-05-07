@@ -105,7 +105,7 @@ const QUARTIERS_PAR_COMMUNE = {
 };
 // ─── Mock temporaire (à supprimer quand l'API est prête) ─────────────────────
 function useAsync(fn) {
-  return { loading: false, execute: fn || (async () => { }) };
+  return { loading: false, execute: fn || (async () => {}) };
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -184,22 +184,22 @@ export default function Signalement() {
 
   // Quand la nature change, on met à jour le cas actif
   const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    const newValue = type === "checkbox" ? checked : value;
+  const { name, value, type, checked } = e.target;
+  const newValue = type === "checkbox" ? checked : value;
 
-    // Si on change la commune, reset le quartier
-    if (name === "commune") {
-      setFormData((prev) => ({ ...prev, commune: value, zone: "" }));
-      return;
-    }
+  // Si on change la commune, reset le quartier
+  if (name === "commune") {
+    setFormData((prev) => ({ ...prev, commune: value, zone: "" }));
+    return;
+  }
 
-    setFormData((prev) => ({ ...prev, [name]: newValue }));
+  setFormData((prev) => ({ ...prev, [name]: newValue }));
 
-    if (name === "nature") {
-      const cas = CAS_TYPES.find((c) => c.key === value);
-      setCasActif(cas || null);
-    }
-  };
+  if (name === "nature") {
+    const cas = CAS_TYPES.find((c) => c.key === value);
+    setCasActif(cas || null);
+  }
+};
 
   // Clic sur un bouton cas type → remplit la nature ET affiche le message
   const handleCasType = (cas) => {
@@ -302,7 +302,7 @@ export default function Signalement() {
     load();
   }, []);
 
-  const signalementsFiltres = signalements.filter((s) => (s.reference || "").toLowerCase().includes(searchTerm.toLowerCase()),);
+  const signalementsFiltres = signalements.filter((s) =>(s.reference || "").toLowerCase().includes(searchTerm.toLowerCase()),);
 
   return (
     <div className="min-h-screen bg-slate-100 p-8">
@@ -666,10 +666,11 @@ export default function Signalement() {
                       </div>
                       <button
                         onClick={() => toggleStatus(s.id)}
-                        className={`px-3 py-1 rounded text-sm font-semibold ${s.status === "En cours"
+                        className={`px-3 py-1 rounded text-sm font-semibold ${
+                          s.status === "En cours"
                             ? "bg-yellow-100 text-yellow-800"
                             : "bg-green-100 text-green-800"
-                          }`}
+                        }`}
                       >
                         {s.status}
                       </button>

@@ -206,7 +206,7 @@ export default function AgentsWrapper() {
           path="InformationData"
           element={<InformationAgent />}
         />,
-        <Route key="signalement" path="signalement" element={<CallCenterForm />} />,
+       
         <Route
           key="commande-annulee"
           path="commandeannulerData"

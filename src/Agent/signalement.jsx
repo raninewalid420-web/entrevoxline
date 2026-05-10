@@ -8,10 +8,114 @@ import {
   ShowSignalement,
 } from "../api/signalement";
 
-// ─── Remplace ces imports par tes vraies fonctions API ───────────────────────
-// import { CreateSignalement, ShowSignalement, ShowLastNumeroSignalement } from "../api/signalement";
-// import useAsync from "../hooks/useAsync";
-// import { useAuth } from "../context/AuthContext";
+// ─────────────────────────────────────────────────────────────────────────────
+
+const REGIONS_QUARTIERS = {
+  "Ali-Sabieh": [
+    "Holl-Holl",
+    "Hamboucto",
+    "Assamo",
+    "Ali-Addeh",
+    "Ara-Madowleh",
+    "Goubetto",
+    "Daasbiyo",
+  ],
+  Dikhil: [
+    "Gami",
+    "Gobaad",
+    "Hanle",
+    "Harou",
+    "Mouloud",
+    "Sheikhatou",
+    "Koutabouya",
+    "Biida",
+    "Seik-sabir",
+    "Harougo",
+    "Galamo",
+    "Bondara",
+    "Yoboki",
+    "Dakka",
+    "Moutrous",
+  ],
+  Obock: [
+    "Oulma",
+    "Wadii",
+    "Assasan",
+    "Soublaley",
+    "Ilisola",
+    "Oued-obocki",
+    "Bissidirou",
+    "Khor-angar",
+    "Alaylou",
+    "Obocki",
+    "Geuherlé",
+    "Bossali",
+    "Fididis",
+    "Ado-Daaba",
+    "Qaga",
+    "Amassa",
+    "Arafa",
+  ],
+  ARTA: ["Omar Jagac", "PK50", "PK20", "Atar/Dmarjog", "Wea", "Ali-oune"],
+  Tadjourah: [
+    "Andabba",
+    "Dorra",
+    "Ardo",
+    "Bankoualeh",
+    "PK9",
+    "Dafenatou",
+    "Guirori",
+    "Kalaf",
+    "Sagalou",
+    "Douloul",
+    "Hambokka",
+    "Toha",
+    "Randa",
+    "Ibna-Radi",
+    "Loublakleh",
+    "Garassou",
+    "Magaleh",
+    "Halou",
+    "Mabla",
+    "Hoboy-harak",
+    "Day",
+    "Debné",
+    "Ambabo",
+    "Daymoli",
+    "Galaqto",
+    "Lagalene",
+    "Balho",
+    "Dooda",
+    "Menguela",
+    "Bouyya",
+    "Ilayasa",
+    "Koulayou",
+    "Gilagibleh",
+    "Adoyla",
+    "Madgoul",
+    "Adaillou",
+    "Assa-Gayla",
+    "Garabtisan",
+    "Ripta",
+    "Wakir",
+    "Wabeyta",
+    "Mounkour",
+    "Waydarim",
+    "Otoy",
+    "Aylaadou",
+    "Boli",
+    "Ougoulfoum",
+    "Gablablou",
+    "Kalou",
+    "Dar'Dara",
+    "Hedargabo",
+    "Alaf'af",
+    "Malaho",
+    "Saboub",
+    "Dok'af",
+  ],
+  "Djibouti-ville": [],
+};
 
 const QUARTIERS_PAR_COMMUNE = {
   Balbala: [
@@ -75,7 +179,6 @@ const QUARTIERS_PAR_COMMUNE = {
     "Quartier 7",
     "Quartier 7 bis",
     "Arhiba",
-    "centre ville",
     "cite Stade (leer)",
     "Ambouli",
     "Einguela",
@@ -103,12 +206,12 @@ const QUARTIERS_PAR_COMMUNE = {
     "Camp-Lelong",
   ],
 };
-// ─── Mock temporaire (à supprimer quand l'API est prête) ─────────────────────
+
+// ─────────────────────────────────────────────────────────────────────────────
+
 function useAsync(fn) {
   return { loading: false, execute: fn || (async () => {}) };
 }
-
-// ─────────────────────────────────────────────────────────────────────────────
 
 const NATURE_LABELS = {
   prix_abusif: "Prix abusif",
@@ -131,7 +234,6 @@ const COMPARAISON_LABELS = {
   ne_sais_pas: "Je ne sais pas",
 };
 
-// Cas types avec message de réponse
 const CAS_TYPES = [
   {
     key: "prix_abusif",
@@ -152,19 +254,22 @@ const CAS_TYPES = [
   },
 ];
 
+// ─────────────────────────────────────────────────────────────────────────────
+
 export default function Signalement() {
   const { user } = useAuth();
 
   const [formData, setFormData] = useState({
     date: "",
     nature: "",
-    commune: "", // ← nouveau
+    region: "",
+    commune: "",
     zone: "",
     commerce: "",
-    nom_commerce: "", // ← nouveau
+    nom_commerce: "",
     produit: "",
-    prix_depart: "", // ← remplace prix
-    prix_actuel: "", // ← nouveau
+    prix_depart: "",
+    prix_actuel: "",
     comparaison: "",
     details: "",
     nom: "",
@@ -175,38 +280,48 @@ export default function Signalement() {
   const [signalements, setSignalements] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [counter, setCounter] = useState("");
-  const [casActif, setCasActif] = useState(null); // message cas type affiché
+  const [casActif, setCasActif] = useState(null);
 
   const { execute: NumExecute } = useAsync(ShowLastNumeroSignalement);
   const { loading: LoadingCreate, execute: CreateExecute } =
     useAsync(CreateSignalement);
   const { execute: ShowExecute } = useAsync(ShowSignalement);
 
-  // Quand la nature change, on met à jour le cas actif
+  // ─── handleChange ───────────────────────────────────────────────────────────
   const handleChange = (e) => {
-  const { name, value, type, checked } = e.target;
-  const newValue = type === "checkbox" ? checked : value;
+    const { name, value, type, checked } = e.target;
+    const newValue = type === "checkbox" ? checked : value;
 
-  // Si on change la commune, reset le quartier
-  if (name === "commune") {
-    setFormData((prev) => ({ ...prev, commune: value, zone: "" }));
-    return;
-  }
+    if (name === "region") {
+      setFormData((prev) => ({
+        ...prev,
+        region: value,
+        commune: "",
+        zone: "",
+      }));
+      return;
+    }
 
-  setFormData((prev) => ({ ...prev, [name]: newValue }));
+    if (name === "commune") {
+      setFormData((prev) => ({ ...prev, commune: value, zone: "" }));
+      return;
+    }
 
-  if (name === "nature") {
-    const cas = CAS_TYPES.find((c) => c.key === value);
-    setCasActif(cas || null);
-  }
-};
+    setFormData((prev) => ({ ...prev, [name]: newValue }));
 
-  // Clic sur un bouton cas type → remplit la nature ET affiche le message
+    if (name === "nature") {
+      const cas = CAS_TYPES.find((c) => c.key === value);
+      setCasActif(cas || null);
+    }
+  };
+
+  // ─── handleCasType ──────────────────────────────────────────────────────────
   const handleCasType = (cas) => {
     setFormData((prev) => ({ ...prev, nature: cas.key }));
     setCasActif(cas);
   };
 
+  // ─── handleSubmit ───────────────────────────────────────────────────────────
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData.nature)
@@ -221,7 +336,6 @@ export default function Signalement() {
         status: "En cours",
         id: Date.now(),
       };
-      // console.log(nouveauSignalement);
 
       const result = await CreateExecute(nouveauSignalement, user?.id);
       if (result?.success) {
@@ -230,6 +344,7 @@ export default function Signalement() {
         setFormData({
           date: "",
           nature: "",
+          region: "",
           commune: "",
           zone: "",
           commerce: "",
@@ -249,7 +364,7 @@ export default function Signalement() {
         if (numero) setCounter(numero);
 
         const updated = await ShowExecute();
-        if (updated) setSignalements(updated);
+        if (updated) setSignalements(Array.isArray(updated) ? updated : []);
       } else {
         toast.error(result?.error || "Erreur lors de l'enregistrement.");
         console.log(result?.data);
@@ -260,6 +375,7 @@ export default function Signalement() {
     }
   };
 
+  // ─── toggleStatus ───────────────────────────────────────────────────────────
   const toggleStatus = (id) => {
     setSignalements((prev) =>
       prev.map((s) =>
@@ -270,7 +386,7 @@ export default function Signalement() {
     );
   };
 
-  // Polling numéro de référence toutes les 3 secondes
+  // ─── Polling numéro référence ────────────────────────────────────────────────
   useEffect(() => {
     let isMounted = true;
     const refreshNumero = async () => {
@@ -289,12 +405,12 @@ export default function Signalement() {
     };
   }, []);
 
-  // Chargement initial de la liste
+  // ─── Chargement initial liste ────────────────────────────────────────────────
   useEffect(() => {
     const load = async () => {
       try {
         const data = await ShowExecute();
-        if (data) setSignalements(data);
+        if (data) setSignalements(Array.isArray(data) ? data : []);
       } catch (e) {
         console.error(e);
       }
@@ -302,7 +418,12 @@ export default function Signalement() {
     load();
   }, []);
 
-  const signalementsFiltres = signalements.filter((s) =>(s.reference || "").toLowerCase().includes(searchTerm.toLowerCase()),);
+  // ─── Filtre sécurisé ─────────────────────────────────────────────────────────
+  const signalementsFiltres = (
+    Array.isArray(signalements) ? signalements : []
+  ).filter((s) =>
+    (s.reference || "").toLowerCase().includes(searchTerm.toLowerCase()),
+  );
 
   return (
     <div className="min-h-screen bg-slate-100 p-8">
@@ -456,25 +577,48 @@ export default function Signalement() {
               </div>
             </div>
 
-            {/* Commune */}
+            {/* Région */}
             <div>
-              <label className="block font-medium">Commune</label>
+              <label className="block font-medium">Région</label>
               <select
-                name="commune"
-                value={formData.commune}
+                name="region"
+                value={formData.region}
                 onChange={handleChange}
                 className="w-full border p-2 rounded"
                 required
               >
-                <option value="">— Sélectionner une commune —</option>
-                <option value="Balbala">Balbala</option>
-                <option value="Boulaos">Boulaos</option>
-                <option value="Ras-Dika">Ras-Dika</option>
+                <option value="">— Sélectionner une région —</option>
+                <option value="Ali-Sabieh">Ali-Sabieh</option>
+                <option value="Dikhil">Dikhil</option>
+                <option value="Obock">Obock</option>
+                <option value="ARTA">ARTA</option>
+                <option value="Tadjourah">Tadjourah</option>
+                <option value="Djibouti-ville">Djibouti-ville</option>
               </select>
             </div>
 
-            {/* Quartier dynamique selon commune */}
-            {formData.commune && (
+            {/* Commune — uniquement si Djibouti-ville */}
+            {formData.region === "Djibouti-ville" && (
+              <div>
+                <label className="block font-medium">Commune</label>
+                <select
+                  name="commune"
+                  value={formData.commune}
+                  onChange={handleChange}
+                  className="w-full border p-2 rounded"
+                  required
+                >
+                  <option value="">— Sélectionner une commune —</option>
+                  <option value="Balbala">Balbala</option>
+                  <option value="Boulaos">Boulaos</option>
+                  <option value="Ras-Dika">Ras-Dika</option>
+                </select>
+              </div>
+            )}
+
+            {/* Quartier — selon région ou commune */}
+            {((formData.region && formData.region !== "Djibouti-ville") ||
+              (formData.region === "Djibouti-ville" && formData.commune)) && (
               <div>
                 <label className="block font-medium">Quartier</label>
                 <select
@@ -485,7 +629,10 @@ export default function Signalement() {
                   required
                 >
                   <option value="">— Sélectionner un quartier —</option>
-                  {QUARTIERS_PAR_COMMUNE[formData.commune]?.map((q) => (
+                  {(formData.region === "Djibouti-ville"
+                    ? QUARTIERS_PAR_COMMUNE[formData.commune]
+                    : REGIONS_QUARTIERS[formData.region]
+                  )?.map((q) => (
                     <option key={q} value={q}>
                       {q}
                     </option>

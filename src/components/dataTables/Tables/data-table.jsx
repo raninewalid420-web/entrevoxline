@@ -31,6 +31,7 @@ const TELEPHONE_VARIANTS = [
   "Telephone",
   "TELEPHONE",
   "phone",
+  "tel",
   "numero_telephone",
   "contact",
 ];
@@ -122,6 +123,7 @@ export function DataTable({ columns, data, TypeFilter, DateFilter }) {
             className="max-w-sm"
           />
         )}
+        
 
         {/* ===== TOUT CE QUI SUIT EST INCHANGÉ ===== */}
 

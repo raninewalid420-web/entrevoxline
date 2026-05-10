@@ -27,7 +27,7 @@ import InformationAgent from "../Agent/inforAgent";
 import AnnulationCommande from "../Agent/annulationAgent";
 import EABAgent from "../Agent/eabAgent";
 import PlainteForm from "../Agent/Far";
-import CallCenterForm from "../Agent/Signalement";
+import CallCenterForm from "../Agent/signalement";
 
 export default function AgentsWrapper() {
   const { user } = useAuth();

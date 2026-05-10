@@ -144,7 +144,7 @@ export default function InformationAgent() {
                           value="signalement"
                           className="cursor-pointer hover:bg-blue-950 hover:text-white"
                         >
-                          Info Signalement
+                          Info commerce
                         </SelectItem>
                         <SelectItem
                           value="Ligne 2020"

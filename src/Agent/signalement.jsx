@@ -204,6 +204,7 @@ const QUARTIERS_PAR_COMMUNE = {
     "Serpent",
     "Paid",
     "Camp-Lelong",
+    "Saline Ouest",
   ],
 };
 
@@ -337,7 +338,6 @@ export default function Signalement() {
         id: Date.now(),
       };
 
-
       const result = await CreateExecute(nouveauSignalement, user?.id);
       if (result?.success) {
         toast.success(result?.message || "Enregistré avec succès !");
@@ -422,8 +422,11 @@ export default function Signalement() {
   // ─── Filtre sécurisé ─────────────────────────────────────────────────────────
   const signalementsFiltres = (
     Array.isArray(signalements) ? signalements : []
-  ).filter((s) =>
-    (s.reference || "").toLowerCase().includes(searchTerm.toLowerCase()),
+  ).filter(
+    (s) =>
+      (s.reference || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (s.nom || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (s.tel || "").toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
   return (
@@ -812,16 +815,7 @@ export default function Signalement() {
                           {s.date}
                         </span>
                       </div>
-                      <button
-                        onClick={() => toggleStatus(s.id)}
-                        className={`px-3 py-1 rounded text-sm font-semibold ${
-                          s.status === "En cours"
-                            ? "bg-yellow-100 text-yellow-800"
-                            : "bg-green-100 text-green-800"
-                        }`}
-                      >
-                        {s.status}
-                      </button>
+                  
                     </div>
 
                     {/* Détails card */}

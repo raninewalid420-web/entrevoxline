@@ -196,6 +196,8 @@ const QUARTIERS_PAR_COMMUNE = {
     "Makamoukarama",
     "Gachamaleh",
     "Cité Aviation",
+    "Cité Dawale",
+    "FNP",
   ],
   "Ras-Dika": [
     "Plateau",
@@ -815,7 +817,6 @@ export default function Signalement() {
                           {s.date}
                         </span>
                       </div>
-                  
                     </div>
 
                     {/* Détails card */}

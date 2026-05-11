@@ -141,7 +141,7 @@ export default function InformationAgent() {
                           Info Far
                         </SelectItem>
                         <SelectItem
-                          value="signalement"
+                          value="commerce"
                           className="cursor-pointer hover:bg-blue-950 hover:text-white"
                         >
                           Info commerce

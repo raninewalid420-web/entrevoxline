@@ -167,6 +167,7 @@ const QUARTIERS_PAR_COMMUNE = {
     "Balbala 7",
     "Cité millitaire",
     "Balbala jajab",
+    "cité sogik",
   ],
   Boulaos: [
     "Quartier 1",

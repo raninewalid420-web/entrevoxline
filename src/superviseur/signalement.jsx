@@ -4,6 +4,7 @@ import { ShowSignalement } from "../api/signalement";
 import useAsync from "../hooks/useAsync";
 import { DataTable } from "../components/dataTables/Tables/data-table";
 import { Signalementcolumns } from "../components/dataTables/columnSignalement";
+import { ToastContainer } from "react-toastify";
 
 const SignalementSup = () => {
   const { data, error, loading, execute } = useAsync(ShowSignalement, []);
@@ -14,6 +15,7 @@ const SignalementSup = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-slate-100 to-blue-50 py-8 w-full">
+      <ToastContainer position="top-center" />
       <div className="w-[90%] mx-25">
         {/* Header */}
         <div className="mb-8">
@@ -25,7 +27,9 @@ const SignalementSup = () => {
           <h1 className="text-4xl font-bold text-slate-900 mb-3">
             Gestion des Signalements
           </h1>
-          <p className="text-slate-600 text-lg">Suivi des signalements enregistrés</p>
+          <p className="text-slate-600 text-lg">
+            Suivi des signalements enregistrés
+          </p>
         </div>
 
         {/* Tableau */}

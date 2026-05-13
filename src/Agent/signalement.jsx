@@ -200,6 +200,7 @@ const QUARTIERS_PAR_COMMUNE = {
     "Cité Dawale",
     "FNP",
     "cité poudrière",
+    "ryad",
   ],
   "Ras-Dika": [
     "Plateau",

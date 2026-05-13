@@ -79,7 +79,7 @@ const regionspurcas = {
     "Arafa",
   ],
 
-  ARTA: ["Omar Jagac", "PK50", "PK20", "Atar/Dmarjog", "Wea", "Ali-oune"],
+  ARTA: ["Omar Jagac", "PK50", "PK20", "Atar/Dmarjog", "Wea", "Ali-oune","Douda",],
 
   Tadjourah: [
     "Andabba",

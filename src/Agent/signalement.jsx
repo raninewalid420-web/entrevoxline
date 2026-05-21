@@ -13,6 +13,7 @@ import {
 const REGIONS_QUARTIERS = {
   "Ali-Sabieh": [
     "Holl-Holl",
+    "Centre",
     "Hamboucto",
     "Assamo",
     "Ali-Addeh",
@@ -22,6 +23,7 @@ const REGIONS_QUARTIERS = {
   ],
   Dikhil: [
     "Gami",
+    "Centre",
     "Gobaad",
     "Hanle",
     "Harou",
@@ -39,6 +41,7 @@ const REGIONS_QUARTIERS = {
   ],
   Obock: [
     "Oulma",
+    "Centre",
     "Wadii",
     "Assasan",
     "Soublaley",
@@ -56,9 +59,10 @@ const REGIONS_QUARTIERS = {
     "Amassa",
     "Arafa",
   ],
-  ARTA: ["Omar Jagac", "PK50", "PK20", "Atar/Dmarjog", "Wea", "Ali-oune"],
+  ARTA: ["Omar Jagac","Centre", "PK50", "PK20", "Atar/Dmarjog", "Wea", "Ali-oune"],
   Tadjourah: [
     "Andabba",
+    "Centre",
     "Dorra",
     "Ardo",
     "Bankoualeh",
@@ -201,6 +205,8 @@ const QUARTIERS_PAR_COMMUNE = {
     "FNP",
     "cité poudrière",
     "ryad",
+    "Place-rainbo",
+    "Saline Ouest",
   ],
   "Ras-Dika": [
     "Plateau",
@@ -209,7 +215,8 @@ const QUARTIERS_PAR_COMMUNE = {
     "Serpent",
     "Paid",
     "Camp-Lelong",
-    "Saline Ouest",
+    
+    
   ],
 };
 

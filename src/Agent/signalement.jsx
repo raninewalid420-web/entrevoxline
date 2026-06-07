@@ -172,6 +172,7 @@ const QUARTIERS_PAR_COMMUNE = {
     "Cité millitaire",
     "Balbala jajab",
     "cité sogik",
+    "cité chabellé",
   ],
   Boulaos: [
     "Quartier 1",
@@ -207,6 +208,7 @@ const QUARTIERS_PAR_COMMUNE = {
     "ryad",
     "Place-rainbo",
     "Saline Ouest",
+    "xeero fardaha",
   ],
   "Ras-Dika": [
     "Plateau",

@@ -206,9 +206,11 @@ const QUARTIERS_PAR_COMMUNE = {
     "FNP",
     "cité poudrière",
     "ryad",
+    "Cité wadagiir",
     "Place-rainbo",
     "Saline Ouest",
     "xeero fardaha",
+    "Port de pêche",
   ],
   "Ras-Dika": [
     "Plateau",

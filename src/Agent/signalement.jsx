@@ -219,6 +219,7 @@ const QUARTIERS_PAR_COMMUNE = {
     "Serpent",
     "Paid",
     "Camp-Lelong",
+    "place-menelik",
     
     
   ],

@@ -38,6 +38,7 @@ const REGIONS_QUARTIERS = {
     "Yoboki",
     "Dakka",
     "Moutrous",
+    "As-Eyla",
   ],
   Obock: [
     "Oulma",
@@ -211,6 +212,7 @@ const QUARTIERS_PAR_COMMUNE = {
     "Saline Ouest",
     "xeero fardaha",
     "Port de pêche",
+    "Guelleh Batal",
   ],
   "Ras-Dika": [
     "Plateau",
